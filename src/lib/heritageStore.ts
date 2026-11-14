@@ -1,4 +1,4 @@
-import { Monument, CommunitySubmission, ConservationReport, UserProfile } from "@/types/heritage";
+import { Monument, CommunitySubmission, ConservationReport, UserProfile, Trip, HeritagePassport, FieldJournalNote } from "@/types/heritage";
 import { SAMPLE_MONUMENTS, SAMPLE_COMMUNITY_SUBMISSIONS, SAMPLE_CONSERVATION_REPORTS } from "@/data/sampleData";
 
 const STORAGE_KEYS = {
@@ -7,6 +7,8 @@ const STORAGE_KEYS = {
   REPORTS: "heritageverse_reports_v2",
   SAVED: "heritageverse_saved_monuments_v2",
   USER: "heritageverse_active_user",
+  TRIPS: "heritageverse_trips_v1",
+  PASSPORT: "heritageverse_passport_v1",
 };
 
 export const DEFAULT_USER: UserProfile = {
@@ -209,6 +211,112 @@ export const HeritageStore = {
     return user;
   },
 
+  // Trips (Heritage Trip Planner)
+  getTrips: (): Trip[] => {
+    return getLocalStorageItem<Trip[]>(STORAGE_KEYS.TRIPS, []);
+  },
+
+  getTripById: (id: string): Trip | undefined => {
+    return HeritageStore.getTrips().find((t) => t.id === id);
+  },
+
+  saveTrip: (trip: Trip): void => {
+    const trips = HeritageStore.getTrips();
+    const index = trips.findIndex((t) => t.id === trip.id);
+    if (index >= 0) {
+      trips[index] = { ...trip, updatedAt: new Date().toISOString() };
+    } else {
+      trips.unshift(trip);
+    }
+    setLocalStorageItem(STORAGE_KEYS.TRIPS, trips);
+  },
+
+  deleteTrip: (id: string): void => {
+    const trips = HeritageStore.getTrips().filter((t) => t.id !== id);
+    setLocalStorageItem(STORAGE_KEYS.TRIPS, trips);
+  },
+
+  // Heritage Passport & Cultural Journal
+  getPassport: (): HeritagePassport => {
+    return getLocalStorageItem<HeritagePassport>(STORAGE_KEYS.PASSPORT, {
+      visited: [],
+      notes: [],
+      completedToursCount: 0,
+      lastUpdated: new Date().toISOString(),
+    });
+  },
+
+  recordMonumentVisit: (monumentId: string, monumentSlug: string, monumentName: string): HeritagePassport => {
+    const passport = HeritageStore.getPassport();
+    const existing = passport.visited.find((v) => v.monumentId === monumentId);
+    if (!existing) {
+      passport.visited.unshift({
+        monumentId,
+        monumentSlug,
+        monumentName,
+        visitedAt: new Date().toISOString(),
+        virtualTourCompleted: false,
+      });
+      passport.lastUpdated = new Date().toISOString();
+      setLocalStorageItem(STORAGE_KEYS.PASSPORT, passport);
+    }
+    return passport;
+  },
+
+  recordTourCompletion: (monumentId: string): HeritagePassport => {
+    const passport = HeritageStore.getPassport();
+    const entry = passport.visited.find((v) => v.monumentId === monumentId);
+    if (entry) {
+      if (!entry.virtualTourCompleted) {
+        entry.virtualTourCompleted = true;
+        passport.completedToursCount = (passport.completedToursCount || 0) + 1;
+      }
+    } else {
+      const mon = HeritageStore.getMonuments().find((m) => m.id === monumentId);
+      passport.visited.unshift({
+        monumentId,
+        monumentSlug: mon?.slug || "",
+        monumentName: mon?.name || "Historical Monument",
+        visitedAt: new Date().toISOString(),
+        virtualTourCompleted: true,
+      });
+      passport.completedToursCount = (passport.completedToursCount || 0) + 1;
+    }
+    passport.lastUpdated = new Date().toISOString();
+    setLocalStorageItem(STORAGE_KEYS.PASSPORT, passport);
+    return passport;
+  },
+
+  saveFieldNote: (
+    monumentId: string,
+    monumentSlug: string,
+    monumentName: string,
+    title: string,
+    content: string
+  ): FieldJournalNote => {
+    const passport = HeritageStore.getPassport();
+    const newNote: FieldJournalNote = {
+      id: "note-" + Date.now(),
+      monumentId,
+      monumentSlug,
+      monumentName,
+      title,
+      content,
+      date: new Date().toISOString(),
+    };
+    passport.notes.unshift(newNote);
+    passport.lastUpdated = new Date().toISOString();
+    setLocalStorageItem(STORAGE_KEYS.PASSPORT, passport);
+    return newNote;
+  },
+
+  deleteFieldNote: (id: string): void => {
+    const passport = HeritageStore.getPassport();
+    passport.notes = passport.notes.filter((n) => n.id !== id);
+    passport.lastUpdated = new Date().toISOString();
+    setLocalStorageItem(STORAGE_KEYS.PASSPORT, passport);
+  },
+
   // Reset to factory sample data
   resetToDefault: (): void => {
     if (typeof window === "undefined") return;
@@ -217,5 +325,7 @@ export const HeritageStore = {
     localStorage.removeItem(STORAGE_KEYS.REPORTS);
     localStorage.removeItem(STORAGE_KEYS.SAVED);
     localStorage.removeItem(STORAGE_KEYS.USER);
+    localStorage.removeItem(STORAGE_KEYS.TRIPS);
+    localStorage.removeItem(STORAGE_KEYS.PASSPORT);
   }
 };

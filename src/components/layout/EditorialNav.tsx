@@ -33,6 +33,7 @@ export function EditorialNav() {
   const navLinks = [
     { href: "/explore", label: "Directory" },
     { href: "/map", label: "Map" },
+    { href: "/plan-trip", label: "Trip Planner" },
     { href: "/conservation", label: "Conservation" },
     { href: "/community", label: "Community" },
     { href: "/about", label: "About" },

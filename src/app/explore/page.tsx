@@ -10,8 +10,11 @@ import {
   RotateCcw,
   Layers,
   MapPin,
-  Globe2
+  Globe2,
+  Navigation,
+  Eye
 } from "lucide-react";
+import Link from "next/link";
 
 export default function ExplorePage() {
   const [monuments, setMonuments] = useState<Monument[]>([]);
@@ -20,6 +23,8 @@ export default function ExplorePage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedPeriod, setSelectedPeriod] = useState<string>("All");
   const [selectedState, setSelectedState] = useState<string>("All");
+  const [only360Tour, setOnly360Tour] = useState(false);
+  const [selectedConservation, setSelectedConservation] = useState<string>("All");
   const [sortBy, setSortBy] = useState<"featured" | "name" | "period">("featured");
 
   useEffect(() => {
@@ -83,7 +88,13 @@ export default function ExplorePage() {
         const matchesState =
           selectedState === "All" || m.state === selectedState;
 
-        return matchesSearch && matchesRegion && matchesCat && matchesPeriod && matchesState;
+        const matchesConservation =
+          selectedConservation === "All" || m.conservationStatus === selectedConservation;
+
+        const matches360 =
+          !only360Tour || (m.tourScenes && m.tourScenes.length > 0);
+
+        return matchesSearch && matchesRegion && matchesCat && matchesPeriod && matchesState && matchesConservation && matches360;
       })
       .sort((a, b) => {
         if (sortBy === "featured") {
@@ -97,7 +108,7 @@ export default function ExplorePage() {
         }
         return 0;
       });
-  }, [monuments, searchQuery, selectedRegion, selectedCategory, selectedPeriod, selectedState, sortBy]);
+  }, [monuments, searchQuery, selectedRegion, selectedCategory, selectedPeriod, selectedState, selectedConservation, only360Tour, sortBy]);
 
   const resetFilters = () => {
     setSearchQuery("");
@@ -105,6 +116,8 @@ export default function ExplorePage() {
     setSelectedCategory("All");
     setSelectedPeriod("All");
     setSelectedState("All");
+    setSelectedConservation("All");
+    setOnly360Tour(false);
     setSortBy("featured");
   };
 
@@ -113,23 +126,37 @@ export default function ExplorePage() {
     selectedRegion !== "All" ||
     selectedCategory !== "All" ||
     selectedPeriod !== "All" ||
-    selectedState !== "All";
+    selectedState !== "All" ||
+    selectedConservation !== "All" ||
+    only360Tour;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
       
       {/* Header */}
-      <div className="max-w-3xl space-y-3">
-        <div className="text-xs uppercase tracking-widest text-[#B18A55] font-bold flex items-center gap-1.5">
-          <Compass className="w-4 h-4 text-[#713C3C]" />
-          SDG 11.4 National Heritage Directory
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
+        <div className="max-w-3xl space-y-3">
+          <div className="text-xs uppercase tracking-widest text-[#B18A55] font-bold flex items-center gap-1.5">
+            <Compass className="w-4 h-4 text-[#713C3C]" />
+            SDG 11.4 National Heritage Directory
+          </div>
+          <h1 className="font-serif-editorial text-4xl sm:text-5xl font-bold text-[#282522] tracking-tight">
+            Cultural Heritage Monuments of India
+          </h1>
+          <p className="text-[#6B635D] text-base leading-relaxed">
+            Search and examine peer-verified dossiers of ancient rock-cut cave sanctuaries, Mughal and Rajput citadels, Dravidian temple towers, and colonial civic monuments across the subcontinent.
+          </p>
         </div>
-        <h1 className="font-serif-editorial text-4xl sm:text-5xl font-bold text-[#282522] tracking-tight">
-          Cultural Heritage Monuments of India
-        </h1>
-        <p className="text-[#6B635D] text-base leading-relaxed">
-          Search and examine peer-verified dossiers of ancient rock-cut cave sanctuaries, Mughal and Rajput citadels, Dravidian temple towers, and colonial civic monuments across the subcontinent.
-        </p>
+
+        <div className="shrink-0 flex items-center gap-3">
+          <Link
+            href="/plan-trip"
+            className="px-5 py-3 rounded-2xl bg-[#713C3C] text-[#FAF4E5] text-xs font-bold hover:bg-[#592F2F] transition-all shadow-md flex items-center gap-2"
+          >
+            <Navigation className="w-4 h-4 text-[#C5A059]" />
+            <span>Launch Trip Planner</span>
+          </Link>
+        </div>
       </div>
 
       {/* Filter & Search Bar */}
@@ -229,8 +256,8 @@ export default function ExplorePage() {
           </div>
         </div>
 
-        {/* Secondary Dropdown Filters (Period & State) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 border-t border-[#E4DDD0]">
+        {/* Secondary Dropdown Filters (Period, State, Conservation & 360 Toggle) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 border-t border-[#E4DDD0]">
           <div>
             <label className="block text-[11px] font-bold uppercase tracking-wider text-[#6B635D] mb-1.5">
               Historical Era
@@ -263,6 +290,23 @@ export default function ExplorePage() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#6B635D] mb-1.5">
+              Digital Twin & 360° Filter
+            </label>
+            <button
+              onClick={() => setOnly360Tour(!only360Tour)}
+              className={`w-full py-2.5 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-xs ${
+                only360Tour
+                  ? "bg-[#713C3C] text-[#FAF4E5] border-[#713C3C]"
+                  : "bg-white text-[#6B635D] border-[#E4DDD0] hover:text-[#282522]"
+              }`}
+            >
+              <Eye className="w-3.5 h-3.5 text-[#C5A059]" />
+              <span>{only360Tour ? "Showing 360° Tours Only" : "Filter: Has 360° Spherical Tour"}</span>
+            </button>
           </div>
         </div>
 

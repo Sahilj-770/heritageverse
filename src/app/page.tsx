@@ -14,7 +14,9 @@ import {
   Bookmark,
   Sparkles,
   ShieldCheck,
-  Globe2
+  Globe2,
+  Navigation,
+  Car
 } from "lucide-react";
 
 export default function HomePage() {
@@ -75,25 +77,33 @@ export default function HomePage() {
               </p>
 
               {/* Action Buttons */}
-              <div className="pt-2 flex flex-wrap items-center gap-4">
+              <div className="pt-2 flex flex-wrap items-center gap-3">
                 <Link
                   href="/explore"
-                  className="px-8 py-3.5 rounded-[20px] bg-[#282522] hover:bg-[#713C3C] text-[#F5F1E8] font-display-archivo text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:-translate-y-0.5"
+                  className="px-6 py-3.5 rounded-[20px] bg-[#282522] hover:bg-[#713C3C] text-[#F5F1E8] font-display-archivo text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:-translate-y-0.5"
                 >
-                  Explore National Archive
+                  Explore Directory
+                </Link>
+
+                <Link
+                  href="/plan-trip"
+                  className="px-6 py-3.5 rounded-[20px] bg-[#713C3C] hover:bg-[#8D4A4A] text-[#FAF4E5] font-display-archivo text-xs font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2"
+                >
+                  <Navigation className="w-4 h-4 text-[#C5A059]" />
+                  Plan Trip
                 </Link>
 
                 <Link
                   href="/map"
-                  className="px-6 py-3.5 rounded-[20px] bg-[#B18A55] hover:bg-[#C7A574] text-[#282522] font-display-archivo text-xs font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2"
+                  className="px-5 py-3.5 rounded-[20px] bg-[#B18A55] hover:bg-[#C7A574] text-[#282522] font-display-archivo text-xs font-bold uppercase tracking-wider transition-all shadow-sm flex items-center gap-2"
                 >
                   <Globe2 className="w-4 h-4 text-[#282522]" />
-                  Interactive Map
+                  Map
                 </Link>
 
                 <Link
                   href="/tour/taj-mahal"
-                  className="text-xs font-bold uppercase tracking-wider text-[#713C3C] hover:text-[#282522] transition-colors ml-2 flex items-center gap-1.5"
+                  className="text-xs font-bold uppercase tracking-wider text-[#713C3C] hover:text-[#282522] transition-colors ml-1 flex items-center gap-1.5"
                 >
                   <Eye className="w-4 h-4 text-[#713C3C]" />
                   Launch 360° Tour →
@@ -376,6 +386,72 @@ export default function HomePage() {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* 3.5. HERITAGE TRIP PLANNER & EXPEDITION BUILDER */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-br from-white to-[#FAF8F5] border border-[#E4DDD0] rounded-3xl p-8 sm:p-12 shadow-sm">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-7 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FAF4E5] text-[#713C3C] text-[10px] font-bold uppercase tracking-wider border border-[#B18A55]/40">
+                <Navigation className="w-3.5 h-3.5" />
+                <span>New Feature • Intelligent Route Mapping</span>
+              </div>
+              <h2 className="font-serif-editorial text-3xl sm:text-4xl font-bold text-[#282522]">
+                Plan Multi-Stop Heritage Journeys with Animated Travel
+              </h2>
+              <p className="text-sm text-[#6B635D] leading-relaxed max-w-xl">
+                Choose between car, motorcycle, cycle, and walking modes. Build custom circuits linking India&apos;s architectural wonders with real highway distances, turn-by-turn road geometry, and vehicle animations that orient along real highway tangents.
+              </p>
+              <div className="pt-2 flex flex-wrap items-center gap-4">
+                <Link
+                  href="/plan-trip"
+                  className="px-6 py-3 rounded-2xl bg-[#713C3C] text-[#FAF4E5] text-xs font-bold uppercase tracking-wider hover:bg-[#592F2F] transition-all shadow-md flex items-center gap-2"
+                >
+                  <Navigation className="w-4 h-4 text-[#C5A059]" />
+                  <span>Launch Trip Planner</span>
+                </Link>
+                <Link
+                  href="/dashboard"
+                  className="px-5 py-3 rounded-2xl bg-[#FAF8F5] border border-[#E4DDD0] text-[#282522] text-xs font-bold uppercase tracking-wider hover:bg-[#E4DDD0] transition-colors"
+                >
+                  <span>View Heritage Passport</span>
+                </Link>
+              </div>
+            </div>
+
+            <div className="lg:col-span-5 bg-[#FAF8F5] border border-[#E4DDD0] rounded-2xl p-6 space-y-3 shadow-inner">
+              <span className="text-[10px] font-bold text-[#B18A55] uppercase tracking-wider block">
+                Popular Verified Circuit
+              </span>
+              <h3 className="font-serif-editorial text-lg font-bold text-[#282522]">
+                The Northern Golden Triangle
+              </h3>
+              <div className="space-y-2 text-xs text-[#6B635D]">
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-[#2E7D32] text-white flex items-center justify-center font-bold text-[10px]">A</span>
+                  <span className="font-semibold text-[#282522]">Taj Mahal (Agra)</span>
+                </div>
+                <div className="pl-2.5 border-l-2 border-dashed border-[#B18A55] ml-2.5 h-4" />
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-[#B18A55] text-white flex items-center justify-center font-bold text-[10px]">2</span>
+                  <span className="font-semibold text-[#282522]">Qutub Minar (Delhi)</span>
+                </div>
+                <div className="pl-2.5 border-l-2 border-dashed border-[#B18A55] ml-2.5 h-4" />
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 rounded-full bg-[#713C3C] text-white flex items-center justify-center font-bold text-[10px]">B</span>
+                  <span className="font-semibold text-[#282522]">Red Fort (Old Delhi)</span>
+                </div>
+              </div>
+              <div className="pt-2 text-[11px] text-[#713C3C] font-bold flex items-center justify-between">
+                <span>Total: 242 km • 4.2 hrs</span>
+                <Link href="/plan-trip" className="hover:underline flex items-center gap-1">
+                  <span>Open Route →</span>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
       </section>

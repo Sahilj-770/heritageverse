@@ -47,6 +47,17 @@ export interface TourHotspot {
   pitch: number; // vertical angle in degrees (-90 to 90)
   type: "info" | "navigation";
   targetSceneId?: string;
+  architecturalFeature?: string;
+  historicalPeriod?: string;
+  imageUrl?: string;
+  attribution?: string;
+}
+
+export interface TourSceneConnection {
+  targetSceneId: string;
+  label: string;
+  yaw: number;
+  pitch: number;
 }
 
 export interface TourScene {
@@ -58,6 +69,9 @@ export interface TourScene {
   initialPitch: number;
   hotspots: TourHotspot[];
   historicalNotes: string;
+  areaLabel?: string;
+  surveyType?: "field_photographic" | "certified_lidar" | "archival_reconstruction";
+  connections?: TourSceneConnection[];
 }
 
 export interface Monument {
@@ -133,4 +147,119 @@ export interface ConservationReport {
   status: "pending" | "investigating" | "archived" | "acknowledged";
   adminNotes?: string;
   createdAt: string;
+}
+
+// ─── Heritage Trip Planner & Routing Types ──────────────────────────────
+
+export type TransportMode = 
+  | "driving"       // Car / Taxi
+  | "motorcycle"    // Two-wheeler / Scooter
+  | "bicycle"       // Cycle tour
+  | "walking"       // Pedestrian / Heritage Walk
+  | "transit";      // Train / Bus / Metro (Public Transit)
+
+export interface TransportProfileInfo {
+  id: TransportMode;
+  name: string;
+  icon: string;
+  speedKmh: number;
+  description: string;
+  routingSupported: boolean;
+  transitNotice?: string;
+}
+
+export interface TripStop {
+  id: string;
+  monumentId?: string;
+  monumentSlug?: string;
+  name: string;
+  locationName: string;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  order: number;
+  isCustomLocation?: boolean;
+  recommendedDurationMins?: number;
+  notes?: string;
+}
+
+export interface RouteStep {
+  instruction: string;
+  distanceMeters: number;
+  durationSeconds: number;
+  name?: string;
+}
+
+export interface RouteLeg {
+  fromStopIndex: number;
+  toStopIndex: number;
+  fromName: string;
+  toName: string;
+  distanceMeters: number;
+  durationSeconds: number;
+  geometry: [number, number][]; // [lng, lat] coordinate pairs for MapLibre/GeoJSON
+  steps?: RouteStep[];
+}
+
+export interface Trip {
+  id: string;
+  title: string;
+  description?: string;
+  transportMode: TransportMode;
+  stops: TripStop[];
+  totalDistanceMeters: number;
+  totalDurationSeconds: number;
+  routeGeometry: [number, number][]; // Full continuous [lng, lat] GeoJSON coordinates
+  legs: RouteLeg[];
+  createdAt: string;
+  updatedAt: string;
+  isSaved?: boolean;
+}
+
+// ─── Heritage Passport & Cultural Journal Types ─────────────────────────
+
+export interface VisitedMonumentRecord {
+  monumentId: string;
+  monumentSlug: string;
+  monumentName: string;
+  visitedAt: string;
+  virtualTourCompleted: boolean;
+}
+
+export interface FieldJournalNote {
+  id: string;
+  monumentId: string;
+  monumentName: string;
+  monumentSlug: string;
+  title: string;
+  content: string;
+  date: string;
+}
+
+export interface HeritagePassport {
+  visited: VisitedMonumentRecord[];
+  notes: FieldJournalNote[];
+  completedToursCount: number;
+  lastUpdated: string;
+}
+
+// ─── Contextual Heritage Companion Types ────────────────────────────────
+
+export type CompanionTopic = 
+  | "what_am_i_looking_at"
+  | "why_important"
+  | "interesting_story"
+  | "architectural_analysis"
+  | "what_to_explore_next";
+
+export interface CompanionAnswer {
+  topic: CompanionTopic;
+  title: string;
+  historicalTruth: string;
+  folkloreVsFact?: string;
+  architecturalHighlights?: string[];
+  recommendedNextSteps?: string[];
+  sources: { title: string; publisher: string }[];
+  narrationScript: string;
 }

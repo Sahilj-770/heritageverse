@@ -12,10 +12,12 @@ import {
   Layers, 
   Info, 
   BookOpen, 
-  Sparkles,
-  ExternalLink,
-  ChevronRight
+  Sparkles, 
+  ExternalLink, 
+  ChevronRight,
+  Navigation
 } from "lucide-react";
+import { HeritageCompanion } from "@/components/companion/HeritageCompanion";
 
 export default function VirtualTourPage() {
   const params = useParams();
@@ -38,6 +40,7 @@ export default function VirtualTourPage() {
           }));
         }
         setMonument(data);
+        HeritageStore.recordTourCompletion(data.id);
         if (data.tourScenes && data.tourScenes.length > 0) {
           setActiveSceneId(data.tourScenes[0].id);
         }
@@ -72,6 +75,13 @@ export default function VirtualTourPage() {
         </Link>
 
         <div className="flex items-center gap-3 text-xs text-[#938A82]">
+          <Link
+            href="/plan-trip"
+            className="px-2.5 py-1 rounded-lg bg-[#262220] hover:bg-[#3D3835] border border-[#3D3835] text-[#FAF4E5] font-medium flex items-center gap-1.5 transition-colors"
+          >
+            <Navigation className="w-3 h-3 text-[#C5A059]" />
+            <span>Plan Trip</span>
+          </Link>
           <span className="hidden sm:inline font-medium text-[#EADFCF]">{monument.location}, {monument.state}</span>
           <span className="px-2 py-0.5 rounded bg-[#262220] border border-[#3D3835] text-[#C5A059] font-medium">
             Three.js / WebGL 360° Spherical
@@ -142,6 +152,11 @@ export default function VirtualTourPage() {
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* In-Tour Contextual Heritage Companion */}
+              <div className="pt-4 border-t border-[#3D3835]">
+                <HeritageCompanion monument={monument} activeScene={activeScene} />
               </div>
             </div>
 

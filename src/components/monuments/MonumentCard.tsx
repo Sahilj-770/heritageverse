@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Monument } from "@/types/heritage";
 import { HeritageStore } from "@/lib/heritageStore";
 import { useState, useEffect } from "react";
-import { MapPin, Compass, Bookmark, Clock } from "lucide-react";
+import { MapPin, Compass, Bookmark, Clock, Navigation } from "lucide-react";
 
 interface MonumentCardProps {
   monument: Monument;
@@ -90,18 +90,28 @@ export function MonumentCard({ monument }: MonumentCardProps) {
             href={`/heritage/${monument.slug}`}
             className="text-xs font-bold uppercase tracking-wider text-[#282522] hover:text-[#713C3C] transition-colors"
           >
-            Read Dossier →
+            Dossier →
           </Link>
 
-          {monument.tourScenes && monument.tourScenes.length > 0 && (
+          <div className="flex items-center gap-1.5">
             <Link
-              href={`/tour/${monument.slug}`}
-              className="px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#282522] text-[#F5F1E8] hover:bg-[#713C3C] transition-colors flex items-center gap-1.5"
+              href="/plan-trip"
+              className="p-1.5 rounded-lg border border-[#E4DDD0] text-[#6B635D] hover:text-[#713C3C] hover:bg-[#FAF8F5] transition-colors"
+              title="Plan trip to this monument"
             >
-              <Compass className="w-3 h-3 text-[#B18A55]" />
-              360° Tour
+              <Navigation className="w-3.5 h-3.5" />
             </Link>
-          )}
+
+            {monument.tourScenes && monument.tourScenes.length > 0 && (
+              <Link
+                href={`/tour/${monument.slug}`}
+                className="px-2.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#282522] text-[#F5F1E8] hover:bg-[#713C3C] transition-colors flex items-center gap-1.5"
+              >
+                <Compass className="w-3 h-3 text-[#B18A55]" />
+                <span>360°</span>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </article>

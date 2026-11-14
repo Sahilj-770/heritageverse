@@ -18,8 +18,10 @@ import {
   Landmark, 
   ExternalLink,
   AlertTriangle,
-  ArrowLeft
+  ArrowLeft,
+  Navigation
 } from "lucide-react";
+import { HeritageCompanion } from "@/components/companion/HeritageCompanion";
 
 export default function MonumentDetailPage() {
   const params = useParams();
@@ -34,6 +36,7 @@ export default function MonumentDetailPage() {
       if (data) {
         setMonument(data);
         setIsSaved(HeritageStore.isMonumentSaved(data.id));
+        HeritageStore.recordMonumentVisit(data.id, data.slug, data.name);
       }
     }
   }, [slug]);
@@ -132,6 +135,15 @@ export default function MonumentDetailPage() {
                 <Share2 className="w-4 h-4" />
                 <span>{copied ? "Link Copied!" : "Share"}</span>
               </button>
+
+              <Link
+                href="/plan-trip"
+                className="px-4 py-2.5 rounded-xl text-xs font-semibold bg-white/90 text-[#282522] hover:bg-white border border-[#E4DDD0] shadow-sm flex items-center gap-1.5 transition-colors"
+                title="Plan a multi-stop road itinerary to this monument"
+              >
+                <Navigation className="w-3.5 h-3.5 text-[#713C3C]" />
+                <span>Plan Route</span>
+              </Link>
 
               {monument.tourScenes && monument.tourScenes.length > 0 && (
                 <Link
@@ -235,6 +247,9 @@ export default function MonumentDetailPage() {
                 </Link>
               </div>
             </section>
+
+            {/* Contextual Heritage Companion */}
+            <HeritageCompanion monument={monument} />
 
             {/* Photographic Archive Gallery */}
             {monument.images && monument.images.length > 0 && (
