@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en" class="desk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ATRIUM MTL — An archive of light cast in stone</title>
+
+  <style>
+    /* ----------------------------------------------------
+       FONTS (Self-hosted @font-face required for pixel match)
+       ---------------------------------------------------- */
+    @font-face {
+      font-family: "Archivo";
+      font-style: normal;
+      font-weight: 100 900;
+      font-stretch: 62% 125%;
+      font-display: block;
+      src: url("assets/fonts/archivo.woff2") format("woff2");
+    }
+
+    @font-face {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 100 900;
+      font-display: block;
+      src: url("assets/fonts/inter.woff2") format("woff2");
+    }
+
+    /* ----------------------------------------------------
+       DESIGN TOKENS (:root)
+       Museum Editorial Palette (Indian Cultural Heritage Resonance):
+       - Ivory: #F5F1E8 (Archival parchment)
+       - Warm Grey: #E4DDD0 (Hand-hewn sandstone)
+       - Burgundy / Terracotta: #713C3C (Deccan sandstone & royal fort alcoves)
+       - Antique Gold: #B18A55 (Peshwa gilded ornamental brass)
+       - Ink: #282522 (Basalt stone charcoal)
+       ---------------------------------------------------- */
+    :root {
+      /* User Specified Palette Tokens */
+      --paper: #F5F1E8;
+      --sandstone: #E4DDD0;
+      --burgundy: #713C3C;
+      --antique-gold: #B18A55;
+      --ink: #282522;
+
+      /* Tile & Element Tokens mapped to the Indian Museum Editorial Palette */
+      --card-dark: #282522;
+      --card-cream: #E4DDD0;
+      --red: #713C3C;            /* Royal Burgundy / Heritage Terracotta */
+      --yellow: #B18A55;         /* Rich Antique Gold */
+      --blue: #88A9B8;           /* Muted Mineral Blue (Ajanta/Ellora mineral pigments) */
+
+      /* Typography */
+      --display: "Archivo", "Playfair Display", "Arial Black", Impact, system-ui, sans-serif;
+      --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+      /* Grid & Column Dimensions */
+      --col: 205.33px;
+      --gap: 13px;
+      --pitch: 282.5px;
+      --r: 22px;
+
+      /* Remote Exact CloudFront Assets */
+      --img-sculpt: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/fc524fc3-03c3-40a1-9954-22eab1322592.webp");
+      --img-man: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/1d56967e-0ed5-40f8-812d-9360e5ec1780.webp");
+      --img-visit: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/5f3f6135-26b9-4c48-92ad-105161327cbc.webp");
+      --img-sil: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e7b68ae9-9240-4f52-a0a2-89082df4b8d0.webp");
+      --grain: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/40b7fef3-410d-4ef3-bd67-0a2fc7ee5a1d.svg");
+
+      /* Responsive Mode Marker */
+      --mode: desk;
+    }
+
+    /* ----------------------------------------------------
+       MEDIA QUERIES (Responsive Mode tokens)
+       ---------------------------------------------------- */
+    @media (max-width: 559px) {
+      :root { --mode: mob; }
+    }
+    @media (min-width: 560px) and (min-aspect-ratio: 1/1) {
+      :root { --mode: mob-l; }
+    }
+    @media (min-width: 600px) and (min-height: 820px) and (max-aspect-ratio: 21/20) {
+      :root { --mode: tab-p; }
+    }
+    @media (min-width: 900px) and (min-height: 540px) and (min-aspect-ratio: 21/20) {
+      :root { --mode: tab-l; }
+    }
+    @media (min-width: 1097px) and (min-aspect-ratio: 27/25) {
+      :root { --mode: desk; }
+    }
+
+    /* ----------------------------------------------------
+       BASE RESET & DOCUMENT SETUP
+       ---------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: geometricPrecision;
+      user-select: none;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--antique-gold);
+      outline-offset: 3px;
+    }
+
+    /* ----------------------------------------------------
+       ARCHIVAL STAGE (Canvas Cover Scale)
+       ---------------------------------------------------- */
+    .stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: calc(var(--W, 1280) * 1px);
+      height: calc(var(--H, 800) * 1px);
+      transform-origin: 0 0;
+      transform: scale(var(--s, 1));
+      overflow: hidden;
+      background-color: var(--paper);
+    }
+
+    /* Subtle archival tactile grain overlay across the entire canvas */
+    .stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--grain);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 2;
+      mix-blend-mode: multiply;
+    }
+
+    /* ----------------------------------------------------
+       MINIMAL EDITORIAL BRAND BAR (Clean Museum Brand Bar)
+       Replacing cluttered header with refined museum archival hallmark
+       ---------------------------------------------------- */
+    .editorial-bar {
+      position: absolute;
+      top: 36px;
+      left: 86px;
+      right: 86px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: auto;
+    }
+
+    .brand-mark {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-title {
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: 26px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .brand-tagline {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--burgundy);
+      margin-top: 3px;
+    }
+
+    .editorial-nav-pills {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-pill-link {
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background-color: rgba(228, 221, 208, 0.45);
+      border: 1px solid rgba(40, 37, 34, 0.12);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-pill-link:hover {
+      background-color: var(--burgundy);
+      color: var(--paper);
+      border-color: var(--burgundy);
+    }
+
+    .nav-pill-link.active-pill {
+      background-color: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+
+    /* ----------------------------------------------------
+       HERO EDITORIAL CONTENT BLOCK
+       ---------------------------------------------------- */
+    .hero {
+      position: absolute;
+      left: 86px;
+      top: calc(148px + (var(--H, 800) - 800) * 0.45px);
+      width: 490px;
+      z-index: 8;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--burgundy);
+      margin-bottom: 18px;
+    }
+
+    .hero-eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1.5px;
+      background-color: var(--antique-gold);
+    }
+
+    .hero h1 {
+      font-family: var(--display);
+      font-weight: 900;
+      font-size: 80px;
+      line-height: 74px;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      -webkit-text-stroke: 1.1px var(--ink);
+    }
+
+    .hero h1 .ln {
+      display: block;
+      overflow: hidden;
+    }
+
+    .hero h1 .ln span {
+      display: block;
+      font-size: 0.95em;
+      letter-spacing: -0.05em;
+    }
+
+    .hero-para {
+      margin-top: 32px;
+      width: 450px;
+      font-size: 17.5px;
+      line-height: 26.6px;
+      color: var(--ink);
+      font-weight: 450;
+      letter-spacing: -0.01em;
+    }
+
+    .hero-para strong {
+      font-weight: 700;
+      color: var(--burgundy);
+    }
+
+    /* Action Buttons (CTAs) */
+    .acts {
+      margin-top: 36px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .tickets-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 60px;
+      padding: 0 34px;
+      border-radius: var(--r);
+      background-color: var(--ink);
+      color: var(--paper);
+      font-family: var(--display);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 24px -10px rgba(40, 37, 34, 0.4);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tickets-btn:hover {
+      background-color: var(--burgundy);
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px -8px rgba(113, 60, 60, 0.5);
+    }
+
+    .ticket-circle-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--antique-gold);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1.5px solid var(--ink);
+      box-shadow: 0 8px 20px -8px rgba(177, 138, 85, 0.5);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .ticket-circle-btn svg {
+      width: 24px;
+      height: 24px;
+      transform: rotate(-45deg);
+      transition: transform 0.3s ease;
+    }
+
+    .ticket-circle-btn:hover {
+      background-color: var(--paper);
+      transform: scale(1.08) rotate(10deg);
+    }
+
+    .installations-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--display);
+      font-size: 14.5px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-left: 8px;
+      transition: color 0.2s ease;
+    }
+
+    .installations-link:hover {
+      color: var(--burgundy);
+    }
+
+    .arrow-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: var(--ink);
+      color: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s ease, background-color 0.25s ease;
+    }
+
+    .installations-link:hover .arrow-circle {
+      background-color: var(--burgundy);
+      transform: translateX(4px);
+    }
+
+    .arrow-circle svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ----------------------------------------------------
+       MOSAIC GRID (INFINITE MARQUEE COLUMNS)
+       ---------------------------------------------------- */
+    .grid {
+      position: absolute;
+      right: 62px;
+      top: 0;
+      bottom: 0;
+      width: calc(3 * var(--col) + 2 * var(--gap));
+      overflow: hidden;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .col {
+      position: absolute;
+      top: 0;
+      width: var(--col);
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+      animation: colDown 14.6s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes colDown {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(0, -50%, 0);
+      }
+    }
+
+    @keyframes colUp {
+      0% {
+        transform: translate3d(0, -50%, 0);
+      }
+      100% {
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    /* Column Placement & Offsets */
+    .c1 {
+      left: 0;
+      top: 86px;
+      animation: colDown 14.6s linear infinite;
+    }
+
+    .c2 {
+      left: calc(var(--col) + var(--gap));
+      top: -11.5px;
+      animation: colUp 14.6s linear infinite;
+    }
+
+    .c3 {
+      left: calc(2 * (var(--col) + var(--gap)));
+      top: 86.5px;
+      animation: colDown 14.6s linear infinite;
+    }
+
+    /* Extra Wide-Screen Columns */
+    .x1, .x2, .x3 {
+      display: none;
+    }
+
+    html.ex1 .x1 {
+      display: flex;
+      left: calc(-1 * (var(--col) + var(--gap)));
+      top: -11.5px;
+      animation: colUp 14.6s linear infinite;
+    }
+
+    html.ex2 .x1 {
+      display: flex;
+      left: calc(-1 * (var(--col) + var(--gap)));
+      top: -11.5px;
+      animation: colUp 14.6s linear infinite;
+    }
+    html.ex2 .x2 {
+      display: flex;
+      left: calc(-2 * (var(--col) + var(--gap)));
+      top: 86px;
+      animation: colDown 14.6s linear infinite;
+    }
+
+    html.ex3 .x1 {
+      display: flex;
+      left: calc(-1 * (var(--col) + var(--gap)));
+      top: -11.5px;
+      animation: colUp 14.6s linear infinite;
+    }
+    html.ex3 .x2 {
+      display: flex;
+      left: calc(-2 * (var(--col) + var(--gap)));
+      top: 86px;
+      animation: colDown 14.6s linear infinite;
+    }
+    html.ex3 .x3 {
+      display: flex;
+      left: calc(-3 * (var(--col) + var(--gap)));
+      top: -11.5px;
+      animation: colUp 14.6s linear infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .col {
+        animation: none !important;
+      }
+    }
+
+    /* ----------------------------------------------------
+       CELLS & PHOTO CROPS
+       ---------------------------------------------------- */
+    .cell {
+      position: relative;
+      width: var(--col);
+      height: var(--pitch);
+      border-radius: var(--r);
+      overflow: hidden;
+      flex-shrink: 0;
+      box-shadow: 0 12px 28px -12px rgba(40, 37, 34, 0.22);
+    }
+
+    /* Photo Cells */
+    .cell.ph::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .i-sculpt::before {
+      background-image: var(--img-sculpt);
+    }
+    .i-man::before {
+      background-image: var(--img-man);
+    }
+    .i-visit::before {
+      background-image: var(--img-visit);
+    }
+    .i-sil::before {
+      background-image: var(--img-sil);
+    }
+
+    /* Precise Desktop Numeric Photo Crops */
+    .f-sculpt::before {
+      width: 124.19%;
+      height: 112.57%;
+      left: -16.07%;
+      top: -8.5%;
+      background-size: 100% 100%;
+    }
+
+    .f-man::before {
+      width: 113.48%;
+      height: 103.36%;
+      left: -5.36%;
+      top: -3.54%;
+      background-size: 100% 100%;
+    }
+
+    .f-visit {
+      background: linear-gradient(90deg, #c6c5c3, #9b9a98 55%, #7a7977);
+    }
+    .f-visit::before {
+      width: 110.07%;
+      height: 100%;
+      left: -3.9%;
+      top: 8.5%;
+      background-size: 100% 100%;
+    }
+    .f-visit::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.26) 0%, transparent 13%);
+      pointer-events: none;
+    }
+
+    .f-sil::before {
+      width: 139.29%;
+      height: 126.37%;
+      left: -8.77%;
+      top: -56.64%;
+      background-size: 100% 100%;
+    }
+
+    /* Solid Color Cells (Indian Architectural Museum Palette) */
+    .cell.red {
+      background-color: var(--red);
+    }
+    .cell.yellow {
+      background-color: var(--yellow);
+    }
+    .cell.blue {
+      background-color: var(--blue);
+    }
+    .cell.cream {
+      background-color: var(--sandstone);
+      box-shadow: inset 0 0 0 1px #d6cec0;
+    }
+    .cell.dark {
+      background-color: var(--card-dark);
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+    }
+
+    /* Archival tactile grain on solid tiles */
+    .cell.red::after,
+    .cell.yellow::after,
+    .cell.blue::after,
+    .cell.cream::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--grain);
+      opacity: 0.13;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    .cell.dark::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: var(--grain);
+      opacity: 0.035;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    /* ----------------------------------------------------
+       RESPONSIVE ARCHITECTURES (Mobile & Tablet)
+       ---------------------------------------------------- */
+    /* Mobile Portrait */
+    html.mob, html.mob body {
+      overflow: hidden;
+    }
+
+    html.mob .stage {
+      position: relative;
+      width: 100vw;
+      height: 100svh;
+      transform: none;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding-top: env(safe-area-inset-top, 16px);
+      padding-bottom: env(safe-area-inset-bottom, 16px);
+    }
+
+    html.mob .editorial-bar {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 20px 10px 20px;
+    }
+
+    html.mob .editorial-nav-pills {
+      gap: 6px;
+    }
+
+    html.mob .nav-pill-link {
+      padding: 6px 12px;
+      font-size: 10px;
+    }
+
+    html.mob .hero {
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 100%;
+      padding: 10px 20px 16px 20px;
+      order: 1;
+    }
+
+    html.mob .hero h1 {
+      font-size: clamp(38px, 10.5vw, 56px);
+      line-height: 0.94;
+    }
+
+    html.mob .hero-para {
+      width: 100%;
+      font-size: 14px;
+      line-height: 20px;
+      margin-top: 14px;
+    }
+
+    html.mob .acts {
+      margin-top: 16px;
+      gap: 10px;
+    }
+
+    html.mob .tickets-btn {
+      height: 48px;
+      padding: 0 22px;
+      font-size: 13px;
+    }
+
+    html.mob .ticket-circle-btn {
+      width: 48px;
+      height: 48px;
+    }
+
+    html.mob .installations-link {
+      font-size: 12px;
+    }
+
+    html.mob .grid {
+      position: relative;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      left: 0;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      order: 2;
+      overflow: hidden;
+      --col: clamp(90px, 28vw, 125px);
+      --pitch: calc(var(--col) * 1.37);
+      --gap: 8px;
+    }
+
+    html.mob .c1 {
+      left: 20px;
+      top: -20px;
+    }
+    html.mob .c2 {
+      left: calc(20px + var(--col) + var(--gap));
+      top: -60px;
+    }
+    html.mob .c3 {
+      left: calc(20px + 2 * (var(--col) + var(--gap)));
+      top: -10px;
+    }
+
+    /* Fallback crops on mobile */
+    html.mob .f-visit::before,
+    html.mob .f-sil::before {
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      background-size: cover;
+    }
+    html.mob .f-visit::after {
+      display: none;
+    }
+
+    /* Mobile Landscape (mob-l) */
+    html.mob-l .stage {
+      position: relative;
+      width: 100vw;
+      height: 100svh;
+      transform: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+      padding: 14px 24px;
+    }
+    html.mob-l .editorial-bar {
+      grid-column: 1 / -1;
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin-bottom: 10px;
+    }
+    html.mob-l .hero {
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 90%;
+    }
+    html.mob-l .hero h1 {
+      font-size: clamp(34px, 6vw, 48px);
+      line-height: 0.96;
+    }
+    html.mob-l .hero-para {
+      font-size: 13px;
+      line-height: 18px;
+      margin-top: 10px;
+      width: 100%;
+    }
+    html.mob-l .grid {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      --col: 110px;
+      --pitch: 150px;
+      --gap: 8px;
+    }
+
+    /* Tablet Portrait (tab-p) */
+    html.tab-p .stage {
+      position: relative;
+      width: 100vw;
+      height: 100svh;
+      transform: none;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      padding: 24px;
+    }
+    html.tab-p .editorial-bar {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin-bottom: 20px;
+    }
+    html.tab-p .hero {
+      position: relative;
+      left: 0;
+      top: 0;
+      width: 100%;
+      margin-bottom: 24px;
+    }
+    html.tab-p .hero h1 {
+      font-size: clamp(52px, 8vw, 70px);
+      line-height: 0.95;
+    }
+    html.tab-p .grid {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      --col: 150px;
+      --pitch: 206px;
+      --gap: 10px;
+    }
+
+    /* ----------------------------------------------------
+       LOAD ENTRANCE KEYFRAMES & WAAPI MASKING
+       ---------------------------------------------------- */
+    html.intro .editorial-bar {
+      transform: translateY(-80px);
+      opacity: 0;
+    }
+
+    html.intro .hero-eyebrow,
+    html.intro .hero-para,
+    html.intro .acts {
+      opacity: 0;
+    }
+
+    html.intro .hero h1 .ln {
+      clip-path: inset(0 0 0 0);
+    }
+
+    html.intro .hero h1 .ln span {
+      transform: translateY(110%);
+    }
+
+    html.intro .col {
+      opacity: 0;
+      transform: translateY(60px);
+    }
+  </style>
+
+  <script>
+    // Load Entrance Initialization
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("intro");
+      setTimeout(() => {
+        document.documentElement.classList.remove("intro");
+      }, 4000);
+    }
+  </script>
+</head>
+<body>
+
+  <!-- STAGE VIEWPORT (Cover scaled) -->
+  <main class="stage" id="stage">
+
+    <!-- REFINED EDITORIAL MUSEUM BAR -->
+    <header class="editorial-bar" role="banner">
+      <div class="brand-mark">
+        <a href="/" class="brand-title" aria-label="ATRIUM MTL Home">ATRIUM MTL</a>
+        <span class="brand-tagline">AN ARCHIVE OF LIGHT CAST IN STONE</span>
+      </div>
+
+      <nav class="editorial-nav-pills" aria-label="Museum Navigation">
+        <a href="#installations" class="nav-pill-link">Installations</a>
+        <a href="#retrospective" class="nav-pill-link">Retrospective</a>
+        <a href="#preserve" class="nav-pill-link">Preserve</a>
+        <a href="#tickets" class="nav-pill-link active-pill">Tickets</a>
+      </nav>
+    </header>
+
+    <!-- HERO EDITORIAL HEADLINE & COPY -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="hero-eyebrow">
+        <span>Curatorial Retrospective • Autumn 2026</span>
+      </div>
+
+      <h1 id="hero-heading">
+        <span class="ln"><span>An archive</span></span>
+        <span class="ln"><span>of light</span></span>
+        <span class="ln"><span>cast in</span></span>
+        <span class="ln"><span>stone</span></span>
+      </h1>
+
+      <p class="hero-para">
+        ATRIUM MTL archives old structures as raw photographs from across Montreal, a collection at an <strong>Annual Photography Retrospective</strong>, autumn 2026.
+      </p>
+
+      <div class="acts">
+        <a href="#tickets" class="tickets-btn" aria-label="Purchase Tickets">
+          Tickets
+        </a>
+
+        <a href="#tickets" class="ticket-circle-btn" aria-label="Ticket reservation icon">
+          <!-- Ticket / Admission Pass SVG -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"></path>
+            <path d="M13 5v2"></path>
+            <path d="M13 17v2"></path>
+            <path d="M13 11v2"></path>
+          </svg>
+        </a>
+
+        <a href="#installations" class="installations-link">
+          <span>Installations</span>
+          <span class="arrow-circle">
+            <!-- Diagonal Arrow SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 6-COLUMN CONTINUOUS MARQUEE MOSAIC -->
+    <aside class="grid" aria-hidden="true" id="mosaicGrid">
+      
+      <!-- Optional Extra Columns for Ultra-Wide Displays -->
+      <div class="col x3">
+        <div class="cell ph i-man"></div>
+        <div class="cell blue"></div>
+        <div class="cell dark"></div>
+        <div class="cell ph i-sculpt"></div>
+        <div class="cell yellow"></div>
+      </div>
+
+      <div class="col x2">
+        <div class="cell yellow"></div>
+        <div class="cell ph i-sil"></div>
+        <div class="cell cream"></div>
+        <div class="cell red"></div>
+        <div class="cell ph i-visit"></div>
+      </div>
+
+      <div class="col x1">
+        <div class="cell blue"></div>
+        <div class="cell ph i-man"></div>
+        <div class="cell red"></div>
+        <div class="cell ph i-sculpt"></div>
+        <div class="cell cream"></div>
+      </div>
+
+      <!-- Main Three Columns -->
+      <div class="col c1" id="col1">
+        <div class="cell red"></div>
+        <div class="cell ph i-sculpt f-sculpt"></div>
+        <div class="cell ph i-man f-man"></div>
+        <div class="cell blue"></div>
+        <div class="cell ph i-visit"></div>
+      </div>
+
+      <div class="col c2" id="col2">
+        <div class="cell yellow"></div>
+        <div class="cell ph i-visit f-visit visit"></div>
+        <div class="cell dark"></div>
+        <div class="cell ph i-sil"></div>
+        <div class="cell red"></div>
+      </div>
+
+      <div class="col c3" id="col3">
+        <div class="cell blue"></div>
+        <div class="cell cream"></div>
+        <div class="cell ph i-sil f-sil"></div>
+        <div class="cell yellow"></div>
+        <div class="cell ph i-sculpt"></div>
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- ----------------------------------------------------
+       VANILLA JAVASCRIPT: RESIZING, MODES & WAAPI TIMELINE
+       ---------------------------------------------------- -->
+  <script>
+    (function () {
+      "use strict";
+
+      const MODES = ["desk", "mob", "mob-l", "tab", "tab-l", "tab-p"];
+      const stage = document.getElementById("stage");
+      const grid = document.getElementById("mosaicGrid");
+
+      // 1. Seamless Loop Cell Duplication
+      // Clones each column's 5 cells once so translateY -50% loops with zero seam
+      const cols = document.querySelectorAll(".col");
+      cols.forEach((col) => {
+        const originalCells = Array.from(col.children);
+        originalCells.forEach((cell) => {
+          const clone = cell.cloneNode(true);
+          col.appendChild(clone);
+        });
+      });
+
+      // 2. Viewport Scaling & Mode Detection
+      function fit() {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+
+        // Read active CSS responsive mode
+        const computedMode = getComputedStyle(document.documentElement)
+          .getPropertyValue("--mode")
+          .trim();
+
+        // Update class on <html>
+        MODES.forEach((m) => document.documentElement.classList.remove(m));
+        document.documentElement.classList.add(computedMode);
+
+        if (computedMode.startsWith("tab")) {
+          document.documentElement.classList.add("tab");
+        }
+        if (computedMode.startsWith("mob")) {
+          document.documentElement.classList.add("mob");
+        }
+
+        // Desktop Scale Math: Reference Canvas 1280x800
+        if (computedMode === "desk") {
+          let s;
+          if (vw / vh > 1280 / 800) {
+            s = vh / 800;
+          } else {
+            s = vw / 1280;
+          }
+
+          const W = vw / s;
+          const H = vh / s;
+
+          document.documentElement.style.setProperty("--s", s.toFixed(5));
+          document.documentElement.style.setProperty("--W", W.toFixed(2));
+          document.documentElement.style.setProperty("--H", H.toFixed(2));
+
+          if (H > 845) {
+            document.documentElement.classList.add("tall");
+          } else {
+            document.documentElement.classList.remove("tall");
+          }
+
+          // Extra Columns Logic for Ultra-Wide Monitors
+          const extra = Math.max(
+            0,
+            Math.min(3, Math.floor((vw / s - 1294) / 218.33))
+          );
+          document.documentElement.classList.remove("ex1", "ex2", "ex3");
+          if (extra >= 1) document.documentElement.classList.add("ex1");
+          if (extra >= 2) document.documentElement.classList.add("ex2");
+          if (extra >= 3) document.documentElement.classList.add("ex3");
+        } else {
+          // Reset custom properties for non-desk viewports
+          document.documentElement.style.removeProperty("--s");
+          document.documentElement.style.removeProperty("--W");
+          document.documentElement.style.removeProperty("--H");
+        }
+      }
+
+      window.addEventListener("resize", fit, { passive: true });
+      window.addEventListener("orientationchange", fit, { passive: true });
+      fit();
+
+      // 3. WAAPI Load Entrance Animation
+      const prefersReducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches;
+
+      if (!prefersReducedMotion) {
+        // Timeline easings
+        const EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";
+        const QUART = "cubic-bezier(0.25, 1, 0.5, 1)";
+        const QUINT = "cubic-bezier(0.22, 1, 0.36, 1)";
+
+        // A. Header Bar slide down
+        const bar = document.querySelector(".editorial-bar");
+        if (bar) {
+          bar.animate(
+            [
+              { transform: "translateY(-60px)", opacity: 0 },
+              { transform: "translateY(0)", opacity: 1 },
+            ],
+            {
+              duration: 950,
+              easing: EXPO,
+              fill: "forwards",
+            }
+          );
+        }
+
+        // B. Headline text lines reveal from 110%
+        const h1Spans = document.querySelectorAll(".hero h1 .ln span");
+        h1Spans.forEach((span, i) => {
+          span.animate(
+            [
+              { transform: "translateY(110%)" },
+              { transform: "translateY(0%)" },
+            ],
+            {
+              duration: 1000,
+              delay: 300 + i * 85,
+              easing: EXPO,
+              fill: "forwards",
+            }
+          );
+        });
+
+        // C. Eyebrow, Body Paragraph & Acts reveal
+        const eyebrow = document.querySelector(".hero-eyebrow");
+        if (eyebrow) {
+          eyebrow.animate(
+            [
+              { transform: "translateY(10px)", opacity: 0 },
+              { transform: "translateY(0)", opacity: 1 },
+            ],
+            {
+              duration: 800,
+              delay: 200,
+              easing: QUART,
+              fill: "forwards",
+            }
+          );
+        }
+
+        const para = document.querySelector(".hero-para");
+        if (para) {
+          para.animate(
+            [
+              { transform: "translateY(14px)", opacity: 0 },
+              { transform: "translateY(0)", opacity: 1 },
+            ],
+            {
+              duration: 900,
+              delay: 580,
+              easing: QUART,
+              fill: "forwards",
+            }
+          );
+        }
+
+        const acts = document.querySelectorAll(".acts > *");
+        acts.forEach((act, idx) => {
+          act.animate(
+            [
+              { transform: "translateY(12px)", opacity: 0 },
+              { transform: "translateY(0)", opacity: 1 },
+            ],
+            {
+              duration: 800,
+              delay: 680 + idx * 70,
+              easing: QUART,
+              fill: "forwards",
+            }
+          );
+        });
+
+        // D. Columns fade & entrance drift
+        const visibleCols = document.querySelectorAll(".col");
+        visibleCols.forEach((col, idx) => {
+          col.animate(
+            [
+              { opacity: 0, transform: "translateY(50px)" },
+              { opacity: 1, transform: "translateY(0)" },
+            ],
+            {
+              duration: 1200,
+              delay: 250 + idx * 60,
+              easing: QUINT,
+              fill: "forwards",
+            }
+          );
+        });
+
+        // E. Cleanup intro class upon completion
+        setTimeout(() => {
+          document.documentElement.classList.remove("intro");
+          document.documentElement.setAttribute("data-entrance", "done");
+        }, 2100);
+      }
+    })();
+  </script>
+
+</body>
+</html>

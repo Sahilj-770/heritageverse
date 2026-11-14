@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* Museum Editorial Palette (Indian Cultural Heritage Resonance) */
+    --paper: #F5F1E8;
+    --sandstone: #E4DDD0;
+    --burgundy: #713C3C;
+    --antique-gold: #B18A55;
+    --ink: #282522;
+    --mineral-blue: #88A9B8;
+
+    /* Theme Aliases */
+    --bg-ivory: #F5F1E8;
+    --bg-parchment: #F0EAE0;
+    --bg-sandstone: #E4DDD0;
+    --bg-surface: #FFFFFF;
+    
+    --charcoal-900: #282522;
+    --charcoal-800: #332F2C;
+    --charcoal-700: #4A4440;
+    --charcoal-500: #6B635D;
+    --charcoal-400: #968D85;
+
+    --gold-600: #8F6C3E;
+    --gold-500: #B18A55;
+    --gold-400: #C7A574;
+    --gold-100: #F7EFE3;
+
+    --terracotta-700: #582C2C;
+    --terracotta-600: #713C3C;
+    --terracotta-500: #874747;
+    --terracotta-100: #F6EEEE;
+
+    --border-color: #E4DDD0;
+
+    /* Remote Assets */
+    --grain: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/40b7fef3-410d-4ef3-bd67-0a2fc7ee5a1d.svg");
+    --img-sculpt: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/fc524fc3-03c3-40a1-9954-22eab1322592.webp");
+    --img-man: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/1d56967e-0ed5-40f8-812d-9360e5ec1780.webp");
+    --img-visit: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/5f3f6135-26b9-4c48-92ad-105161327cbc.webp");
+    --img-sil: url("https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/e7b68ae9-9240-4f52-a0a2-89082df4b8d0.webp");
+  }
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  overflow-x: hidden;
+}
+
+/* Subtle archival tactile grain overlay */
+.archival-grain {
+  background-image: var(--grain);
+  background-size: 180px 180px;
+}
+
+/* Editorial typography */
+.font-serif-editorial {
+  font-family: var(--font-playfair), Georgia, "Times New Roman", serif;
+  letter-spacing: -0.015em;
+}
+
+.font-display-archivo {
+  font-family: var(--font-archivo), "Arial Black", Impact, sans-serif;
+  letter-spacing: -0.04em;
+}
+
+/* Monument card hover effects */
+.monument-card-img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.monument-card:hover .monument-card-img {
+  transform: scale(1.05);
+}
+
+/* Custom scrollbar for museum archive vibe */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--sandstone);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--antique-gold);
+}

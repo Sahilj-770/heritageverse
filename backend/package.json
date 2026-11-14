@@ -1,0 +1,14 @@
+{
+  "name": "heritageverse-backend",
+  "version": "1.0.0",
+  "description": "Express.js REST API for HeritageVerse National SDG 11.4 Archive",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}
