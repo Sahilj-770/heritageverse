@@ -134,14 +134,14 @@ export function ModelCanvas({
       scene.background = new THREE.Color(0x151312);
 
       const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-      camera.position.set(0, 18, 42);
+      camera.position.set(0, 14, 52);
 
-      // Grid / Cadastral Plinth
-      const grid = new THREE.GridHelper(70, 70, 0xb18a55, 0x3d3835);
+      // Subtle Cadastral Plinth Ground Reference
+      const grid = new THREE.GridHelper(90, 45, 0x5a4832, 0x24201c);
       const gridMat = grid.material as THREE.LineBasicMaterial;
-      gridMat.opacity = 0.35;
+      gridMat.opacity = 0.15;
       gridMat.transparent = true;
-      grid.position.y = -0.05;
+      grid.position.y = -1.82;
       scene.add(grid);
 
       // Studio Three-Point Lighting Setup

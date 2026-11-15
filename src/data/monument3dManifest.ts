@@ -15,7 +15,7 @@ export const MONUMENT_3D_MANIFEST: Record<string, Monument3DManifestEntry> = {
     hasWalkthrough: true,
     hasHistoricalReconstruction: true,
     exteriorModelUrl: "/models/monuments/shaniwar-wada/exterior/shaniwar-wada-exterior.glb",
-    modelSizeMB: 3.4,
+    modelSizeMB: 3.5,
     polygonCount: "8,900 Triangles (High-Detail Architectural PBR)",
     metadata: {
       sourceType: "Archaeological Survey of India (ASI) Measured Drawings & Maharashtra State Archives",

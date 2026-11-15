@@ -114,9 +114,9 @@ export function MonumentModelViewer({
         isOrbiting: false,
         orbitStart: { x: 0, y: 0, theta: 0, phi: 0 },
         theta: 0,
-        phi: 0.35,
-        radius: 38,
-        target: new THREE.Vector3(0, 4, 0),
+        phi: 0.26,
+        radius: 52,
+        target: new THREE.Vector3(0, 4.5, 12),
       };
 
       loadModel(modelUrl);
@@ -171,8 +171,8 @@ export function MonumentModelViewer({
 
     switch (cameraPresetTarget) {
       case "front":
-        threeRef.current.target.set(0, 6.2, 12);
-        cameraController.flyTo([0, 7.5, 34], [0, 6.2, 12], 0.08);
+        threeRef.current.target.set(0, 5.0, 14);
+        cameraController.flyTo([0, 11.5, 48], [0, 5.0, 14], 0.08);
         break;
       case "top":
         threeRef.current.target.set(0, 2, -10);

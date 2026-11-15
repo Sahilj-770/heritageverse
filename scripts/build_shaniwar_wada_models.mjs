@@ -615,29 +615,228 @@ console.log("Building Upgraded Shaniwar Wada Exterior Model (direct reference to
 const exteriorScene = new THREE.Scene();
 exteriorScene.name = "ShaniwarWada_Master_Exterior";
 
-// Base Lawn Ground Plane (matching Render Image 1 & 3: clean grass ground plane)
-const groundMesh = new THREE.Mesh(new THREE.BoxGeometry(96, 1.0, 96), lawnMat);
-groundMesh.position.set(0, -0.5, -8);
+// Base Lawn Ground Plane encompassing fort and outer grounds
+const groundMesh = new THREE.Mesh(new THREE.BoxGeometry(112, 1.0, 112), lawnMat);
+groundMesh.position.set(0, -1.8, 0);
 groundMesh.receiveShadow = true;
 exteriorScene.add(groundMesh);
+
+// Courtyard Interior Lawn (inside the 55m x 44m fort enclosure)
+const courtyardGround = new THREE.Mesh(new THREE.BoxGeometry(53, 0.4, 42), lawnMat);
+courtyardGround.position.set(0, -0.2, -10);
+courtyardGround.receiveShadow = true;
+exteriorScene.add(courtyardGround);
+
+// ── 1.0 DILLI DARWAZA REAL-LIFE FORECOURT & STEPPED AMPHITHEATRE COMPLEX ─────
+// Authentic replication of the famous Shaniwar Wada entrance grounds in Pune (IRL):
+// 1. Raised Semicircular Stone Forecourt Podium (Stage) directly in front of the twin bastions
+// 2. Central grand flight of stone steps connecting the podium to the lower lawns
+// 3. Concentric curved stepped amphitheatre seating terraces radiating into the lawn
+// 4. 3 radial paved aisles (spokes) cutting through the curved tiers
+// 5. Official ASI monument notice plinth and heritage pedestals
+const forecourtGroup = new THREE.Group();
+forecourtGroup.name = "Dilli_Darwaza_IRL_Forecourt_Amphitheatre_Complex";
+
+// ── 1.0.1 RAISED STONE FORECOURT PODIUM (STAGE) ─────────────────────────────
+// Rectangular core apron extending from gate front (z = 12m to 20.5m, x = -17m to +17m)
+const podiumRect = new THREE.Mesh(new THREE.BoxGeometry(34, 0.85, 8.5), pavingMat);
+podiumRect.position.set(0, 0.425, 16.25);
+podiumRect.receiveShadow = true;
+podiumRect.castShadow = true;
+forecourtGroup.add(podiumRect);
+
+// Semicircular Stage Apron projecting forward (radius = 12m, centered at z = 12.5m, reaching z = 24.5m)
+const stageFloorGeo = new THREE.RingGeometry(0.01, 12.0, 36, 1, Math.PI * 0.15, Math.PI * 0.7);
+stageFloorGeo.rotateX(-Math.PI / 2);
+stageFloorGeo.rotateY(Math.PI);
+const stageFloorMesh = new THREE.Mesh(stageFloorGeo, pavingMat);
+stageFloorMesh.position.set(0, 0.85, 12.5);
+stageFloorMesh.receiveShadow = true;
+forecourtGroup.add(stageFloorMesh);
+
+// Curved Basalt Ashlar Retaining Wall of the stage platform
+const stageWallGeo = new THREE.CylinderGeometry(12.0, 12.0, 0.85, 36, 1, true, -Math.PI * 0.35, Math.PI * 0.7);
+const stageWallMesh = new THREE.Mesh(stageWallGeo, basaltWallMat);
+stageWallMesh.position.set(0, 0.425, 12.5);
+stageWallMesh.castShadow = true;
+stageWallMesh.receiveShadow = true;
+forecourtGroup.add(stageWallMesh);
+
+// Projecting Dressed Stone Coping Rim along the curved edge of the podium
+const stageCopingGeo = new THREE.CylinderGeometry(12.18, 12.18, 0.12, 36, 1, true, -Math.PI * 0.35, Math.PI * 0.7);
+const stageCopingMesh = new THREE.Mesh(stageCopingGeo, dressedStoneMat);
+stageCopingMesh.position.set(0, 0.88, 12.5);
+stageCopingMesh.castShadow = true;
+forecourtGroup.add(stageCopingMesh);
+
+// Flanking Side Retaining Walls (West & East edges of the raised platform)
+const westRetaining = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.85, 8.5), basaltWallMat);
+westRetaining.position.set(-17.0, 0.425, 16.25);
+westRetaining.castShadow = true;
+forecourtGroup.add(westRetaining);
+
+const westCoping = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.12, 8.5), dressedStoneMat);
+westCoping.position.set(-17.0, 0.88, 16.25);
+forecourtGroup.add(westCoping);
+
+const eastRetaining = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.85, 8.5), basaltWallMat);
+eastRetaining.position.set(17.0, 0.425, 16.25);
+eastRetaining.castShadow = true;
+forecourtGroup.add(eastRetaining);
+
+const eastCoping = new THREE.Mesh(new THREE.BoxGeometry(0.95, 0.12, 8.5), dressedStoneMat);
+eastCoping.position.set(17.0, 0.88, 16.25);
+forecourtGroup.add(eastCoping);
+
+// ── 1.0.2 CENTRAL GRAND FLIGHT OF STEPS ─────────────────────────────────────
+// 5 wide stone steps cutting through the curved retaining wall from the podium to the lawn
+for (let s = 0; s < 5; s++) {
+  const sy = 0.68 - s * 0.17;
+  const sz = 23.8 + s * 0.62;
+  const sw = 5.2 + s * 0.25;
+  const step = new THREE.Mesh(new THREE.BoxGeometry(sw, 0.18, 0.65), pavingMat);
+  step.position.set(0, sy, sz);
+  step.receiveShadow = true;
+  step.castShadow = true;
+  forecourtGroup.add(step);
+}
+
+// Stepped stone cheek walls flanking the central steps
+for (let side of [-1, 1]) {
+  const cheek = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.75, 3.2), dressedStoneMat);
+  cheek.position.set(side * 3.0, 0.55, 25.0);
+  cheek.castShadow = true;
+  forecourtGroup.add(cheek);
+}
+
+// ── 1.0.3 CONCENTRIC STEPPED AMPHITHEATRE LAWN (SEATING TIERS) ──────────────
+// 4 concentric curved tiers radiating out from the forecourt stage (Drone & IRL Photos)
+const tiers = [
+  { rInner: 15.0, rOuter: 19.5, y: 0.0, riserY: -0.16, riserH: 0.32 },
+  { rInner: 19.5, rOuter: 24.5, y: -0.32, riserY: -0.48, riserH: 0.32 },
+  { rInner: 24.5, rOuter: 30.0, y: -0.64, riserY: -0.80, riserH: 0.32 },
+  { rInner: 30.0, rOuter: 36.0, y: -0.96, riserY: -1.12, riserH: 0.32 },
+];
+
+tiers.forEach((t) => {
+  // Curved stone retaining riser
+  const riserGeo = new THREE.CylinderGeometry(
+    t.rInner, t.rInner, t.riserH, 36, 1, true,
+    -Math.PI * 0.35, Math.PI * 0.7
+  );
+  const riserMesh = new THREE.Mesh(riserGeo, basaltWallMat);
+  riserMesh.position.set(0, t.riserY, 12.5);
+  riserMesh.castShadow = true;
+  riserMesh.receiveShadow = true;
+  forecourtGroup.add(riserMesh);
+
+  // Curved grass seating terrace tread
+  const grassGeo = new THREE.RingGeometry(
+    t.rInner, t.rOuter, 36, 1,
+    Math.PI * 0.15, Math.PI * 0.7
+  );
+  grassGeo.rotateX(-Math.PI / 2);
+  grassGeo.rotateY(Math.PI);
+  const grassMesh = new THREE.Mesh(grassGeo, lawnMat);
+  grassMesh.position.set(0, t.y, 12.5);
+  grassMesh.receiveShadow = true;
+  forecourtGroup.add(grassMesh);
+
+  // Stone coping lip on tier edge
+  const lipGeo = new THREE.CylinderGeometry(
+    t.rInner + 0.1, t.rInner + 0.1, 0.08, 36, 1, true,
+    -Math.PI * 0.35, Math.PI * 0.7
+  );
+  const lipMesh = new THREE.Mesh(lipGeo, dressedStoneMat);
+  lipMesh.position.set(0, t.y + 0.04, 12.5);
+  forecourtGroup.add(lipMesh);
+});
+
+// ── 1.0.4 THREE RADIAL PAVED AISLES (SPOKES CONNECTING TIERS) ────────────────
+// Center Aisle (X = 0)
+const centerAisle = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.06, 22), pavingMat);
+centerAisle.position.set(0, -0.45, 37);
+centerAisle.receiveShadow = true;
+forecourtGroup.add(centerAisle);
+
+// Flanking Angled Aisles (-28 deg West, +28 deg East)
+for (let angle of [-0.48, 0.48]) {
+  const aisle = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.06, 20), pavingMat);
+  aisle.rotation.y = angle;
+  const midR = 25.0;
+  aisle.position.set(
+    midR * Math.sin(angle),
+    -0.45,
+    12.5 + midR * Math.cos(angle)
+  );
+  aisle.receiveShadow = true;
+  forecourtGroup.add(aisle);
+}
+
+// ── 1.0.5 ASI HISTORICAL MONUMENT NOTICE PLINTHS & HERITAGE PEDESTALS ────────
+// Official Archaeological Survey of India (ASI) Inscription Pedestal (West side of podium)
+const asiPedestal = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.9, 0.7), dressedStoneMat);
+asiPedestal.position.set(-5.2, 1.3, 18.0);
+asiPedestal.castShadow = true;
+forecourtGroup.add(asiPedestal);
+
+const asiSignPlate = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.55, 0.08), blueSignMat);
+asiSignPlate.rotation.x = -0.38;
+asiSignPlate.position.set(-5.2, 1.95, 18.1);
+asiSignPlate.castShadow = true;
+forecourtGroup.add(asiSignPlate);
+
+const asiGoldHeader = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.12, 0.1), goldSignMat);
+asiGoldHeader.rotation.x = -0.38;
+asiGoldHeader.position.set(-5.2, 2.1, 18.16);
+forecourtGroup.add(asiGoldHeader);
+
+// Symmetrical Historic Information Plinth (East side of podium)
+const eastPedestal = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.9, 0.7), dressedStoneMat);
+eastPedestal.position.set(5.2, 1.3, 18.0);
+eastPedestal.castShadow = true;
+forecourtGroup.add(eastPedestal);
+
+const eastSignPlate = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.55, 0.08), blueSignMat);
+eastSignPlate.rotation.x = -0.38;
+eastSignPlate.position.set(5.2, 1.95, 18.1);
+eastSignPlate.castShadow = true;
+forecourtGroup.add(eastSignPlate);
+
+// Traditional Heritage Wrought-Iron Lamp Posts at the terrace corners
+for (let lx of [-16.2, 16.2]) {
+  const lampBase = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.35, 0.6, 8), ironMat);
+  lampBase.position.set(lx, 1.15, 20.0);
+  forecourtGroup.add(lampBase);
+
+  const lampPole = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.1, 2.8, 8), ironMat);
+  lampPole.position.set(lx, 2.85, 20.0);
+  lampPole.castShadow = true;
+  forecourtGroup.add(lampPole);
+
+  const lampLantern = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.6, 0.45), brassMat);
+  lampLantern.position.set(lx, 4.35, 20.0);
+  forecourtGroup.add(lampLantern);
+}
+
+// ── 1.0.6 DILLI DARWAZA THRESHOLD STEPS ─────────────────────────────────────
+// 3 Wide Dressed Stone Entrance Steps leading down from the portal into the forecourt
+for (let s = 0; s < 3; s++) {
+  const stepMesh = new THREE.Mesh(
+    new THREE.BoxGeometry(7.2 + s * 0.6, 0.2, 0.7),
+    pavingMat
+  );
+  stepMesh.position.set(0, 0.85 - s * 0.15, 14.2 + s * 0.7);
+  stepMesh.receiveShadow = true;
+  forecourtGroup.add(stepMesh);
+}
+
+exteriorScene.add(forecourtGroup);
 
 // ── 1.1 DILLI DARWAZA (DELHI GATE) & MONUMENTAL TWIN BASTIONS ───────────────
 // Direct reference to Render Image 3 (Front Gate Elevation) and Render Images 1, 4, 5
 const dilliDarwazaGroup = new THREE.Group();
 dilliDarwazaGroup.name = "Dilli_Darwaza_Master_Gate";
-
-// 4 Wide Dressed Stone Entrance Steps leading down to lawn (Render Image 3)
-const stepWidths = [7.0, 7.6, 8.2, 8.8];
-stepWidths.forEach((w, s) => {
-  const stepMesh = new THREE.Mesh(
-    new THREE.BoxGeometry(w, 0.2, 0.75),
-    pavingMat
-  );
-  // Extends from z = 14.4 to z = 16.65m
-  stepMesh.position.set(0, 0.7 - s * 0.2, 14.4 + s * 0.75);
-  stepMesh.receiveShadow = true;
-  dilliDarwazaGroup.add(stepMesh);
-});
 
 /**
  * Builds an authentic monumental bastion matching Render Images 3, 4, 5:
