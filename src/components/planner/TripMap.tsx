@@ -67,9 +67,15 @@ export function TripMap({
 
   const animFrameRef = useRef<number | null>(null);
   const progressRef = useRef(0);
-  progressRef.current = progress;
   const isPlayingRef = useRef(false);
-  isPlayingRef.current = isPlaying;
+
+  useEffect(() => {
+    progressRef.current = progress;
+  }, [progress]);
+
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
 
   // 1. Initialize MapLibre Map
   useEffect(() => {
@@ -142,7 +148,7 @@ export function TripMap({
   }, [routeGeometry, stops, transportMode]);
 
   // Add / Update GeoJSON Route Line
-  const addRouteLayer = (map: any, coords: [number, number][]) => {
+  function addRouteLayer(map: any, coords: [number, number][]) {
     const geojsonData: any = {
       type: "Feature",
       properties: {},
@@ -195,7 +201,7 @@ export function TripMap({
   };
 
   // Fit bounds around complete route with generous padding
-  const fitRouteBounds = (map: any, coords: [number, number][]) => {
+  function fitRouteBounds(map: any, coords: [number, number][]) {
     if (!coords || coords.length === 0) return;
     const bounds = coords.reduce(
       (b: any, c: [number, number]) => b.extend(c),
@@ -209,7 +215,7 @@ export function TripMap({
   };
 
   // Render Numbered Stop Markers on Map
-  const renderStopMarkers = (map: any, tripStops: TripStop[]) => {
+  function renderStopMarkers(map: any, tripStops: TripStop[]) {
     // Clear old markers
     stopMarkersRef.current.forEach((m) => m.remove());
     stopMarkersRef.current = [];
@@ -252,7 +258,7 @@ export function TripMap({
   };
 
   // Create or Update Traveler Marker (Car, Bike, etc.)
-  const createTravelerMarker = (map: any, coords: [number, number][], mode: TransportMode) => {
+  function createTravelerMarker(map: any, coords: [number, number][], mode: TransportMode) {
     if (travelerMarkerRef.current) {
       travelerMarkerRef.current.remove();
       travelerMarkerRef.current = null;
@@ -299,6 +305,8 @@ export function TripMap({
 
     travelerMarkerRef.current = marker;
   };
+
+  const animateStepRef = useRef<() => void>(() => {});
 
   // 3. Animation Loop: Glides along polyline using sub-pixel interpolation
   const animateStep = useCallback(() => {
@@ -359,8 +367,14 @@ export function TripMap({
       return;
     }
 
-    animFrameRef.current = requestAnimationFrame(animateStep);
+    animFrameRef.current = requestAnimationFrame(() => {
+      animateStepRef.current();
+    });
   }, [routeGeometry, activeSpeed, followTraveler, legs.length]);
+
+  useEffect(() => {
+    animateStepRef.current = animateStep;
+  }, [animateStep]);
 
   // Handle Play / Pause
   const handleTogglePlay = () => {

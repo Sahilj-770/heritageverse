@@ -285,14 +285,18 @@ export default function InteractiveMapPage() {
 
                 {/* Grid for 360° Tour & 3D Model Inspector */}
                 <div className="grid grid-cols-2 gap-2">
-                  {/* 3. Launch 360° Spherical Survey */}
+                  {/* 3. Launch 360° Spherical Survey or Archival Photo Study */}
                   {selectedMonument.tourScenes && selectedMonument.tourScenes.length > 0 ? (
                     <Link
                       href={`/tour/${selectedMonument.slug}`}
                       className="py-2.5 px-3 rounded-xl bg-[#B18A55] text-[#282522] hover:bg-[#C7A574] text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition-colors shadow-xs"
                     >
                       <Eye className="w-3.5 h-3.5" />
-                      <span>360° Tour</span>
+                      <span>
+                        {selectedMonument.tourScenes[0]?.sceneType === "equirectangular_360"
+                          ? "360° Tour"
+                          : "Visual Survey"}
+                      </span>
                     </Link>
                   ) : (
                     <button

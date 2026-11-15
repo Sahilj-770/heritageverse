@@ -45,6 +45,8 @@ export interface TourHotspot {
   description: string;
   yaw: number; // horizontal angle in degrees (-180 to 180)
   pitch: number; // vertical angle in degrees (-90 to 90)
+  x?: number; // horizontal coordinate percentage (0 - 100) for standard photographic view
+  y?: number; // vertical coordinate percentage (0 - 100) for standard photographic view
   type: "info" | "navigation";
   targetSceneId?: string;
   architecturalFeature?: string;
@@ -60,10 +62,24 @@ export interface TourSceneConnection {
   pitch: number;
 }
 
+export type SceneType = "equirectangular_360" | "standard_photo" | "unavailable";
+
+export interface SceneSourceMetadata {
+  sourceUrl?: string;
+  author?: string;
+  license?: string;
+  originalDimensions?: { width: number; height: number };
+  camera?: string;
+  dateTaken?: string;
+  verificationStatus: "verified_genuine_360" | "verified_authentic_photo" | "field_survey_pending";
+}
+
 export interface TourScene {
   id: string;
   name: string;
-  panoramaUrl: string;
+  sceneType?: SceneType;
+  panoramaUrl?: string;
+  standardPhotoUrl?: string;
   thumbnailUrl?: string;
   initialYaw: number;
   initialPitch: number;
@@ -71,6 +87,7 @@ export interface TourScene {
   historicalNotes: string;
   areaLabel?: string;
   surveyType?: "field_photographic" | "certified_lidar" | "archival_reconstruction";
+  sourceMetadata?: SceneSourceMetadata;
   connections?: TourSceneConnection[];
 }
 

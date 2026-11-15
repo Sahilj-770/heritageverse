@@ -29,16 +29,6 @@ export default function VirtualTourPage() {
     if (slug) {
       const data = HeritageStore.getMonumentBySlug(slug);
       if (data) {
-        // Double-check no stale alma or pannellum URLs slip through
-        if (data.tourScenes) {
-          data.tourScenes = data.tourScenes.map((s) => ({
-            ...s,
-            panoramaUrl:
-              s.panoramaUrl?.includes("alma") || s.panoramaUrl?.includes("pannellum.org")
-                ? `/images/panoramas/${data.slug}-360.jpg`
-                : s.panoramaUrl,
-          }));
-        }
         setMonument(data);
         HeritageStore.recordTourCompletion(data.id);
         if (data.tourScenes && data.tourScenes.length > 0) {
@@ -83,8 +73,10 @@ export default function VirtualTourPage() {
             <span>Plan Trip</span>
           </Link>
           <span className="hidden sm:inline font-medium text-[#EADFCF]">{monument.location}, {monument.state}</span>
-          <span className="px-2 py-0.5 rounded bg-[#262220] border border-[#3D3835] text-[#C5A059] font-medium">
-            Three.js / WebGL 360° Spherical
+          <span className="px-2.5 py-1 rounded-lg bg-[#262220] border border-[#3D3835] text-[#C5A059] font-medium text-[11px]">
+            {activeScene?.sceneType === "equirectangular_360"
+              ? "Three.js / WebGL 360° Spherical Survey"
+              : "Verified Archival Photography • High-Res Inspection"}
           </span>
         </div>
       </div>

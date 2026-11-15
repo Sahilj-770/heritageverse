@@ -72,9 +72,9 @@ export default function MonumentDetailPage() {
         <img
           src={monument.coverImage}
           alt={monument.name}
-          className="absolute inset-0 w-full h-full object-cover opacity-45"
+          className="absolute inset-0 w-full h-full object-cover opacity-80"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#282522] via-[#282522]/70 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#282522] via-[#282522]/40 to-black/20" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full text-white">
           <Link

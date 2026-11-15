@@ -479,9 +479,9 @@ export function CesiumHeritageGlobe({
               <Link
                 href={`/tour/${selectedMonument.slug}`}
                 className="px-3 py-2 rounded-xl bg-[#B18A55] text-[#181615] hover:bg-[#C7A574] text-xs font-bold uppercase tracking-wider text-center transition-colors shadow-sm"
-                title="Launch 360° Spherical Survey"
+                title="Launch Visual Survey"
               >
-                360°
+                {selectedMonument.tourScenes[0]?.sceneType === "equirectangular_360" ? "360°" : "Tour"}
               </Link>
             )}
           </div>

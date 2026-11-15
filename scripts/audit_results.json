@@ -1,0 +1,648 @@
+[
+  {
+    "id": "m-taj-mahal",
+    "slug": "taj-mahal",
+    "name": "Taj Mahal",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/taj-mahal.jpg",
+      "width": 3840,
+      "height": 2525,
+      "aspectRatio": "1.52",
+      "sizeBytes": 4639294,
+      "sizeKB": "4530.6"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "tm-hs-1",
+        "sceneName": "Central Charbagh & Reflecting Pool",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/taj-mahal-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 744309,
+          "sizeKB": "726.9"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/taj-mahal.jpg",
+          "width": 3840,
+          "height": 2525,
+          "aspectRatio": "1.52",
+          "sizeBytes": 4639294,
+          "sizeKB": "4530.6"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-qutub-minar",
+    "slug": "qutub-minar",
+    "name": "Qutub Minar Complex",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/qutub-minar.jpg",
+      "width": 2755,
+      "height": 3673,
+      "aspectRatio": "0.75",
+      "sizeBytes": 5765204,
+      "sizeKB": "5630.1"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "qm-hs-1",
+        "sceneName": "Quwwat-ul-Islam Mosque Courtyard",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/qutub-minar-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 350106,
+          "sizeKB": "341.9"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/qutub-minar.jpg",
+          "width": 2755,
+          "height": 3673,
+          "aspectRatio": "0.75",
+          "sizeBytes": 5765204,
+          "sizeKB": "5630.1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-red-fort",
+    "slug": "red-fort",
+    "name": "Red Fort (Lal Qila)",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/red-fort.jpg",
+      "width": 4242,
+      "height": 1949,
+      "aspectRatio": "2.18",
+      "sizeBytes": 5431623,
+      "sizeKB": "5304.3"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "rf-hs-1",
+        "sceneName": "Diwan-i-Khas (Hall of Private Audiences)",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/red-fort-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 268211,
+          "sizeKB": "261.9"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/red-fort.jpg",
+          "width": 4242,
+          "height": 1949,
+          "aspectRatio": "2.18",
+          "sizeBytes": 5431623,
+          "sizeKB": "5304.3"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-amer-fort",
+    "slug": "amer-fort",
+    "name": "Amer Fort & Palace",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/amer-fort.jpg",
+      "width": 6605,
+      "height": 3505,
+      "aspectRatio": "1.88",
+      "sizeBytes": 6755654,
+      "sizeKB": "6597.3"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "af-hs-1",
+        "sceneName": "Sheesh Mahal (Hall of Mirrors)",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/amer-fort-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 263735,
+          "sizeKB": "257.6"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/amer-fort.jpg",
+          "width": 6605,
+          "height": 3505,
+          "aspectRatio": "1.88",
+          "sizeBytes": 6755654,
+          "sizeKB": "6597.3"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-hawa-mahal",
+    "slug": "hawa-mahal",
+    "name": "Hawa Mahal (Palace of Winds)",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/hawa-mahal.jpg",
+      "width": 3756,
+      "height": 3236,
+      "aspectRatio": "1.16",
+      "sizeBytes": 5015717,
+      "sizeKB": "4898.2"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "hm-hs-1",
+        "sceneName": "Hawa Mandir Upper Terrace",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/hawa-mahal-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 403477,
+          "sizeKB": "394.0"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/hawa-mahal.jpg",
+          "width": 3756,
+          "height": 3236,
+          "aspectRatio": "1.16",
+          "sizeBytes": 5015717,
+          "sizeKB": "4898.2"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-konark-sun-temple",
+    "slug": "konark-sun-temple",
+    "name": "Sun Temple Konark",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/konark-sun-temple.jpg",
+      "width": 3888,
+      "height": 2592,
+      "aspectRatio": "1.50",
+      "sizeBytes": 5836288,
+      "sizeKB": "5699.5"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "kst-hs-1",
+        "sceneName": "Jagamohan Southern Chariot Wheel Plinth",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/konark-sun-temple-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 439664,
+          "sizeKB": "429.4"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/konark-sun-temple.jpg",
+          "width": 3888,
+          "height": 2592,
+          "aspectRatio": "1.50",
+          "sizeBytes": 5836288,
+          "sizeKB": "5699.5"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-victoria-memorial",
+    "slug": "victoria-memorial",
+    "name": "Victoria Memorial",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/victoria-memorial.jpg",
+      "width": 12725,
+      "height": 5694,
+      "aspectRatio": "2.23",
+      "sizeBytes": 11362412,
+      "sizeKB": "11096.1"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "vm-hs-1",
+        "sceneName": "Queens Central Rotunda Hall",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/victoria-memorial-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 208889,
+          "sizeKB": "204.0"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/victoria-memorial.jpg",
+          "width": 12725,
+          "height": 5694,
+          "aspectRatio": "2.23",
+          "sizeBytes": 11362412,
+          "sizeKB": "11096.1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-hampi-virupaksha",
+    "slug": "hampi-virupaksha",
+    "name": "Group of Monuments at Hampi",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/hampi-virupaksha.jpg",
+      "width": 2244,
+      "height": 1225,
+      "aspectRatio": "1.83",
+      "sizeBytes": 2275224,
+      "sizeKB": "2221.9"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "hp-hs-1",
+        "sceneName": "Vittala Temple Stone Chariot Courtyard",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/hampi-virupaksha-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 313913,
+          "sizeKB": "306.6"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/hampi-virupaksha.jpg",
+          "width": 2244,
+          "height": 1225,
+          "aspectRatio": "1.83",
+          "sizeBytes": 2275224,
+          "sizeKB": "2221.9"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-brihadisvara-temple",
+    "slug": "brihadisvara-temple",
+    "name": "Brihadisvara Temple (Big Temple)",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/brihadisvara-temple.jpg",
+      "width": 5849,
+      "height": 3655,
+      "aspectRatio": "1.60",
+      "sizeBytes": 17730998,
+      "sizeKB": "17315.4"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "bt-hs-1",
+        "sceneName": "Monolithic Nandi Mandapa & Outer Courtyard",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/brihadisvara-temple-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 219918,
+          "sizeKB": "214.8"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/brihadisvara-temple.jpg",
+          "width": 5849,
+          "height": 3655,
+          "aspectRatio": "1.60",
+          "sizeBytes": 17730998,
+          "sizeKB": "17315.4"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-meenakshi-temple",
+    "slug": "meenakshi-temple",
+    "name": "Meenakshi Amman Temple",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/meenakshi-temple.jpg",
+      "width": 2112,
+      "height": 2593,
+      "aspectRatio": "0.81",
+      "sizeBytes": 2342426,
+      "sizeKB": "2287.5"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "mt-hs-1",
+        "sceneName": "Aayiram Kaal Mandapam (Hall of Thousand Pillars)",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/meenakshi-temple-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 348915,
+          "sizeKB": "340.7"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/meenakshi-temple.jpg",
+          "width": 2112,
+          "height": 2593,
+          "aspectRatio": "0.81",
+          "sizeBytes": 2342426,
+          "sizeKB": "2287.5"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-khajuraho",
+    "slug": "khajuraho",
+    "name": "Khajuraho Group of Monuments",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/khajuraho.jpg",
+      "width": 4872,
+      "height": 3456,
+      "aspectRatio": "1.41",
+      "sizeBytes": 2878266,
+      "sizeKB": "2810.8"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "kj-hs-1",
+        "sceneName": "Kandariya Mahadeva Outer Ambulatory Plinth",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/khajuraho-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 172786,
+          "sizeKB": "168.7"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/khajuraho.jpg",
+          "width": 4872,
+          "height": 3456,
+          "aspectRatio": "1.41",
+          "sizeBytes": 2878266,
+          "sizeKB": "2810.8"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-sanchi-stupa",
+    "slug": "sanchi-stupa",
+    "name": "Great Stupa at Sanchi",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/sanchi-stupa.jpg",
+      "width": 4953,
+      "height": 3302,
+      "aspectRatio": "1.50",
+      "sizeBytes": 11430168,
+      "sizeKB": "11162.3"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "ss-hs-1",
+        "sceneName": "Northern Torana Gateway & Pradakshina Path",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/sanchi-stupa-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 312288,
+          "sizeKB": "305.0"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/sanchi-stupa.jpg",
+          "width": 4953,
+          "height": 3302,
+          "aspectRatio": "1.50",
+          "sizeBytes": 11430168,
+          "sizeKB": "11162.3"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-charminar",
+    "slug": "charminar",
+    "name": "Charminar & Hyderabad Citadel",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/charminar.jpg",
+      "width": 2174,
+      "height": 3071,
+      "aspectRatio": "0.71",
+      "sizeBytes": 2050449,
+      "sizeKB": "2002.4"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "cm-hs-1",
+        "sceneName": "First Floor Gallery & Open Arcade",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/charminar-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 274791,
+          "sizeKB": "268.4"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/charminar.jpg",
+          "width": 2174,
+          "height": 3071,
+          "aspectRatio": "0.71",
+          "sizeBytes": 2050449,
+          "sizeKB": "2002.4"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-ellora-caves",
+    "slug": "ellora-caves",
+    "name": "Kailasa Temple at Ellora Caves",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/ellora-caves.jpg",
+      "width": 5126,
+      "height": 2883,
+      "aspectRatio": "1.78",
+      "sizeBytes": 9776808,
+      "sizeKB": "9547.7"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "ec-hs-1",
+        "sceneName": "Main Monolithic Courtyard & Elephant Plinth",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/ellora-caves-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 299649,
+          "sizeKB": "292.6"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/ellora-caves.jpg",
+          "width": 5126,
+          "height": 2883,
+          "aspectRatio": "1.78",
+          "sizeBytes": 9776808,
+          "sizeKB": "9547.7"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-gateway-of-india",
+    "slug": "gateway-of-india",
+    "name": "Gateway of India",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/gateway-of-india.jpg",
+      "width": 3585,
+      "height": 3585,
+      "aspectRatio": "1.00",
+      "sizeBytes": 6242373,
+      "sizeKB": "6096.1"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "goi-hs-1",
+        "sceneName": "Apollo Bunder Waterfront Promenade",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/gateway-of-india-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 366951,
+          "sizeKB": "358.4"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/gateway-of-india.jpg",
+          "width": 3585,
+          "height": 3585,
+          "aspectRatio": "1.00",
+          "sizeBytes": 6242373,
+          "sizeKB": "6096.1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-shaniwar-wada",
+    "slug": "shaniwar-wada",
+    "name": "Shaniwar Wada",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/shaniwar-wada.jpg",
+      "width": 4608,
+      "height": 3072,
+      "aspectRatio": "1.50",
+      "sizeBytes": 4306061,
+      "sizeKB": "4205.1"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "sw-spot-1",
+        "sceneName": "Dilli Darwaza (Delhi Gate)",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/shaniwar-wada-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 210018,
+          "sizeKB": "205.1"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/shaniwar-wada.jpg",
+          "width": 4608,
+          "height": 3072,
+          "aspectRatio": "1.50",
+          "sizeBytes": 4306061,
+          "sizeKB": "4205.1"
+        }
+      }
+    ]
+  },
+  {
+    "id": "m-aga-khan-palace",
+    "slug": "aga-khan-palace",
+    "name": "Aga Khan Palace",
+    "coverImage": {
+      "exists": true,
+      "path": "public/images/monuments/aga-khan-palace.jpg",
+      "width": 4032,
+      "height": 3024,
+      "aspectRatio": "1.33",
+      "sizeBytes": 2710237,
+      "sizeKB": "2646.7"
+    },
+    "tourScenes": [
+      {
+        "sceneId": "ak-spot-1",
+        "sceneName": "Main Palace Portico & Grounds",
+        "panorama": {
+          "exists": true,
+          "path": "public/images/panoramas/aga-khan-palace-360.jpg",
+          "width": 2048,
+          "height": 1024,
+          "aspectRatio": "2.00",
+          "sizeBytes": 333803,
+          "sizeKB": "326.0"
+        },
+        "thumbnail": {
+          "exists": true,
+          "path": "public/images/monuments/aga-khan-palace.jpg",
+          "width": 4032,
+          "height": 3024,
+          "aspectRatio": "1.33",
+          "sizeBytes": 2710237,
+          "sizeKB": "2646.7"
+        }
+      }
+    ]
+  }
+]

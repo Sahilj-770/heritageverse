@@ -32,6 +32,12 @@ import {
   Landmark
 } from "lucide-react";
 
+let stopIdCounter = 0;
+function createStopId(prefix: string): string {
+  stopIdCounter += 1;
+  return `${prefix}-${stopIdCounter}`;
+}
+
 const TRANSPORT_MODES: {
   id: TransportMode;
   name: string;
@@ -234,7 +240,7 @@ export default function PlanTripPage() {
   // Add Monument as Stop
   const handleAddMonument = (monument: Monument) => {
     const newStop: TripStop = {
-      id: `stop-${monument.slug}-${Date.now()}`,
+      id: createStopId(`stop-${monument.slug}`),
       monumentId: monument.id,
       monumentSlug: monument.slug,
       name: monument.name,
@@ -277,7 +283,7 @@ export default function PlanTripPage() {
   // Add search result as stop
   const handleAddSearchResult = (result: any) => {
     const newStop: TripStop = {
-      id: `stop-custom-${Date.now()}`,
+      id: createStopId("stop-custom"),
       monumentId: result.monumentId,
       monumentSlug: result.monumentSlug,
       name: result.name,

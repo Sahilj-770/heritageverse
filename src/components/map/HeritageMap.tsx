@@ -322,7 +322,7 @@ export function HeritageMap({
                     font-weight: 800;
                     text-align: center;
                     display: block;
-                  ">360° Tour</a>
+                  ">${monument.tourScenes[0]?.sceneType === "equirectangular_360" ? "360° Tour" : "Visual Survey"}</a>
                 `
                     : ""
                 }

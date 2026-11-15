@@ -3,7 +3,7 @@ import { SAMPLE_COMMUNITY_SUBMISSIONS } from "@/data/sampleData";
 import { CommunitySubmission } from "@/types/heritage";
 
 // In-memory runtime persistence fallback
-let runtimeSubmissions: CommunitySubmission[] = [...SAMPLE_COMMUNITY_SUBMISSIONS];
+const runtimeSubmissions: CommunitySubmission[] = [...SAMPLE_COMMUNITY_SUBMISSIONS];
 
 export async function GET() {
   return NextResponse.json({

@@ -46,28 +46,44 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-taj-charbagh",
         name: "Central Charbagh & Reflecting Pool",
+        sceneType: "equirectangular_360",
         panoramaUrl: "/images/panoramas/taj-mahal-360.jpg",
+        standardPhotoUrl: "/images/monuments/taj-mahal.jpg",
         thumbnailUrl: "/images/monuments/taj-mahal.jpg",
         initialYaw: 0,
-        initialPitch: 4,
+        initialPitch: 0,
         historicalNotes: "The classical Persian Paradise garden quadripartite layout dividing the grounds into four quadrants by water channels representing the four rivers of Paradise.",
+        sourceMetadata: {
+                  "author": "Arul Prakasam T",
+                  "license": "CC BY-SA 4.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Taj_Mahal_360%C2%B0_View.jpg",
+                  "originalDimensions": {
+                            "width": 2048,
+                            "height": 1024
+                  },
+                  "verificationStatus": "verified_genuine_360"
+        },
         hotspots: [
-          {
-            id: "tm-hs-1",
-            title: "Lotus Dome Apex & Finial",
-            description: "Gilded bronze finial combining traditional Persian spearheads with the indigenous Hindu trident motif.",
-            yaw: 0,
-            pitch: 28,
-            type: "info"
-          },
-          {
-            id: "tm-hs-2",
-            title: "Pietra Dura Floral Parchin Kari",
-            description: "Precious jade, jasper, and carnelian inlaid into white Makrana marble plinths.",
-            yaw: -25,
-            pitch: 2,
-            type: "info"
-          }
+                  {
+                            "id": "tm-hs-1",
+                            "title": "Lotus Dome Apex & Finial",
+                            "description": "Gilded bronze finial combining traditional Persian spearheads with the indigenous Hindu trident motif.",
+                            "yaw": 0,
+                            "pitch": 28,
+                            "x": 50,
+                            "y": 22,
+                            "type": "info"
+                  },
+                  {
+                            "id": "tm-hs-2",
+                            "title": "Pietra Dura Floral Parchin Kari",
+                            "description": "Precious jade, jasper, and carnelian inlaid into white Makrana marble plinths.",
+                            "yaw": -25,
+                            "pitch": 2,
+                            "x": 42,
+                            "y": 64,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -130,20 +146,44 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-qutub-courtyard",
         name: "Quwwat-ul-Islam Mosque Courtyard",
-        panoramaUrl: "/images/panoramas/qutub-minar-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/qutub-minar.jpg",
         thumbnailUrl: "/images/monuments/qutub-minar.jpg",
-        initialYaw: 10,
-        initialPitch: 12,
+        initialYaw: 0,
+        initialPitch: 0,
         historicalNotes: "Courtyard colonnades assembled from carved stone pillars showing both Islamic geometric arches and indigenous Indian decorative motifs.",
+        sourceMetadata: {
+                  "author": "A.Savin (Wikimedia Commons)",
+                  "license": "Free Art License / CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Qutub_Minar_in_New_Delhi_03-2016_img3.jpg",
+                  "originalDimensions": {
+                            "width": 2755,
+                            "height": 3673
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "qm-hs-1",
-            title: "Gupta Era Iron Pillar",
-            description: "7.2-meter high forge-welded iron pillar containing high phosphorus that has resisted atmospheric corrosion for over 1,600 years.",
-            yaw: -30,
-            pitch: -8,
-            type: "info"
-          }
+                  {
+                            "id": "qm-hs-1",
+                            "title": "Fluted Sandstone Balconies",
+                            "description": "Cantilevered balconies supported by stalactite corbeling with intricate naskh Arabic inscriptions.",
+                            "yaw": 0,
+                            "pitch": 20,
+                            "x": 60,
+                            "y": 40,
+                            "type": "info"
+                  },
+                  {
+                            "id": "qm-hs-2",
+                            "title": "Quwwat-ul-Islam Archways",
+                            "description": "Screen of corbelled red sandstone arches constructed under Qutb-ud-din Aibak in 1192 CE.",
+                            "yaw": -30,
+                            "pitch": -10,
+                            "x": 30,
+                            "y": 70,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -206,20 +246,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-diwan-i-khas",
         name: "Diwan-i-Khas (Hall of Private Audiences)",
-        panoramaUrl: "/images/panoramas/red-fort-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/red-fort.jpg",
         thumbnailUrl: "/images/monuments/red-fort.jpg",
-        initialYaw: -15,
+        initialYaw: 0,
         initialPitch: 0,
-        historicalNotes: "White marble pavilion where the Peacock Throne originally rested, inscribed with the famous Persian couplet: 'If there be a paradise on earth, it is here, it is here, it is here.'",
+        historicalNotes: "White marble pavilion where the Peacock Throne originally rested, inscribed with the famous Persian couplet: ",
+        sourceMetadata: {
+                  "author": "Anurag Agnihotri (Wikimedia Commons)",
+                  "license": "CC BY 2.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Red_Fort,_Delhi.jpg",
+                  "originalDimensions": {
+                            "width": 4242,
+                            "height": 1949
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "rf-hs-1",
-            title: "Nahr-i-Bihisht (Stream of Paradise)",
-            description: "Continuous marble water canal that flowed through the center of the pavilions to naturally cool the chambers.",
-            yaw: 15,
-            pitch: -15,
-            type: "info"
-          }
+                  {
+                            "id": "rf-hs-1",
+                            "title": "Lahori Gate Chhatris",
+                            "description": "Octagonal twin bastions crowned with white marble chhatris framing the ceremonial western gate.",
+                            "yaw": 0,
+                            "pitch": 15,
+                            "x": 50,
+                            "y": 35,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -282,20 +336,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-sheesh-mahal",
         name: "Sheesh Mahal (Hall of Mirrors)",
-        panoramaUrl: "/images/panoramas/amer-fort-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/amer-fort.jpg",
         thumbnailUrl: "/images/monuments/amer-fort.jpg",
-        initialYaw: 20,
-        initialPitch: 5,
+        initialYaw: 0,
+        initialPitch: 0,
         historicalNotes: "Chamber adorned with thousands of imported Belgian concave mirror inlays that reflect a single candle beam into a starscape across the ceiling.",
+        sourceMetadata: {
+                  "author": "Fivespot (Wikimedia Commons)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Amber_Fort_wide_angle_panorama_from_the_road.jpg",
+                  "originalDimensions": {
+                            "width": 6605,
+                            "height": 3505
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "af-hs-1",
-            title: "Magic Flower Panel",
-            description: "Carved marble panel showing seven distinct motifs (fish tail, lotus, hooded cobra, elephant trunk) depending on viewing angle.",
-            yaw: 15,
-            pitch: -10,
-            type: "info"
-          }
+                  {
+                            "id": "af-hs-1",
+                            "title": "Sheesh Mahal Pavilion",
+                            "description": "Hall of Mirrors with imported Belgian convex glass mosaics reflecting single candleflames into thousands of stars.",
+                            "yaw": 0,
+                            "pitch": 10,
+                            "x": 55,
+                            "y": 45,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -358,20 +426,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-hawa-top",
         name: "Hawa Mandir Upper Terrace",
-        panoramaUrl: "/images/panoramas/hawa-mahal-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/hawa-mahal.jpg",
         thumbnailUrl: "/images/monuments/hawa-mahal.jpg",
-        initialYaw: 90,
-        initialPitch: -5,
+        initialYaw: 0,
+        initialPitch: 0,
         historicalNotes: "Fifth floor terrace overlooking the City Palace and Jantar Mantar observatory, capturing constant westerly mountain breezes.",
+        sourceMetadata: {
+                  "author": "Vikas Choudhary (Wikimedia Commons)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Hawa_Mahal_2011.jpg",
+                  "originalDimensions": {
+                            "width": 3756,
+                            "height": 3236
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "hm-hs-1",
-            title: "Stained Glass Arch Windows",
-            description: "Vibrant yellow and blue imported French stained glass casting kaleidoscopic morning shadows into the corridor.",
-            yaw: 75,
-            pitch: 10,
-            type: "info"
-          }
+                  {
+                            "id": "hm-hs-1",
+                            "title": "953 Jharokha Windows",
+                            "description": "Latticework casements engineered with the Venturi effect to circulate cool air throughout royal quarters.",
+                            "yaw": 0,
+                            "pitch": 15,
+                            "x": 50,
+                            "y": 50,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -434,20 +516,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-jagamohan-plinth",
         name: "Jagamohan Southern Chariot Wheel Plinth",
-        panoramaUrl: "/images/panoramas/konark-sun-temple-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/konark-sun-temple.jpg",
         thumbnailUrl: "/images/monuments/konark-sun-temple.jpg",
-        initialYaw: 45,
+        initialYaw: 0,
         initialPitch: 0,
         historicalNotes: "The 24 wheels symbolize the 24 fortnights of the solar year, with eight spokes representing the eight praharas (three-hour divisions) of the day.",
+        sourceMetadata: {
+                  "author": "G-u-t (Wikimedia Commons)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Konark_Sun_Temple,_Odisha.jpg",
+                  "originalDimensions": {
+                            "width": 3888,
+                            "height": 2592
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "kst-hs-1",
-            title: "Sundial Axle & Hub",
-            description: "The central hub casts a shadow along the bead markers of the rim, allowing time calculation accurate within minutes.",
-            yaw: 40,
-            pitch: -5,
-            type: "info"
-          }
+                  {
+                            "id": "kst-hs-1",
+                            "title": "24-Spoked Sun Chariot Wheels",
+                            "description": "Architectural sundials carved from chlorite stone capable of calculating precise time to the minute.",
+                            "yaw": 0,
+                            "pitch": 5,
+                            "x": 50,
+                            "y": 65,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -510,20 +606,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-queens-hall",
         name: "Queens Central Rotunda Hall",
-        panoramaUrl: "/images/panoramas/victoria-memorial-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/victoria-memorial.jpg",
         thumbnailUrl: "/images/monuments/victoria-memorial.jpg",
         initialYaw: 0,
-        initialPitch: 15,
+        initialPitch: 0,
         historicalNotes: "Towering central hall under the 56-meter main dome decorated with historic canvas murals depicting Indian historical scenes.",
+        sourceMetadata: {
+                  "author": "Avrajyoti Mitra (Wikimedia Commons)",
+                  "license": "CC BY-SA 4.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Victoria_Memorial_hall_with_reflection,_Kolkata.jpg",
+                  "originalDimensions": {
+                            "width": 12725,
+                            "height": 5694
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "vm-hs-1",
-            title: "Rotating Angel of Victory",
-            description: "16-foot, 3-ton bronze angel mounted on ball bearings atop the dome that acts as a giant wind vane.",
-            yaw: 0,
-            pitch: 45,
-            type: "info"
-          }
+                  {
+                            "id": "vm-hs-1",
+                            "title": "Central Dome & Angel of Victory",
+                            "description": "Indo-Saracenic central dome capped by a 16-foot bronze Angel of Victory rotating on ball bearings.",
+                            "yaw": 0,
+                            "pitch": 20,
+                            "x": 50,
+                            "y": 35,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -586,20 +696,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-vittala-chariot",
         name: "Vittala Temple Stone Chariot Courtyard",
-        panoramaUrl: "/images/panoramas/hampi-virupaksha-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/hampi-virupaksha.jpg",
         thumbnailUrl: "/images/monuments/hampi-virupaksha.jpg",
-        initialYaw: 30,
+        initialYaw: 0,
         initialPitch: 0,
         historicalNotes: "Shrine dedicated to Garuda carved from individual granite blocks with joints concealed by architectural bands, flanked by iconic stone wheels.",
+        sourceMetadata: {
+                  "author": "Dey.sandip (Wikimedia Commons)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Virupaksha_temple_Hampi.jpg",
+                  "originalDimensions": {
+                            "width": 2244,
+                            "height": 1225
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "hp-hs-1",
-            title: "Musical Granite Pillars",
-            description: "56 slender granite pillars carved out of single rock masses that produce distinct musical notes when struck gently.",
-            yaw: -45,
-            pitch: 5,
-            type: "info"
-          }
+                  {
+                            "id": "hp-hs-1",
+                            "title": "East Gopuram Entrance",
+                            "description": "Nine-tiered pyramidal gateway tower towering 50 meters above the Tungabhadra basin.",
+                            "yaw": 0,
+                            "pitch": 15,
+                            "x": 75,
+                            "y": 50,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -662,20 +786,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-nandi-pavilion",
         name: "Monolithic Nandi Mandapa & Outer Courtyard",
-        panoramaUrl: "/images/panoramas/brihadisvara-temple-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/brihadisvara-temple.jpg",
         thumbnailUrl: "/images/monuments/brihadisvara-temple.jpg",
-        initialYaw: -10,
-        initialPitch: 10,
+        initialYaw: 0,
+        initialPitch: 0,
         historicalNotes: "One of the largest monolithic Nandi statues in India, measuring 6 meters long and 3.7 meters high, carved from a single block of black granite.",
+        sourceMetadata: {
+                  "author": "Nagesh Jayaraman (Wikimedia Commons)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Brihadisvara_Temple_Thanjavur.jpg",
+                  "originalDimensions": {
+                            "width": 5849,
+                            "height": 3655
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "bt-hs-1",
-            title: "81-Ton Monolith Kumbam",
-            description: "The capstone resting at the pinnacle of the vimana, carved from a single granite block.",
-            yaw: 0,
-            pitch: 35,
-            type: "info"
-          }
+                  {
+                            "id": "bt-hs-1",
+                            "title": "Monolithic Kumbam Capstone",
+                            "description": "80-tonne single granite block hoisted to the 66-meter apex along a 6-kilometer inclined ramp.",
+                            "yaw": 0,
+                            "pitch": 25,
+                            "x": 52,
+                            "y": 30,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -738,20 +876,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-thousand-pillars",
         name: "Aayiram Kaal Mandapam (Hall of Thousand Pillars)",
-        panoramaUrl: "/images/panoramas/meenakshi-temple-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/meenakshi-temple.jpg",
         thumbnailUrl: "/images/monuments/meenakshi-temple.jpg",
-        initialYaw: -60,
+        initialYaw: 0,
         initialPitch: 0,
         historicalNotes: "Built in 1569 by Ariyanatha Mudaliar, containing 985 carved stone pillars arranged along two straight axes portraying dragon-lions, warriors, and dancers.",
+        sourceMetadata: {
+                  "author": "Bernard Gagnon (Wikimedia Commons)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Madurai_Meenakshi_Amman_temple_South_Tower.jpg",
+                  "originalDimensions": {
+                            "width": 2112,
+                            "height": 2593
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "mt-hs-1",
-            title: "Yali Sculpted Monoliths",
-            description: "Composite mythical beast combining lion body, elephant trunk, and boar tusks holding rotating stone balls in open jaws.",
-            yaw: -50,
-            pitch: 10,
-            type: "info"
-          }
+                  {
+                            "id": "mt-hs-1",
+                            "title": "Polychrome Stucco Sculptures",
+                            "description": "Over 1,500 brightly painted mythological figures repainted every 12 years in the traditional Ashtabandhana ritual.",
+                            "yaw": 0,
+                            "pitch": 10,
+                            "x": 50,
+                            "y": 45,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -814,20 +966,44 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-kandariya-plinth",
         name: "Kandariya Mahadeva Outer Ambulatory Plinth",
-        panoramaUrl: "/images/panoramas/khajuraho-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/khajuraho.jpg",
         thumbnailUrl: "/images/monuments/khajuraho.jpg",
-        initialYaw: 15,
-        initialPitch: 10,
+        initialYaw: 0,
+        initialPitch: 0,
         historicalNotes: "The temple rises 31 meters high and displays 872 surviving sculptures depicting musicians, celestial dancers (apsaras), and warrior processions.",
+        sourceMetadata: {
+                  "author": "Taru23 (Wiki Loves Monuments 2018)",
+                  "license": "CC BY-SA 4.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Kandariya_Mahadeva_Temple,_Khajuraho,_Madhya_Pradesh.jpg",
+                  "originalDimensions": {
+                            "width": 4872,
+                            "height": 3456
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "kj-hs-1",
-            title: "Mithuna Frieze Panel",
-            description: "Sculptural reliefs illustrating classical Kama philosophy integrated harmoniously into sacred outer temple plinths.",
-            yaw: 20,
-            pitch: -2,
-            type: "info"
-          }
+                  {
+                            "id": "kj-hs-1",
+                            "title": "Nagara Shikhara Tower",
+                            "description": "Towering 31-meter sandstone spire composed of 84 miniature replica shikharas symbolizing Mount Kailash.",
+                            "yaw": 0,
+                            "pitch": 20,
+                            "x": 57,
+                            "y": 35,
+                            "type": "info"
+                  },
+                  {
+                            "id": "kj-hs-2",
+                            "title": "Sculpted Ambulatory Friezes",
+                            "description": "Over 800 intricately carved sandstone sculptures depicting celestial nymphs, deities, and courtly celebrations.",
+                            "yaw": -15,
+                            "pitch": -5,
+                            "x": 52,
+                            "y": 72,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -890,20 +1066,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-sanchi-north-torana",
         name: "Northern Torana Gateway & Pradakshina Path",
-        panoramaUrl: "/images/panoramas/sanchi-stupa-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/sanchi-stupa.jpg",
         thumbnailUrl: "/images/monuments/sanchi-stupa.jpg",
         initialYaw: 0,
-        initialPitch: 15,
+        initialPitch: 0,
         historicalNotes: "The best-preserved torana at Sanchi, carved with Jataka tales, the miracle of Sravasti, and aniconic representations of Buddha (footprints, wheel, Bodhi tree).",
+        sourceMetadata: {
+                  "author": "Biswarup Ganguly (Wikimedia Commons)",
+                  "license": "CC BY 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Great_Stupa_at_Sanchi_01.jpg",
+                  "originalDimensions": {
+                            "width": 4953,
+                            "height": 3302
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "ss-hs-1",
-            title: "Salabhanjika Bracket Figure",
-            description: "Sensuous sculpted maiden holding a mango tree branch, balancing the outer crossbeam of the stone architrave.",
-            yaw: -20,
-            pitch: 18,
-            type: "info"
-          }
+                  {
+                            "id": "ss-hs-1",
+                            "title": "Carved Northern Torana",
+                            "description": "Intricately carved sandstone gateway architraves narrating Jataka tales of the Buddha's previous lives.",
+                            "yaw": 0,
+                            "pitch": 10,
+                            "x": 48,
+                            "y": 55,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -966,20 +1156,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-charminar-first-floor",
         name: "First Floor Gallery & Open Arcade",
-        panoramaUrl: "/images/panoramas/charminar-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/charminar.jpg",
         thumbnailUrl: "/images/monuments/charminar.jpg",
-        initialYaw: 90,
+        initialYaw: 0,
         initialPitch: 0,
         historicalNotes: "Overlooking the four historic cardinal gates (Char Kaman) through vaulted balconies carved in lime mortar and granite.",
+        sourceMetadata: {
+                  "author": "Masa-p (Wikimedia Commons)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Charminar_Hyderabad_1.jpg",
+                  "originalDimensions": {
+                            "width": 2174,
+                            "height": 3071
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "cm-hs-1",
-            title: "Upper Mosque Gallery",
-            description: "The western section of the second floor accommodates a sacred 45-seat open-air mosque with 30 fluted arches.",
-            yaw: 75,
-            pitch: 12,
-            type: "info"
-          }
+                  {
+                            "id": "cm-hs-1",
+                            "title": "48.7-meter Stucco Minarets",
+                            "description": "Four spiralling minarets with double balconies framing the 16th-century Qutb Shahi mosque on the top floor.",
+                            "yaw": 0,
+                            "pitch": 20,
+                            "x": 50,
+                            "y": 40,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -1042,20 +1246,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-kailasa-courtyard",
         name: "Main Monolithic Courtyard & Elephant Plinth",
-        panoramaUrl: "/images/panoramas/ellora-caves-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/ellora-caves.jpg",
         thumbnailUrl: "/images/monuments/ellora-caves.jpg",
-        initialYaw: -45,
-        initialPitch: 15,
+        initialYaw: 0,
+        initialPitch: 0,
         historicalNotes: "The central shrine stands 33 meters high inside an excavated pit measuring 82 meters long by 46 meters wide.",
+        sourceMetadata: {
+                  "author": "Sanjay Tiwari (Wikimedia Commons)",
+                  "license": "CC BY-SA 4.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Kailasa_temple_at_Ellora_caves.jpg",
+                  "originalDimensions": {
+                            "width": 5126,
+                            "height": 2883
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "ec-hs-1",
-            title: "Ravana Shaking Mount Kailash",
-            description: "Famous multi-tiered rock relief illustrating the demon king Ravana attempting to uproot the mountain while Shiva presses his toe down to trap him.",
-            yaw: -30,
-            pitch: -2,
-            type: "info"
-          }
+                  {
+                            "id": "ec-hs-1",
+                            "title": "Top-Down Basalt Excavation",
+                            "description": "Over 200,000 tonnes of volcanic rock carved with chisels and hammers without scaffoldings under Rashtrakuta rule.",
+                            "yaw": 0,
+                            "pitch": 10,
+                            "x": 55,
+                            "y": 55,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -1118,20 +1336,34 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-gateway-promenade",
         name: "Apollo Bunder Waterfront Promenade",
-        panoramaUrl: "/images/panoramas/gateway-of-india-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/gateway-of-india.jpg",
         thumbnailUrl: "/images/monuments/gateway-of-india.jpg",
-        initialYaw: 180,
-        initialPitch: 5,
+        initialYaw: 0,
+        initialPitch: 0,
         historicalNotes: "Facing the harbor where ferry boats depart for the Elephanta Island UNESCO rock-cut caves.",
+        sourceMetadata: {
+                  "author": "A.Savin (Wikimedia Commons)",
+                  "license": "Free Art License / CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Gateway_of_India_-_Mumbai.jpg",
+                  "originalDimensions": {
+                            "width": 3585,
+                            "height": 3585
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "goi-hs-1",
-            title: "Central Pierced Stone Jali Screen",
-            description: "Intricately carved stone latticework modeled directly after 16th-century Sultanate mosques of Gujarat.",
-            yaw: 175,
-            pitch: 15,
-            type: "info"
-          }
+                  {
+                            "id": "goi-hs-1",
+                            "title": "Yellow Basalt Triumphal Arch",
+                            "description": "Indo-Saracenic basalt archway designed by George Wittet blending 16th-century Gujarati architecture with Roman triumphalism.",
+                            "yaw": 0,
+                            "pitch": 10,
+                            "x": 50,
+                            "y": 50,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -1194,20 +1426,55 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-dilli-darwaza",
         name: "Dilli Darwaza (Delhi Gate)",
-        panoramaUrl: "/images/panoramas/shaniwar-wada-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/shaniwar-wada.jpg",
         thumbnailUrl: "/images/monuments/shaniwar-wada.jpg",
-        initialYaw: 15,
+        initialYaw: 0,
         initialPitch: 0,
         historicalNotes: "The massive northern portal oriented toward Delhi, fitted with 72 sharp steel spikes to deter armored war elephants.",
+        sourceMetadata: {
+                  "author": "Aakash Gautam (Wiki Loves Monuments)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_entrance_of_Shaniwar_Wada..JPG",
+                  "camera": "Nikon D3100 DSLR",
+                  "originalDimensions": {
+                            "width": 4608,
+                            "height": 3072
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "sw-spot-1",
-            title: "Elephant Spikes (Hatti-Kille)",
-            description: "Heavy forged iron spikes placed at eye-level of charging elephants to prevent wooden door battering.",
-            yaw: 12,
-            pitch: 5,
-            type: "info"
-          }
+                  {
+                            "id": "sw-spot-1",
+                            "title": "Elephant Spikes (Hatti-Kille)",
+                            "description": "Heavy forged iron spikes placed at eye-level of charging elephants to prevent wooden door battering.",
+                            "yaw": 12,
+                            "pitch": 5,
+                            "x": 48,
+                            "y": 76,
+                            "type": "info"
+                  },
+                  {
+                            "id": "sw-spot-2",
+                            "title": "Nagarkhana (Drum House)",
+                            "description": "Wooden canopied pavilion above the archway where ceremonial shehnai and drums announced the Peshwa's arrival.",
+                            "yaw": 0,
+                            "pitch": 20,
+                            "x": 48,
+                            "y": 42,
+                            "type": "info"
+                  },
+                  {
+                            "id": "sw-spot-3",
+                            "title": "Machicolated Granite Bastions",
+                            "description": "Twin semi-circular stone bastions engineered with narrow vertical arrow-slits to sweep approaching forces.",
+                            "yaw": -30,
+                            "pitch": 0,
+                            "x": 24,
+                            "y": 62,
+                            "type": "info"
+                  }
         ]
       }
     ],
@@ -1270,20 +1537,44 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       {
         id: "scene-aga-khan-lawn",
         name: "Main Palace Portico & Grounds",
-        panoramaUrl: "/images/panoramas/aga-khan-palace-360.jpg",
+        sceneType: "standard_photo",
+        panoramaUrl: undefined,
+        standardPhotoUrl: "/images/monuments/aga-khan-palace.jpg",
         thumbnailUrl: "/images/monuments/aga-khan-palace.jpg",
         initialYaw: 0,
-        initialPitch: 5,
+        initialPitch: 0,
         historicalNotes: "Wide exterior colonnade designed to shade visitors and retain cool indoor temperatures through classical air circulation shafts.",
+        sourceMetadata: {
+                  "author": "Maskaravivek (Wikimedia Commons)",
+                  "license": "CC BY-SA 3.0",
+                  "sourceUrl": "https://commons.wikimedia.org/wiki/File:Aga_Khan_Palace_Pune_2.jpg",
+                  "originalDimensions": {
+                            "width": 4032,
+                            "height": 3024
+                  },
+                  "verificationStatus": "verified_authentic_photo"
+        },
         hotspots: [
-          {
-            id: "ak-spot-1",
-            title: "Memorial Cenotaph Walkway",
-            description: "Pathway leading eastward to the marble samadhis created by architect Charles Correa.",
-            yaw: 75,
-            pitch: -5,
-            type: "info"
-          }
+                  {
+                            "id": "ak-spot-1",
+                            "title": "Italianate Arches & Loggias",
+                            "description": "Five-tiered European-influenced arches designed to facilitate cross-ventilation during Deccan summers.",
+                            "yaw": 0,
+                            "pitch": 10,
+                            "x": 45,
+                            "y": 55,
+                            "type": "info"
+                  },
+                  {
+                            "id": "ak-spot-2",
+                            "title": "Gandhi National Memorial Suite",
+                            "description": "The inner wing where Mahatma Gandhi, Kasturba Gandhi, and Mahadev Desai were interned following the Quit India movement in 1942.",
+                            "yaw": -20,
+                            "pitch": 0,
+                            "x": 25,
+                            "y": 65,
+                            "type": "info"
+                  }
         ]
       }
     ],

@@ -3,7 +3,7 @@ import { SAMPLE_CONSERVATION_REPORTS } from "@/data/sampleData";
 import { ConservationReport } from "@/types/heritage";
 
 // In-memory runtime persistence fallback
-let runtimeReports: ConservationReport[] = [...SAMPLE_CONSERVATION_REPORTS];
+const runtimeReports: ConservationReport[] = [...SAMPLE_CONSERVATION_REPORTS];
 
 export async function GET() {
   return NextResponse.json({
