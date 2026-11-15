@@ -401,6 +401,26 @@ const brassMat = new THREE.MeshStandardMaterial({
   metalness: 0.85,
 });
 
+// Enable DoubleSide on all architectural materials to eliminate any see-through or hollow faces
+[
+  basaltTowerMat,
+  basaltWallMat,
+  brickParapetMat,
+  sandstonePortalMat,
+  dressedStoneMat,
+  darkBasaltMat,
+  pavingMat,
+  teakGateMat,
+  carvedTimberMat,
+  stuccoMat,
+  ironMat,
+  marbleLotusMat,
+  terracottaRoofMat,
+  lawnMat,
+].forEach((mat) => {
+  mat.side = THREE.DoubleSide;
+});
+
 // Helper to export scene to GLB
 function saveSceneToGLB(scene, filePath) {
   return new Promise((resolve, reject) => {
@@ -629,40 +649,37 @@ function createMonumentalBastion(sideMultiplier, name) {
   const bGroup = new THREE.Group();
   bGroup.name = name;
 
-  // 1. Two-Tiered Stepped Plinth Base (Render Images 3 & 4)
+  // 1. Two-Tiered Stepped Plinth Base (Full 360° solid cylinders)
   const plinth1 = new THREE.Mesh(
-    new THREE.CylinderGeometry(5.2, 5.5, 0.35, 32, 1, false, 0, Math.PI),
+    new THREE.CylinderGeometry(5.2, 5.5, 0.35, 32),
     dressedStoneMat
   );
-  plinth1.rotation.y = Math.PI / 2;
   plinth1.position.y = 0.175;
   plinth1.receiveShadow = true;
   bGroup.add(plinth1);
 
   const plinth2 = new THREE.Mesh(
-    new THREE.CylinderGeometry(4.8, 5.1, 0.35, 32, 1, false, 0, Math.PI),
+    new THREE.CylinderGeometry(4.8, 5.1, 0.35, 32),
     dressedStoneMat
   );
-  plinth2.rotation.y = Math.PI / 2;
   plinth2.position.y = 0.525;
   plinth2.receiveShadow = true;
   bGroup.add(plinth2);
 
-  // 2. Lower Bastion Cylindrical Body (Textured Basalt Ashlar, y = 0.7m to 6.8m)
+  // 2. Lower Bastion Cylindrical Body (Full 360° solid cylinder, y = 0.7m to 6.8m)
   const lowerHeight = 6.1;
-  const towerGeo = new THREE.CylinderGeometry(4.5, 4.7, lowerHeight, 32, 1, false, 0, Math.PI);
+  const towerGeo = new THREE.CylinderGeometry(4.5, 4.7, lowerHeight, 32);
   const tower = new THREE.Mesh(towerGeo, basaltTowerMat);
-  tower.rotation.y = Math.PI / 2;
   tower.position.y = 0.7 + lowerHeight / 2; // y = 3.75m
   tower.castShadow = true;
   tower.receiveShadow = true;
   bGroup.add(tower);
 
   // 3. Row of Dark Vertical Arrow Slits directly UNDER the Mid-Cornice (Render Images 3 & 4)
-  // ~12 vertical black slit loops around the outer curve
+  // ~12 vertical black slit loops around the outer curve facing forward
   const numSlits = 12;
   for (let s = 1; s <= numSlits; s++) {
-    const angle = (s / (numSlits + 1)) * Math.PI - Math.PI / 2;
+    const angle = (s / (numSlits + 1)) * (Math.PI * 0.95) - (Math.PI * 0.475);
     const r = 4.54;
     const slit = new THREE.Mesh(new THREE.BoxGeometry(0.14, 1.25, 0.28), darkBasaltMat);
     slit.position.set(Math.sin(angle) * r, 6.1, Math.cos(angle) * r);
@@ -670,47 +687,41 @@ function createMonumentalBastion(sideMultiplier, name) {
     bGroup.add(slit);
   }
 
-  // 4. Projecting Mid-Cornice Torus & Moulding (y = 6.8m to 7.2m, Render Images 3 & 4)
+  // 4. Projecting Mid-Cornice Torus & Moulding (Full 360° solid rings, y = 6.8m to 7.2m)
   const lowerBevel = new THREE.Mesh(
-    new THREE.CylinderGeometry(4.75, 4.55, 0.15, 32, 1, false, 0, Math.PI),
+    new THREE.CylinderGeometry(4.75, 4.55, 0.15, 32),
     dressedStoneMat
   );
-  lowerBevel.rotation.y = Math.PI / 2;
   lowerBevel.position.y = 6.8;
   bGroup.add(lowerBevel);
 
   const torusMesh = new THREE.Mesh(
-    new THREE.CylinderGeometry(4.9, 4.9, 0.22, 32, 1, false, 0, Math.PI),
+    new THREE.CylinderGeometry(4.9, 4.9, 0.22, 32),
     dressedStoneMat
   );
-  torusMesh.rotation.y = Math.PI / 2;
   torusMesh.position.y = 6.98;
   bGroup.add(torusMesh);
 
   const upperBevel = new THREE.Mesh(
-    new THREE.CylinderGeometry(4.65, 4.9, 0.15, 32, 1, false, 0, Math.PI),
+    new THREE.CylinderGeometry(4.65, 4.9, 0.15, 32),
     dressedStoneMat
   );
-  upperBevel.rotation.y = Math.PI / 2;
   upperBevel.position.y = 7.16;
   bGroup.add(upperBevel);
 
-  // 5. Upper Faceted Drum (y = 7.25m to 10.0m, Render Images 3, 4, 5)
-  // Octagonal/faceted cylinder with 16 segments
+  // 5. Upper Faceted Drum (Full 360° 16-sided solid cylinder, y = 7.25m to 10.0m)
   const upperHeight = 2.75;
-  const upperDrumGeo = new THREE.CylinderGeometry(4.45, 4.6, upperHeight, 16, 1, false, 0, Math.PI);
+  const upperDrumGeo = new THREE.CylinderGeometry(4.45, 4.6, upperHeight, 16);
   const upperDrum = new THREE.Mesh(upperDrumGeo, basaltTowerMat);
-  upperDrum.rotation.y = Math.PI / 2;
   upperDrum.position.y = 7.25 + upperHeight / 2; // y = 8.62m
   upperDrum.castShadow = true;
   upperDrum.receiveShadow = true;
   bGroup.add(upperDrum);
 
-  // 6. Arched Machicolation Window Embrasures on each facet of upper drum (Render Images 3 & 4)
-  // ~6-7 arched openings around the front curve
+  // 6. Arched Machicolation Window Embrasures on each outward facet of upper drum
   const numWindows = 7;
   for (let w = 1; w <= numWindows; w++) {
-    const angle = (w / (numWindows + 1)) * Math.PI - Math.PI / 2;
+    const angle = (w / (numWindows + 1)) * (Math.PI * 0.9) - (Math.PI * 0.45);
     const r = 4.48;
 
     // Recessed dark window opening
@@ -721,7 +732,7 @@ function createMonumentalBastion(sideMultiplier, name) {
 
     // Rounded arch top moulding over window
     const archTop = new THREE.Mesh(
-      new THREE.CylinderGeometry(0.28, 0.28, 0.38, 12, 1, false, 0, Math.PI),
+      new THREE.CylinderGeometry(0.28, 0.28, 0.38, 12),
       dressedStoneMat
     );
     archTop.rotation.x = Math.PI / 2;
@@ -736,29 +747,28 @@ function createMonumentalBastion(sideMultiplier, name) {
     bGroup.add(sill);
   }
 
-  // 7. Projecting Stone Cornice Platform at top of drum (y = 10.0m)
+  // 7. Projecting Stone Cornice Platform at top of drum (Full 360° solid cylinder, y = 10.0m)
   const topCornice = new THREE.Mesh(
-    new THREE.CylinderGeometry(4.8, 4.45, 0.25, 32, 1, false, 0, Math.PI),
+    new THREE.CylinderGeometry(4.8, 4.45, 0.25, 32),
     dressedStoneMat
   );
-  topCornice.rotation.y = Math.PI / 2;
   topCornice.position.y = 10.12;
   bGroup.add(topCornice);
 
-  // 8. Crenellated Parapet with Merlons & Slits (Render Images 3 & 4)
-  const numMerlons = 8;
+  // 8. Crenellated Parapet with Merlons & Slits around the exposed outer curve
+  const numMerlons = 10;
   for (let m = 0; m < numMerlons; m++) {
-    const angle = (m / (numMerlons - 1)) * (Math.PI * 0.88) - (Math.PI * 0.44);
+    const angle = (m / (numMerlons - 1)) * (Math.PI * 1.1) - (Math.PI * 0.55);
     const r = 4.62;
 
     // Solid merlon block
-    const merlon = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.95, 0.42), basaltTowerMat);
+    const merlon = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.95, 0.42), basaltTowerMat);
     merlon.position.set(Math.sin(angle) * r, 10.72, Math.cos(angle) * r);
     merlon.rotation.y = angle;
     bGroup.add(merlon);
 
     // Sloped stone cap
-    const cap = new THREE.Mesh(new THREE.BoxGeometry(0.88, 0.14, 0.46), dressedStoneMat);
+    const cap = new THREE.Mesh(new THREE.BoxGeometry(0.84, 0.14, 0.46), dressedStoneMat);
     cap.position.set(Math.sin(angle) * r, 11.26, Math.cos(angle) * r);
     cap.rotation.y = angle;
     bGroup.add(cap);
@@ -770,12 +780,11 @@ function createMonumentalBastion(sideMultiplier, name) {
     bGroup.add(slit);
   }
 
-  // 9. Flat Paved Terrace Floor
+  // 9. Flat Paved Terrace Floor (Full 360° solid circular platform)
   const terrace = new THREE.Mesh(
-    new THREE.CylinderGeometry(4.45, 4.45, 0.2, 32, 1, false, 0, Math.PI),
+    new THREE.CylinderGeometry(4.45, 4.45, 0.2, 32),
     pavingMat
   );
-  terrace.rotation.y = Math.PI / 2;
   terrace.position.y = 10.1;
   bGroup.add(terrace);
 
@@ -1324,9 +1333,19 @@ bastionCoords.forEach((b) => {
   bTopCornice.position.y = 9.25;
   bGroup.add(bTopCornice);
 
-  const bParapet = new THREE.Mesh(new THREE.CylinderGeometry(4.1, 4.1, 0.9, 24, 1, true), basaltTowerMat);
-  bParapet.position.y = 9.8;
-  bGroup.add(bParapet);
+  // Solid Merlons around secondary bastion
+  for (let m = 0; m < 8; m++) {
+    const angle = (m / 8) * Math.PI * 2;
+    const merlon = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.85, 0.38), basaltTowerMat);
+    merlon.position.set(Math.sin(angle) * 3.85, 9.8, Math.cos(angle) * 3.85);
+    merlon.rotation.y = angle;
+    bGroup.add(merlon);
+
+    const cap = new THREE.Mesh(new THREE.BoxGeometry(0.8, 0.12, 0.42), dressedStoneMat);
+    cap.position.set(Math.sin(angle) * 3.85, 10.28, Math.cos(angle) * 3.85);
+    cap.rotation.y = angle;
+    bGroup.add(cap);
+  }
 
   const bTerrace = new THREE.Mesh(new THREE.CylinderGeometry(3.8, 3.8, 0.2, 24), pavingMat);
   bTerrace.position.y = 9.3;
