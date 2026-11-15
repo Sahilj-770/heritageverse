@@ -1,7 +1,7 @@
 "use client";
 
 import { Monument } from "@/types/heritage";
-import { MonumentExperience } from "./3d/MonumentExperience";
+import { MonumentExperienceWrapper } from "./3d/MonumentExperienceWrapper";
 import { X, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
@@ -52,7 +52,7 @@ export function MonumentModelViewer({ monument, onClose }: MonumentModelViewerPr
 
         {/* 3D Museum Experience Component */}
         <div className="w-full aspect-[16/9] min-h-[500px]">
-          <MonumentExperience monumentSlug={monument.slug} onClose={onClose} />
+          <MonumentExperienceWrapper monumentSlug={monument.slug} onClose={onClose} />
         </div>
       </div>
     </div>

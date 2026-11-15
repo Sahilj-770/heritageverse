@@ -6,7 +6,14 @@ import Link from "next/link";
 import { Monument } from "@/types/heritage";
 import { HeritageStore } from "@/lib/heritageStore";
 import { HeritageMap } from "@/components/map/HeritageMap";
-import { MonumentModelViewer } from "@/components/monuments/MonumentModelViewer";
+
+const MonumentModelViewer = dynamic(
+  () =>
+    import("@/components/monuments/MonumentModelViewer").then(
+      (mod) => mod.MonumentModelViewer
+    ),
+  { ssr: false }
+);
 import { 
   MapPin, 
   Compass, 

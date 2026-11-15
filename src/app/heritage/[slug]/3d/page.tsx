@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { SAMPLE_MONUMENTS } from "@/data/sampleData";
-import { MonumentExperience } from "@/components/monuments/3d/MonumentExperience";
+import { MonumentExperienceWrapper } from "@/components/monuments/3d/MonumentExperienceWrapper";
 import { ChevronLeft, Compass, Info, ShieldCheck, Navigation } from "lucide-react";
 
 interface Props {
@@ -80,7 +80,7 @@ export default async function Monument3DPage({ params }: Props) {
 
       {/* ── Main Full-Screen 3D Interactive Museum Container ─────────── */}
       <main className="flex-1 relative w-full h-[calc(100vh-64px)] overflow-hidden">
-        <MonumentExperience
+        <MonumentExperienceWrapper
           monumentSlug={monument.slug}
           className="h-full w-full rounded-none border-none"
         />

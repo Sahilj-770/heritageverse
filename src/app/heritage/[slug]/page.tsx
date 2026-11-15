@@ -23,7 +23,7 @@ import {
   Box
 } from "lucide-react";
 import { HeritageCompanion } from "@/components/companion/HeritageCompanion";
-import { MonumentExperience } from "@/components/monuments/3d/MonumentExperience";
+import { MonumentExperienceWrapper } from "@/components/monuments/3d/MonumentExperienceWrapper";
 
 export default function MonumentDetailPage() {
   const params = useParams();
@@ -207,7 +207,7 @@ export default function MonumentDetailPage() {
                 Explore authentic 3D geometry grounded in Archaeological Survey of India (ASI) cadastral surveys. Toggle between the exterior monument explorer, first-person interior walkthrough, and documented historical reconstructions.
               </p>
               <div className="w-full aspect-[16/9] min-h-[480px] rounded-3xl overflow-hidden shadow-2xl border border-[#E4DDD0]">
-                <MonumentExperience monumentSlug={monument.slug} />
+                <MonumentExperienceWrapper monumentSlug={monument.slug} />
               </div>
             </section>
 
