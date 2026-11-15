@@ -84,26 +84,26 @@ const OUT_DIR_HISTORICAL = "public/models/monuments/shaniwar-wada/historical";
 
 // ─── PROCEDURAL PBR TEXTURE GENERATORS ───────────────────────────────────────
 
-/** 1. Basalt Ashlar Stone: Coursed masonry with distinct mortar joints and natural stone grain */
+/** 1. Basalt Ashlar Stone: Soft natural coursed masonry with subtle mortar and realistic stone tone */
 function generateBasaltStonePixels(w = 512, h = 512) {
   const data = new Uint8Array(w * h * 4);
-  const bh = 32, bw = 64;
+  const bh = 48, bw = 96;
   for (let y = 0; y < h; y++) {
     const row = Math.floor(y / bh);
-    const isMortarY = (y % bh <= 1 || y % bh >= bh - 2);
+    const isMortarY = (y % bh === 0 || y % bh === bh - 1);
     const xOffset = (row % 2) * (bw / 2);
     for (let x = 0; x < w; x++) {
       const col = Math.floor((x + xOffset) / bw);
-      const isMortarX = ((x + xOffset) % bw <= 1 || (x + xOffset) % bw >= bw - 2);
+      const isMortarX = ((x + xOffset) % bw === 0 || (x + xOffset) % bw === bw - 1);
       const idx = (y * w + x) * 4;
-      const blockHash = ((row * 137 + col * 269) % 25) - 12;
-      const pixelNoise = ((x * 19 + y * 43) % 11) - 5;
+      const blockHash = ((row * 137 + col * 269) % 19) - 9;
+      const pixelNoise = ((x * 19 + y * 43) % 7) - 3;
       if (isMortarY || isMortarX) {
-        data[idx] = 62; data[idx+1] = 58; data[idx+2] = 54; data[idx+3] = 255;
+        data[idx] = 108; data[idx+1] = 104; data[idx+2] = 98; data[idx+3] = 255;
       } else {
-        data[idx] = Math.max(0, Math.min(255, 146 + blockHash + pixelNoise));
-        data[idx+1] = Math.max(0, Math.min(255, 142 + blockHash + pixelNoise));
-        data[idx+2] = Math.max(0, Math.min(255, 136 + blockHash + pixelNoise));
+        data[idx] = Math.max(0, Math.min(255, 142 + blockHash + pixelNoise));
+        data[idx+1] = Math.max(0, Math.min(255, 138 + blockHash + pixelNoise));
+        data[idx+2] = Math.max(0, Math.min(255, 132 + blockHash + pixelNoise));
         data[idx+3] = 255;
       }
     }
@@ -111,26 +111,26 @@ function generateBasaltStonePixels(w = 512, h = 512) {
   return data;
 }
 
-/** 2. Terracotta Brick: Running bond brickwork for upper rampart parapet */
+/** 2. Terracotta Brick: Subtle running bond brickwork for upper rampart parapet */
 function generateTerracottaBrickPixels(w = 512, h = 512) {
   const data = new Uint8Array(w * h * 4);
-  const bh = 16, bw = 36;
+  const bh = 24, bw = 54;
   for (let y = 0; y < h; y++) {
     const row = Math.floor(y / bh);
-    const isMortarY = (y % bh <= 1 || y % bh >= bh - 2);
+    const isMortarY = (y % bh === 0 || y % bh === bh - 1);
     const xOffset = (row % 2) * (bw / 2);
     for (let x = 0; x < w; x++) {
       const col = Math.floor((x + xOffset) / bw);
-      const isMortarX = ((x + xOffset) % bw <= 1 || (x + xOffset) % bw >= bw - 2);
+      const isMortarX = ((x + xOffset) % bw === 0 || (x + xOffset) % bw === bw - 1);
       const idx = (y * w + x) * 4;
-      const blockHash = ((row * 131 + col * 257) % 23) - 11;
-      const pixelNoise = ((x * 17 + y * 31) % 9) - 4;
+      const blockHash = ((row * 131 + col * 257) % 19) - 9;
+      const pixelNoise = ((x * 17 + y * 31) % 7) - 3;
       if (isMortarY || isMortarX) {
-        data[idx] = 110; data[idx+1] = 95; data[idx+2] = 85; data[idx+3] = 255;
+        data[idx] = 125; data[idx+1] = 110; data[idx+2] = 100; data[idx+3] = 255;
       } else {
         data[idx] = Math.max(0, Math.min(255, 165 + blockHash + pixelNoise));
-        data[idx+1] = Math.max(0, Math.min(255, 96 + Math.floor(blockHash * 0.7) + pixelNoise));
-        data[idx+2] = Math.max(0, Math.min(255, 78 + Math.floor(blockHash * 0.6) + pixelNoise));
+        data[idx+1] = Math.max(0, Math.min(255, 102 + Math.floor(blockHash * 0.7) + pixelNoise));
+        data[idx+2] = Math.max(0, Math.min(255, 84 + Math.floor(blockHash * 0.6) + pixelNoise));
         data[idx+3] = 255;
       }
     }
@@ -234,18 +234,21 @@ function createDataTexture(rawUint8, width, height, repX = 1, repY = 1) {
   tex.wrapS = THREE.RepeatWrapping;
   tex.wrapT = THREE.RepeatWrapping;
   tex.repeat.set(repX, repY);
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  tex.magFilter = THREE.LinearFilter;
   tex.needsUpdate = true;
   return tex;
 }
 
 console.log("Generating procedural PBR texture maps...");
-const stoneTexTower = createDataTexture(generateBasaltStonePixels(512, 512), 512, 512, 4, 3);
-const stoneTexWall = createDataTexture(generateBasaltStonePixels(512, 512), 512, 512, 6, 2);
-const brickTexParapet = createDataTexture(generateTerracottaBrickPixels(512, 512), 512, 512, 8, 2);
+const stoneTexTower = createDataTexture(generateBasaltStonePixels(512, 512), 512, 512, 3, 2);
+const stoneTexWall = createDataTexture(generateBasaltStonePixels(512, 512), 512, 512, 4, 1.5);
+const brickTexParapet = createDataTexture(generateTerracottaBrickPixels(512, 512), 512, 512, 5, 1.5);
 const sandstoneTexPortal = createDataTexture(generateBuffSandstonePixels(256, 256), 256, 256, 2, 2);
 const teakTexGate = createDataTexture(generateTeakwoodPixels(256, 256), 256, 256, 2, 2);
-const lawnTexGround = createDataTexture(generateLawnPixels(256, 256), 256, 256, 12, 12);
-const pavingTexGround = createDataTexture(generatePavingPixels(256, 256), 256, 256, 6, 6);
+const lawnTexGround = createDataTexture(generateLawnPixels(256, 256), 256, 256, 8, 8);
+const pavingTexGround = createDataTexture(generatePavingPixels(256, 256), 256, 256, 4, 4);
 
 // ─── MATERIALS MATCHING 3D RENDERS ──────────────────────────────────────────
 
@@ -1127,7 +1130,7 @@ nWallE.position.set(18.5, 0, 12);
 fortWallsGroup.add(nWallE);
 
 // West Wall (with Jambhul / Narayan Darwaza)
-const wWallN = createTwoToneWallSection(18, false);
+const wWallN = createTwoToneWallSection(16, false);
 wWallN.position.set(-27.5, 0, 1);
 // Parapet faces West (-X)
 wWallN.children[1].position.x = 0.6; // walkway inner
@@ -1136,7 +1139,7 @@ wWallN.children[3].position.x = -0.9; // coping
 for (let c = 4; c < wWallN.children.length; c++) wWallN.children[c].position.x = -0.9;
 fortWallsGroup.add(wWallN);
 
-const wWallS = createTwoToneWallSection(18, false);
+const wWallS = createTwoToneWallSection(16, false);
 wWallS.position.set(-27.5, 0, -21);
 wWallS.children[1].position.x = 0.6;
 wWallS.children[2].position.x = -0.9;
@@ -1144,97 +1147,71 @@ wWallS.children[3].position.x = -0.9;
 for (let c = 4; c < wWallS.children.length; c++) wWallS.children[c].position.x = -0.9;
 fortWallsGroup.add(wWallS);
 
-// GATE 2: JAMBHUL DARWAZA (NARAYAN GATE) on the West Wall
+// GATE 2: JAMBHUL DARWAZA (NARAYAN GATE) - Flush postern within West curtain wall
 const jambhulGateGroup = new THREE.Group();
 jambhulGateGroup.name = "Jambhul_Narayan_Darwaza";
 
-const jambhulArch = new THREE.Mesh(new THREE.BoxGeometry(3.6, 6.8, 4.4), sandstonePortalMat);
-jambhulArch.position.set(-27.5, 3.4, -10);
-jambhulArch.castShadow = true;
-jambhulGateGroup.add(jambhulArch);
-
-const jambhulDoors = new THREE.Mesh(new THREE.BoxGeometry(0.3, 5.0, 2.6), teakGateMat);
-jambhulDoors.position.set(-27.5, 2.5, -10);
+const jambhulDoors = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4.8, 2.2), teakGateMat);
+jambhulDoors.position.set(-27.5, 2.4, -17);
 jambhulGateGroup.add(jambhulDoors);
 
-for (let iy = 0.8; iy <= 4.6; iy += 0.9) {
-  const band = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.12, 2.6), ironMat);
-  band.position.set(-27.5, iy, -10);
+for (let iy = 0.8; iy <= 4.4; iy += 0.9) {
+  const band = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.1, 2.2), ironMat);
+  band.position.set(-27.5, iy, -17);
   jambhulGateGroup.add(band);
 }
 fortWallsGroup.add(jambhulGateGroup);
 
-// East Wall (with Mastani Darwaza & Khidki Darwaza)
-const eWallN = createTwoToneWallSection(10, false);
-eWallN.position.set(27.5, 0, 6);
+// East Wall (Continuous curtain wall with flush Mastani & Khidki posterns)
+const eWallN = createTwoToneWallSection(16, false);
+eWallN.position.set(27.5, 0, 1);
 eWallN.children[1].position.x = -0.6; // walkway inner
 eWallN.children[2].position.x = 0.9; // brick parapet outer
 eWallN.children[3].position.x = 0.9;
 for (let c = 4; c < eWallN.children.length; c++) eWallN.children[c].position.x = 0.9;
 fortWallsGroup.add(eWallN);
 
-const eWallMid = createTwoToneWallSection(12, false);
-eWallMid.position.set(27.5, 0, -8);
-eWallMid.children[1].position.x = -0.6;
-eWallMid.children[2].position.x = 0.9;
-eWallMid.children[3].position.x = 0.9;
-for (let c = 4; c < eWallMid.children.length; c++) eWallMid.children[c].position.x = 0.9;
-fortWallsGroup.add(eWallMid);
-
-const eWallS = createTwoToneWallSection(10, false);
-eWallS.position.set(27.5, 0, -24);
+const eWallS = createTwoToneWallSection(16, false);
+eWallS.position.set(27.5, 0, -21);
 eWallS.children[1].position.x = -0.6;
 eWallS.children[2].position.x = 0.9;
 eWallS.children[3].position.x = 0.9;
 for (let c = 4; c < eWallS.children.length; c++) eWallS.children[c].position.x = 0.9;
 fortWallsGroup.add(eWallS);
 
-// GATE 3: MASTANI DARWAZA (ALI BAHADUR GATE) on North-East Wall
+// GATE 3: MASTANI DARWAZA (ALI BAHADUR GATE) - Flush postern within East curtain wall
 const mastaniGateGroup = new THREE.Group();
 mastaniGateGroup.name = "Mastani_Darwaza";
 
-const mastaniArch = new THREE.Mesh(new THREE.BoxGeometry(3.6, 6.4, 3.8), sandstonePortalMat);
-mastaniArch.position.set(27.5, 3.2, 0.5);
-mastaniArch.castShadow = true;
-mastaniGateGroup.add(mastaniArch);
-
-const mastaniDoor = new THREE.Mesh(new THREE.BoxGeometry(0.3, 4.6, 2.2), teakGateMat);
-mastaniDoor.position.set(27.5, 2.3, 0.5);
+const mastaniDoor = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4.6, 2.0), teakGateMat);
+mastaniDoor.position.set(27.5, 2.3, 1);
 mastaniGateGroup.add(mastaniDoor);
 
 for (let iy = 0.8; iy <= 4.0; iy += 0.8) {
-  const band = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.1, 2.2), ironMat);
-  band.position.set(27.5, iy, 0.5);
+  const band = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.1, 2.0), ironMat);
+  band.position.set(27.5, iy, 1);
   mastaniGateGroup.add(band);
 }
 fortWallsGroup.add(mastaniGateGroup);
 
-// GATE 4: KHIDKI DARWAZA (WINDOW GATE) on East Wall
+// GATE 4: KHIDKI DARWAZA (WINDOW GATE) - Flush postern within East curtain wall
 const khidkiGateGroup = new THREE.Group();
 khidkiGateGroup.name = "Khidki_Darwaza";
 
-const khidkiArch = new THREE.Mesh(new THREE.BoxGeometry(3.6, 6.4, 3.8), sandstonePortalMat);
-khidkiArch.position.set(27.5, 3.2, -16.5);
-khidkiArch.castShadow = true;
-khidkiGateGroup.add(khidkiArch);
-
-const khidkiDoor = new THREE.Mesh(new THREE.BoxGeometry(0.3, 4.6, 2.2), teakGateMat);
-khidkiDoor.position.set(27.5, 2.3, -16.5);
+const khidkiDoor = new THREE.Mesh(new THREE.BoxGeometry(0.2, 4.6, 2.0), teakGateMat);
+khidkiDoor.position.set(27.5, 2.3, -21);
 khidkiGateGroup.add(khidkiDoor);
 
-const jharokha = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.8, 2.4), carvedTimberMat);
-jharokha.position.set(28.4, 7.6, -16.5);
-jharokha.castShadow = true;
-khidkiGateGroup.add(jharokha);
-
-const jharokhaRoof = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.25, 2.8), terracottaRoofMat);
-jharokhaRoof.position.set(28.4, 8.6, -16.5);
-khidkiGateGroup.add(jharokhaRoof);
+for (let iy = 0.8; iy <= 4.0; iy += 0.8) {
+  const band = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.1, 2.0), ironMat);
+  band.position.set(27.5, iy, -21);
+  khidkiGateGroup.add(band);
+}
 fortWallsGroup.add(khidkiGateGroup);
 
 // South Wall (Rear with Ganesh Darwaza)
-const sWallW = createTwoToneWallSection(33, true);
-sWallW.position.set(-10, 0, -32);
+const sWallW = createTwoToneWallSection(22, true);
+sWallW.position.set(-13.5, 0, -32);
 // Parapet faces South (-Z)
 sWallW.children[1].position.z = 0.6; // walkway inner
 sWallW.children[2].position.z = -0.9; // brick parapet outer
@@ -1242,46 +1219,60 @@ sWallW.children[3].position.z = -0.9;
 for (let c = 4; c < sWallW.children.length; c++) sWallW.children[c].position.z = -0.9;
 fortWallsGroup.add(sWallW);
 
-const sWallE = createTwoToneWallSection(13, true);
-sWallE.position.set(20, 0, -32);
+const sWallE = createTwoToneWallSection(22, true);
+sWallE.position.set(13.5, 0, -32);
 sWallE.children[1].position.z = 0.6;
 sWallE.children[2].position.z = -0.9;
 sWallE.children[3].position.z = -0.9;
 for (let c = 4; c < sWallE.children.length; c++) sWallE.children[c].position.z = -0.9;
 fortWallsGroup.add(sWallE);
 
-// GATE 5: GANESH DARWAZA (GANESH GATE) on South-East Wall
+// GATE 5: GANESH DARWAZA - Flush postern within South rear curtain wall
 const ganeshGateGroup = new THREE.Group();
 ganeshGateGroup.name = "Ganesh_Darwaza";
 
-const ganeshArch = new THREE.Mesh(new THREE.BoxGeometry(4.4, 6.8, 3.6), sandstonePortalMat);
-ganeshArch.position.set(10, 3.4, -32);
-ganeshArch.castShadow = true;
-ganeshGateGroup.add(ganeshArch);
-
-const ganeshDoor = new THREE.Mesh(new THREE.BoxGeometry(2.6, 5.0, 0.3), teakGateMat);
-ganeshDoor.position.set(10, 2.5, -32);
+const ganeshDoor = new THREE.Mesh(new THREE.BoxGeometry(2.2, 4.8, 0.2), teakGateMat);
+ganeshDoor.position.set(8, 2.4, -32);
 ganeshGateGroup.add(ganeshDoor);
 
-const ganeshNiche = new THREE.Mesh(new THREE.BoxGeometry(1.1, 1.2, 0.4), dressedStoneMat);
-ganeshNiche.position.set(10, 6.2, -32.1);
-ganeshGateGroup.add(ganeshNiche);
+for (let iy = 0.8; iy <= 4.2; iy += 0.85) {
+  const band = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.1, 0.28), ironMat);
+  band.position.set(8, iy, -32);
+  ganeshGateGroup.add(band);
+}
 fortWallsGroup.add(ganeshGateGroup);
 
-// Sloping Stone/Earth Revetment Ramps leading up to the banquette walkway (Render Images 1 & 2)
-const revetments = [
-  { pos: [-24.5, 2.7, -9], rotY: Math.PI / 2, len: 12 },
-  { pos: [24.5, 2.7, -9], rotY: -Math.PI / 2, len: 12 },
-  { pos: [-10, 2.7, -29], rotY: Math.PI, len: 14 },
-];
-revetments.forEach((r) => {
-  const ramp = new THREE.Mesh(new THREE.BoxGeometry(r.len, 0.3, 4.5), basaltWallMat);
-  ramp.rotation.z = -0.42;
-  ramp.rotation.y = r.rotY;
-  ramp.position.set(r.pos[0], r.pos[1], r.pos[2]);
-  ramp.castShadow = true;
-  fortWallsGroup.add(ramp);
-});
+// ── SOLID STONE REVETMENT RAMPS (Matching 3D Render Images 1 & 2) ─────────────
+// Authentic sloping stone ramps built against inner wall face leading to rampart walkway
+function createSolidRampWedge(length, height = 5.4, width = 2.6) {
+  const shape = new THREE.Shape();
+  shape.moveTo(0, 0);
+  shape.lineTo(length, 0);
+  shape.lineTo(length, height);
+  shape.closePath();
+
+  const geo = new THREE.ExtrudeGeometry(shape, {
+    depth: width,
+    bevelEnabled: false,
+  });
+  const mesh = new THREE.Mesh(geo, basaltWallMat);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  return mesh;
+}
+
+// 1. South Wall Ramp: Runs along inner face of South Wall (Z = -30.4) from X = -8 to X = -22
+const southRamp = createSolidRampWedge(14, 5.4, 2.6);
+// Slopes up towards -X: flip geometry
+southRamp.rotation.y = Math.PI;
+southRamp.position.set(-8, 0, -30.4);
+fortWallsGroup.add(southRamp);
+
+// 2. West Wall Ramp: Runs along inner face of West Wall (X = -25.9) from Z = -13 to Z = -25
+const westRamp = createSolidRampWedge(12, 5.4, 2.6);
+westRamp.rotation.y = -Math.PI / 2;
+westRamp.position.set(-25.9, 0, -13);
+fortWallsGroup.add(westRamp);
 
 // 7 Secondary Fortification Bastions around perimeter (NW, NE, SW, SE, West, East, South)
 // Built with matching authentic details: stepped plinth, lower cylinder, mid-cornice, arrow slits, upper faceted drum, crenellated parapet
@@ -1290,9 +1281,9 @@ const bastionCoords = [
   { x: 27.5, z: 12, name: "NE_Corner_Bastion" },
   { x: -27.5, z: -32, name: "SW_Corner_Bastion" },
   { x: 27.5, z: -32, name: "SE_Corner_Bastion" },
-  { x: -27.5, z: -2, name: "West_Mid_Bastion" },
+  { x: -27.5, z: -10, name: "West_Mid_Bastion" },
   { x: 27.5, z: -10, name: "East_Mid_Bastion" },
-  { x: -2, z: -32, name: "South_Mid_Bastion" },
+  { x: 0, z: -32, name: "South_Mid_Bastion" },
 ];
 
 bastionCoords.forEach((b) => {
@@ -1537,22 +1528,6 @@ plinthBoxes.forEach((b) => {
   }
 });
 gardenGroup.add(plinthsGroup);
-
-// Native Courtyard Shade Trees
-const treeCoords = [
-  [-22, 5], [-22, -4], [-22, -14], [-22, -24],
-  [22, 5], [22, -4], [22, -14], [22, -24],
-  [-7, -1], [7, -1],
-  [-8, -12], [8, -12],
-  [-16, -27], [16, -27], [0, -29],
-];
-
-treeCoords.forEach(([tx, tz]) => {
-  const scale = 0.85 + Math.random() * 0.35;
-  const tree = createTree(scale);
-  tree.position.set(tx, 0.1, tz);
-  gardenGroup.add(tree);
-});
 
 exteriorScene.add(gardenGroup);
 
