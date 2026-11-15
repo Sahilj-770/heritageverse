@@ -8,10 +8,6 @@ interface Props {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateStaticParams() {
-  return SAMPLE_MONUMENTS.map((m) => ({ slug: m.slug }));
-}
-
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   const monument = SAMPLE_MONUMENTS.find((m) => m.slug === slug);
