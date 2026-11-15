@@ -3,7 +3,10 @@ import { SAMPLE_MONUMENTS } from "@/data/sampleData";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const q = searchParams.get("q")?.trim() || "";
+  const rawQ = searchParams.get("q")?.trim() || "";
+
+  // Sanitize: strip non-printable/control chars and clamp to 100 characters max
+  const q = rawQ.replace(/[\x00-\x1F\x7F]/g, "").slice(0, 100);
 
   if (!q || q.length < 2) {
     return NextResponse.json({ results: [] });

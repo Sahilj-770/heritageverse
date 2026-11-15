@@ -62,18 +62,41 @@ export async function POST(request: Request) {
       stopNames?: string[];
     };
 
-    if (!coordinates || !Array.isArray(coordinates) || coordinates.length < 2) {
+    const allowedModes: TransportMode[] = ["driving", "walking", "bicycle", "transit", "motorcycle"];
+    const sanitizedMode: TransportMode = allowedModes.includes(mode) ? mode : "driving";
+
+    if (!coordinates || !Array.isArray(coordinates) || coordinates.length < 2 || coordinates.length > 50) {
       return NextResponse.json(
-        { error: "At least two coordinates (origin and destination) are required for routing." },
+        { error: "Between 2 and 50 valid coordinates are required for routing calculation." },
         { status: 400 }
       );
+    }
+
+    // Validate coordinates to prevent coordinate injection or NaN calculations
+    for (const c of coordinates) {
+      if (
+        !c ||
+        typeof c.lat !== "number" ||
+        typeof c.lng !== "number" ||
+        isNaN(c.lat) ||
+        isNaN(c.lng) ||
+        c.lat < -90 ||
+        c.lat > 90 ||
+        c.lng < -180 ||
+        c.lng > 180
+      ) {
+        return NextResponse.json(
+          { error: "Invalid coordinate values provided: latitude must be [-90, 90] and longitude [-180, 180]." },
+          { status: 400 }
+        );
+      }
     }
 
     // Map transport mode to OSRM profile
     let osrmProfile = "driving";
     let speedKmh = 50;
 
-    switch (mode) {
+    switch (sanitizedMode) {
       case "walking":
         osrmProfile = "foot";
         speedKmh = 4.5;
@@ -281,10 +304,10 @@ export async function POST(request: Request) {
             : undefined,
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Directions route error:", error);
     return NextResponse.json(
-      { error: "Internal error calculating route directions", message: error.message },
+      { error: "Internal error calculating route directions. Please verify coordinates and try again." },
       { status: 500 }
     );
   }

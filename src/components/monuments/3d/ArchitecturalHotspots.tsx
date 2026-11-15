@@ -42,6 +42,7 @@ export function ArchitecturalHotspots({
                     : "w-7 h-7 bg-[#181615]/90 text-[#B18A55] border-2 border-[#B18A55] ring-2 ring-black/40 hover:bg-[#B18A55] hover:text-[#181615]"
                 }`}
                 title={h.name}
+                aria-label={`Hotspot: ${h.name}`}
               >
                 <Info className="w-3.5 h-3.5 font-bold" />
                 <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
@@ -84,6 +85,7 @@ export function ArchitecturalHotspots({
             <button
               onClick={onCloseHotspot}
               className="p-1.5 rounded-full hover:bg-[#282522] text-[#A69E96] hover:text-[#FAF4E5] transition-colors"
+              aria-label="Close hotspot details"
             >
               <X className="w-4 h-4" />
             </button>

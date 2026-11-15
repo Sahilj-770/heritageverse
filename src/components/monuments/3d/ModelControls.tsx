@@ -134,6 +134,7 @@ export function ModelControls({
           }}
           className="p-2 rounded-xl text-[#E4DDD0] hover:bg-[#282522] hover:text-[#FAF4E5] transition-colors"
           title={`Lighting Atmosphere: ${lightingPreset.replace("_", " ")}`}
+          aria-label={`Switch lighting preset. Current: ${lightingPreset.replace("_", " ")}`}
         >
           <Sun className="w-4 h-4 text-[#B18A55]" />
         </button>
@@ -146,6 +147,7 @@ export function ModelControls({
               isWireframe ? "bg-[#B18A55] text-[#181615]" : "text-[#E4DDD0] hover:bg-[#282522]"
             }`}
             title="Toggle Architectural Wireframe Mesh"
+            aria-label="Toggle architectural wireframe mesh"
           >
             <Box className="w-4 h-4" />
           </button>
@@ -156,6 +158,7 @@ export function ModelControls({
           onClick={onResetView}
           className="p-2 rounded-xl text-[#E4DDD0] hover:bg-[#282522] transition-colors"
           title="Reset Camera View"
+          aria-label="Reset camera view"
         >
           <RotateCcw className="w-4 h-4" />
         </button>
@@ -165,6 +168,7 @@ export function ModelControls({
           onClick={onOpenAttribution}
           className="p-2 rounded-xl text-[#B18A55] hover:bg-[#282522] transition-colors"
           title="Archaeological Provenance & Methodology"
+          aria-label="Archaeological provenance and methodology"
         >
           <ShieldCheck className="w-4 h-4" />
         </button>
@@ -174,6 +178,7 @@ export function ModelControls({
           onClick={onToggleFullscreen}
           className="p-2 rounded-xl text-[#E4DDD0] hover:bg-[#282522] transition-colors"
           title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+          aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
         >
           {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
         </button>
