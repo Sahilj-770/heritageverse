@@ -71,6 +71,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "The Complete Taj Mahal and the Riverfront Gardens of Agra",
@@ -141,6 +147,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Qutb Complex Monuments and Conservation Dossier",
@@ -211,6 +223,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "The Red Fort: Monograph of Delhi's Imperial Seat",
@@ -281,6 +299,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Hill Forts of Rajasthan UNESCO Nomination Dossier",
@@ -351,6 +375,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Jaipur: The Built Heritage of a Historic City",
@@ -421,6 +451,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Konark: The Sun Temple of Orissa",
@@ -491,6 +527,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Victoria Memorial Hall: The Heritage Building and Its Conservation",
@@ -561,6 +603,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Hampi: Vijayanagara Architectural Survey",
@@ -631,6 +679,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "The Great Chola Temples: Thanjavur, Gangaikondacholapuram, Darasuram",
@@ -701,6 +755,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Madurai: A City of Temples and Living Traditions",
@@ -771,6 +831,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Khajuraho: Temple Architecture and Iconography",
@@ -841,6 +907,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "The Monuments of Sanchi",
@@ -911,6 +983,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Charminar: Architecture, Context and Conservation Strategy",
@@ -981,6 +1059,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Ellora: Monolithic Cave Temples of Ancient India",
@@ -1051,6 +1135,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Bombay Gothic and Indo-Saracenic Civic Architecture",
@@ -1121,6 +1211,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Peshwas of Pune: Archival Records of the Bombay Presidency",
@@ -1191,6 +1287,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
         ]
       }
     ],
+    model3d: {
+      status: "in_preparation",
+      format: "glb",
+      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
+      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+    },
     sources: [
       {
         title: "Gandhi Smarak Samiti Official Documentation",

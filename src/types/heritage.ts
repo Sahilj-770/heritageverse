@@ -108,6 +108,14 @@ export interface Monument {
   coverImage: string;
   images: MonumentImage[];
   tourScenes: TourScene[];
+  model3d?: {
+    url?: string;
+    status: "available" | "in_preparation" | "scheduled";
+    format?: "glb" | "gltf";
+    polyCount?: string;
+    surveyMethod?: string;
+    attribution?: string;
+  };
   sources: {
     title: string;
     url?: string;
