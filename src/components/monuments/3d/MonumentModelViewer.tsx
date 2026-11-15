@@ -171,8 +171,8 @@ export function MonumentModelViewer({
 
     switch (cameraPresetTarget) {
       case "front":
-        threeRef.current.target.set(0, 5, 12);
-        cameraController.flyTo([0, 9, 32], [0, 5, 12], 0.08);
+        threeRef.current.target.set(0, 6.2, 12);
+        cameraController.flyTo([0, 7.5, 34], [0, 6.2, 12], 0.08);
         break;
       case "top":
         threeRef.current.target.set(0, 2, -10);
