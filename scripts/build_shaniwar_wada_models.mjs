@@ -799,112 +799,122 @@ dilliDarwazaGroup.add(createMonumentalBastion(1, "East_Monumental_Bastion"));
 const portalGroup = new THREE.Group();
 portalGroup.name = "Dilli_Darwaza_Sandstone_Portal";
 
-// Proud rectangular buff sandstone facade block between the bastions
-const portalBlock = new THREE.Mesh(new THREE.BoxGeometry(6.6, 8.5, 4.2), sandstonePortalMat);
-portalBlock.position.set(0, 4.25, 12.0);
-portalBlock.castShadow = true;
-portalGroup.add(portalBlock);
+// Flanking Piers: Left and Right Masonry Jamb Walls (leaving the center 3.8m opening clear!)
+const westPier = new THREE.Mesh(new THREE.BoxGeometry(1.4, 8.5, 4.2), sandstonePortalMat);
+westPier.position.set(-2.6, 4.25, 12.0);
+westPier.castShadow = true;
+westPier.receiveShadow = true;
+portalGroup.add(westPier);
 
-// Recessed Pointed Archway (Springing from stone piers, Render Image 3)
+const eastPier = new THREE.Mesh(new THREE.BoxGeometry(1.4, 8.5, 4.2), sandstonePortalMat);
+eastPier.position.set(2.6, 4.25, 12.0);
+eastPier.castShadow = true;
+eastPier.receiveShadow = true;
+portalGroup.add(eastPier);
+
+// Top Spandrel / Header Wall above the Arch (from Y = 7.2m to 8.5m)
+const headerWall = new THREE.Mesh(new THREE.BoxGeometry(6.6, 1.3, 4.2), sandstonePortalMat);
+headerWall.position.set(0, 7.85, 12.0);
+headerWall.castShadow = true;
+portalGroup.add(headerWall);
+
+// Recessed Pointed Archway Facade (with true cutout hole for the gate!)
 const outerArchShape = new THREE.Shape();
-outerArchShape.moveTo(-2.2, 0);
-outerArchShape.lineTo(-2.2, 4.8);
-outerArchShape.quadraticCurveTo(-1.1, 7.2, 0, 7.6);
-outerArchShape.quadraticCurveTo(1.1, 7.2, 2.2, 4.8);
-outerArchShape.lineTo(2.2, 0);
-outerArchShape.lineTo(2.9, 0);
-outerArchShape.lineTo(2.9, 8.5);
-outerArchShape.lineTo(-2.9, 8.5);
-outerArchShape.lineTo(-2.9, 0);
+outerArchShape.moveTo(-2.6, 0);
+outerArchShape.lineTo(-2.6, 8.5);
+outerArchShape.lineTo(2.6, 8.5);
+outerArchShape.lineTo(2.6, 0);
+outerArchShape.lineTo(1.9, 0);
+outerArchShape.lineTo(1.9, 4.8);
+outerArchShape.quadraticCurveTo(0.95, 7.1, 0, 7.5);
+outerArchShape.quadraticCurveTo(-0.95, 7.1, -1.9, 4.8);
+outerArchShape.lineTo(-1.9, 0);
+outerArchShape.closePath();
 
 const outerArchGeo = new THREE.ExtrudeGeometry(outerArchShape, {
-  depth: 0.9,
+  depth: 0.5,
   bevelEnabled: true,
-  bevelThickness: 0.06,
-  bevelSize: 0.06,
+  bevelThickness: 0.05,
+  bevelSize: 0.05,
   bevelSegments: 2,
 });
 const outerArchMesh = new THREE.Mesh(outerArchGeo, dressedStoneMat);
-outerArchMesh.position.set(0, 0, 14.15);
+outerArchMesh.position.set(0, 0, 13.8);
 outerArchMesh.castShadow = true;
 portalGroup.add(outerArchMesh);
 
-// Dark recessed gate vault shadow chamber inside the archway
-const archChamber = new THREE.Mesh(new THREE.BoxGeometry(4.3, 7.2, 1.8), darkBasaltMat);
-archChamber.position.set(0, 3.6, 13.1);
-portalGroup.add(archChamber);
-
 // Historic Blue Enamel Signboard with Gold Inscription: शनिवार वाडा (Render Image 3)
 const signPlate = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.44, 0.1), blueSignMat);
-signPlate.position.set(0, 8.0, 14.65);
+signPlate.position.set(0, 8.0, 14.38);
 portalGroup.add(signPlate);
 
 const signFrame = new THREE.Mesh(new THREE.BoxGeometry(2.55, 0.56, 0.06), dressedStoneMat);
-signFrame.position.set(0, 8.0, 14.62);
+signFrame.position.set(0, 8.0, 14.35);
 portalGroup.add(signFrame);
 
 const signLetters = new THREE.Mesh(new THREE.BoxGeometry(1.9, 0.16, 0.14), goldSignMat);
-signLetters.position.set(0, 8.0, 14.68);
+signLetters.position.set(0, 8.0, 14.42);
 portalGroup.add(signLetters);
 
 // ── 1.3 THE 21-FOOT SOLID TEAKWOOD GATES & ELEPHANT SPIKES (Render Image 3) ──
 const gateAssembly = new THREE.Group();
 gateAssembly.name = "Spiked_Teak_Double_Gates";
 
+// Positioned clearly inside the arch opening at Z = 13.5m!
 // Left Gate Leaf
-const leftLeaf = new THREE.Mesh(new THREE.BoxGeometry(1.95, 6.8, 0.32), teakGateMat);
-leftLeaf.position.set(-1.0, 3.4, 12.3);
+const leftLeaf = new THREE.Mesh(new THREE.BoxGeometry(1.88, 7.2, 0.28), teakGateMat);
+leftLeaf.position.set(-0.95, 3.6, 13.5);
 leftLeaf.castShadow = true;
 gateAssembly.add(leftLeaf);
 
 // Right Gate Leaf
-const rightLeaf = new THREE.Mesh(new THREE.BoxGeometry(1.95, 6.8, 0.32), teakGateMat);
-rightLeaf.position.set(1.0, 3.4, 12.3);
+const rightLeaf = new THREE.Mesh(new THREE.BoxGeometry(1.88, 7.2, 0.28), teakGateMat);
+rightLeaf.position.set(0.95, 3.6, 13.5);
 rightLeaf.castShadow = true;
 gateAssembly.add(rightLeaf);
 
-// Central Heavy Astragal Locking Strip
-const astragal = new THREE.Mesh(new THREE.BoxGeometry(0.16, 6.8, 0.38), ironMat);
-astragal.position.set(0, 3.4, 12.35);
+// Central Heavy Iron Astragal Strip
+const astragal = new THREE.Mesh(new THREE.BoxGeometry(0.16, 7.2, 0.36), ironMat);
+astragal.position.set(0, 3.6, 13.58);
 gateAssembly.add(astragal);
 
 // 10 Heavy Horizontal Wrought-Iron Reinforcement Straps across each leaf (Render Image 3)
 for (let b = 0; b < 10; b++) {
-  const by = 0.6 + b * 0.62;
-  const ironStrap = new THREE.Mesh(new THREE.BoxGeometry(3.9, 0.12, 0.36), ironMat);
-  ironStrap.position.set(0, by, 12.32);
+  const by = 0.6 + b * 0.65;
+  const ironStrap = new THREE.Mesh(new THREE.BoxGeometry(3.8, 0.12, 0.34), ironMat);
+  ironStrap.position.set(0, by, 13.56);
   gateAssembly.add(ironStrap);
 }
 
-// Forged Steel Anti-Elephant Spikes arranged along straps at elephant forehead level (y = 1.8 to 4.3m)
-const spikeRows = [1.84, 2.46, 3.08, 3.70, 4.32];
+// Forged Steel Anti-Elephant Spikes (projecting boldly forward toward viewer!)
+const spikeRows = [1.9, 2.55, 3.2, 3.85, 4.5];
 spikeRows.forEach((sy) => {
-  for (let sx = -1.75; sx <= 1.75; sx += 0.32) {
-    if (Math.abs(sx) < 0.15) continue;
+  for (let sx = -1.7; sx <= 1.7; sx += 0.32) {
+    if (Math.abs(sx) < 0.16) continue;
 
     const washer = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.1, 0.04), ironMat);
-    washer.position.set(sx, sy, 12.48);
+    washer.position.set(sx, sy, 13.72);
     gateAssembly.add(washer);
 
-    const spike = new THREE.Mesh(new THREE.ConeGeometry(0.055, 0.42, 8), ironMat);
+    const spike = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.45, 8), ironMat);
     spike.rotation.x = Math.PI / 2;
-    spike.position.set(sx, sy, 12.72);
+    spike.position.set(sx, sy, 13.96);
     spike.castShadow = true;
     gateAssembly.add(spike);
   }
 });
 
 // Pedestrian Wicket Gate ("Dindi Darwaja") cut into lower right leaf (Render Image 3)
-const wicketFrame = new THREE.Mesh(new THREE.BoxGeometry(0.92, 1.82, 0.36), dressedStoneMat);
-wicketFrame.position.set(1.05, 1.15, 12.32);
+const wicketFrame = new THREE.Mesh(new THREE.BoxGeometry(0.92, 1.85, 0.35), dressedStoneMat);
+wicketFrame.position.set(0.95, 1.15, 13.58);
 gateAssembly.add(wicketFrame);
 
-const wicketDoor = new THREE.Mesh(new THREE.BoxGeometry(0.78, 1.68, 0.37), carvedTimberMat);
-wicketDoor.position.set(1.05, 1.15, 12.32);
+const wicketDoor = new THREE.Mesh(new THREE.BoxGeometry(0.78, 1.7, 0.36), carvedTimberMat);
+wicketDoor.position.set(0.95, 1.15, 13.58);
 gateAssembly.add(wicketDoor);
 
 const wicketKnocker = new THREE.Mesh(new THREE.TorusGeometry(0.07, 0.018, 6, 12), ironMat);
-wicketKnocker.position.set(1.22, 1.15, 12.52);
+wicketKnocker.position.set(1.12, 1.15, 13.78);
 gateAssembly.add(wicketKnocker);
 
 portalGroup.add(gateAssembly);
