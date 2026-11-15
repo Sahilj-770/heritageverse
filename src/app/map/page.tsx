@@ -342,14 +342,10 @@ export default function InteractiveMapPage() {
 
       {/* 3D Monument Model Inspector Modal Overlay */}
       {showModelViewer && selectedMonument && (
-        <div className="fixed inset-0 z-[9999] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 lg:p-8 animate-in fade-in duration-200">
-          <div className="relative w-full max-w-5xl max-h-[92vh] flex flex-col rounded-3xl overflow-hidden shadow-2xl border border-[#3D3835]">
-            <MonumentModelViewer
-              monument={selectedMonument}
-              onClose={() => setShowModelViewer(false)}
-            />
-          </div>
-        </div>
+        <MonumentModelViewer
+          monument={selectedMonument}
+          onClose={() => setShowModelViewer(false)}
+        />
       )}
 
     </div>

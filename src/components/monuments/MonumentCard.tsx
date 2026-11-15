@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Monument } from "@/types/heritage";
 import { HeritageStore } from "@/lib/heritageStore";
 import { useState, useEffect } from "react";
-import { MapPin, Compass, Bookmark, Clock, Navigation } from "lucide-react";
+import { MapPin, Compass, Bookmark, Clock, Navigation, Box } from "lucide-react";
 
 interface MonumentCardProps {
   monument: Monument;
@@ -95,6 +95,15 @@ export function MonumentCard({ monument }: MonumentCardProps) {
 
           <div className="flex items-center gap-1.5">
             <Link
+              href={`/heritage/${monument.slug}/3d`}
+              className="px-2 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#B18A55]/15 border border-[#B18A55]/40 text-[#B18A55] hover:bg-[#B18A55] hover:text-[#181615] transition-colors flex items-center gap-1"
+              title="Launch 3D Digital Museum"
+            >
+              <Box className="w-3 h-3" />
+              <span>3D</span>
+            </Link>
+
+            <Link
               href="/plan-trip"
               className="p-1.5 rounded-lg border border-[#E4DDD0] text-[#6B635D] hover:text-[#713C3C] hover:bg-[#FAF8F5] transition-colors"
               title="Plan trip to this monument"
@@ -108,7 +117,7 @@ export function MonumentCard({ monument }: MonumentCardProps) {
                 className="px-2.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider bg-[#282522] text-[#F5F1E8] hover:bg-[#713C3C] transition-colors flex items-center gap-1.5"
               >
                 <Compass className="w-3 h-3 text-[#B18A55]" />
-                <span>360°</span>
+                <span>Tour</span>
               </Link>
             )}
           </div>

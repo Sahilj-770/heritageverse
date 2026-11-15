@@ -19,9 +19,11 @@ import {
   ExternalLink,
   AlertTriangle,
   ArrowLeft,
-  Navigation
+  Navigation,
+  Box
 } from "lucide-react";
 import { HeritageCompanion } from "@/components/companion/HeritageCompanion";
+import { MonumentExperience } from "@/components/monuments/3d/MonumentExperience";
 
 export default function MonumentDetailPage() {
   const params = useParams();
@@ -145,6 +147,14 @@ export default function MonumentDetailPage() {
                 <span>Plan Route</span>
               </Link>
 
+              <Link
+                href={`/heritage/${monument.slug}/3d`}
+                className="px-5 py-2.5 rounded-xl text-xs font-semibold bg-[#B18A55] text-[#181615] hover:bg-[#C7A574] shadow-lg flex items-center gap-2 transition-transform hover:scale-105"
+              >
+                <Box className="w-4 h-4" />
+                <span>3D Digital Museum</span>
+              </Link>
+
               {monument.tourScenes && monument.tourScenes.length > 0 && (
                 <Link
                   href={`/tour/${monument.slug}`}
@@ -175,6 +185,31 @@ export default function MonumentDetailPage() {
                 {monument.shortDescription}
               </p>
             </div>
+
+            {/* 3D Digital Heritage Museum Interactive Explorer */}
+            <section className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Box className="w-5 h-5 text-[#B18A55]" />
+                  <h2 className="font-serif-editorial text-2xl sm:text-3xl font-bold text-[#282522]">
+                    3D Digital Heritage Museum
+                  </h2>
+                </div>
+                <Link
+                  href={`/heritage/${monument.slug}/3d`}
+                  className="text-xs font-semibold text-[#713C3C] hover:underline flex items-center gap-1"
+                >
+                  <span>Open Fullscreen Museum</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+              <p className="text-xs sm:text-sm text-[#6B635D] leading-relaxed">
+                Explore authentic 3D geometry grounded in Archaeological Survey of India (ASI) cadastral surveys. Toggle between the exterior monument explorer, first-person interior walkthrough, and documented historical reconstructions.
+              </p>
+              <div className="w-full aspect-[16/9] min-h-[480px] rounded-3xl overflow-hidden shadow-2xl border border-[#E4DDD0]">
+                <MonumentExperience monumentSlug={monument.slug} />
+              </div>
+            </section>
 
             {/* Historical Background */}
             <section className="space-y-4">
