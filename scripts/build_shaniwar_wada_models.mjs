@@ -84,82 +84,92 @@ const OUT_DIR_HISTORICAL = "public/models/monuments/shaniwar-wada/historical";
 
 // ─── PROCEDURAL PBR TEXTURE GENERATORS ───────────────────────────────────────
 
-/** 1. Basalt Ashlar Stone: Soft natural coursed masonry with subtle mortar and realistic stone tone */
+/** 1. Basalt Ashlar Stone: Large, smooth monumental stone blocks with soft subtle joints and zero noise */
 function generateBasaltStonePixels(w = 512, h = 512) {
   const data = new Uint8Array(w * h * 4);
-  const bh = 48, bw = 96;
+  const bh = 128, bw = 256; // Big monumental stone blocks
   for (let y = 0; y < h; y++) {
     const row = Math.floor(y / bh);
-    const isMortarY = (y % bh === 0 || y % bh === bh - 1);
-    const xOffset = (row % 2) * (bw / 2);
+    const xOff = (row % 2) * (bw / 2);
+    const dy = Math.min(y % bh, bh - 1 - (y % bh));
     for (let x = 0; x < w; x++) {
-      const col = Math.floor((x + xOffset) / bw);
-      const isMortarX = ((x + xOffset) % bw === 0 || (x + xOffset) % bw === bw - 1);
+      const col = Math.floor((x + xOff) / bw);
+      const dx = Math.min((x + xOff) % bw, bw - 1 - ((x + xOff) % bw));
+      const dist = Math.min(dx, dy);
+      const blockHash = ((row * 137 + col * 269) % 9) - 4;
       const idx = (y * w + x) * 4;
-      const blockHash = ((row * 137 + col * 269) % 19) - 9;
-      const pixelNoise = ((x * 19 + y * 43) % 7) - 3;
-      if (isMortarY || isMortarX) {
-        data[idx] = 108; data[idx+1] = 104; data[idx+2] = 98; data[idx+3] = 255;
-      } else {
-        data[idx] = Math.max(0, Math.min(255, 142 + blockHash + pixelNoise));
-        data[idx+1] = Math.max(0, Math.min(255, 138 + blockHash + pixelNoise));
-        data[idx+2] = Math.max(0, Math.min(255, 132 + blockHash + pixelNoise));
-        data[idx+3] = 255;
-      }
+
+      // Soft bilinear bevel over 2 pixels: smooth and restful to the eyes
+      const blend = Math.min(1.0, dist / 2.0);
+      const baseR = 142 + blockHash;
+      const baseG = 138 + blockHash;
+      const baseB = 132 + blockHash;
+      const mortR = 120, mortG = 116, mortB = 112;
+
+      data[idx] = Math.round(mortR + (baseR - mortR) * blend);
+      data[idx+1] = Math.round(mortG + (baseG - mortG) * blend);
+      data[idx+2] = Math.round(mortB + (baseB - mortB) * blend);
+      data[idx+3] = 255;
     }
   }
   return data;
 }
 
-/** 2. Terracotta Brick: Subtle running bond brickwork for upper rampart parapet */
+/** 2. Terracotta Brick: Large, smooth warm brick courses with soft seams and zero pixel noise */
 function generateTerracottaBrickPixels(w = 512, h = 512) {
   const data = new Uint8Array(w * h * 4);
-  const bh = 24, bw = 54;
+  const bh = 64, bw = 128; // Big smooth bricks
   for (let y = 0; y < h; y++) {
     const row = Math.floor(y / bh);
-    const isMortarY = (y % bh === 0 || y % bh === bh - 1);
-    const xOffset = (row % 2) * (bw / 2);
+    const xOff = (row % 2) * (bw / 2);
+    const dy = Math.min(y % bh, bh - 1 - (y % bh));
     for (let x = 0; x < w; x++) {
-      const col = Math.floor((x + xOffset) / bw);
-      const isMortarX = ((x + xOffset) % bw === 0 || (x + xOffset) % bw === bw - 1);
+      const col = Math.floor((x + xOff) / bw);
+      const dx = Math.min((x + xOff) % bw, bw - 1 - ((x + xOff) % bw));
+      const dist = Math.min(dx, dy);
+      const blockHash = ((row * 131 + col * 257) % 9) - 4;
       const idx = (y * w + x) * 4;
-      const blockHash = ((row * 131 + col * 257) % 19) - 9;
-      const pixelNoise = ((x * 17 + y * 31) % 7) - 3;
-      if (isMortarY || isMortarX) {
-        data[idx] = 125; data[idx+1] = 110; data[idx+2] = 100; data[idx+3] = 255;
-      } else {
-        data[idx] = Math.max(0, Math.min(255, 165 + blockHash + pixelNoise));
-        data[idx+1] = Math.max(0, Math.min(255, 102 + Math.floor(blockHash * 0.7) + pixelNoise));
-        data[idx+2] = Math.max(0, Math.min(255, 84 + Math.floor(blockHash * 0.6) + pixelNoise));
-        data[idx+3] = 255;
-      }
+
+      const blend = Math.min(1.0, dist / 2.0);
+      const baseR = 160 + blockHash;
+      const baseG = 100 + Math.floor(blockHash * 0.6);
+      const baseB = 82 + Math.floor(blockHash * 0.5);
+      const mortR = 135, mortG = 92, mortB = 78;
+
+      data[idx] = Math.round(mortR + (baseR - mortR) * blend);
+      data[idx+1] = Math.round(mortG + (baseG - mortG) * blend);
+      data[idx+2] = Math.round(mortB + (baseB - mortB) * blend);
+      data[idx+3] = 255;
     }
   }
   return data;
 }
 
-/** 3. Buff Sandstone: Dressed cream/buff stone blocks for Delhi Gate portal facade */
+/** 3. Buff Sandstone: Large smooth dressed stone blocks for Delhi Gate portal */
 function generateBuffSandstonePixels(w = 256, h = 256) {
   const data = new Uint8Array(w * h * 4);
-  const bh = 24, bw = 48;
+  const bh = 64, bw = 128;
   for (let y = 0; y < h; y++) {
     const row = Math.floor(y / bh);
-    const isMortarY = (y % bh === 0 || y % bh === bh - 1);
-    const xOffset = (row % 2) * (bw / 2);
+    const xOff = (row % 2) * (bw / 2);
+    const dy = Math.min(y % bh, bh - 1 - (y % bh));
     for (let x = 0; x < w; x++) {
-      const col = Math.floor((x + xOffset) / bw);
-      const isMortarX = ((x + xOffset) % bw === 0 || (x + xOffset) % bw === bw - 1);
+      const col = Math.floor((x + xOff) / bw);
+      const dx = Math.min((x + xOff) % bw, bw - 1 - ((x + xOff) % bw));
+      const dist = Math.min(dx, dy);
+      const blockHash = ((row * 97 + col * 181) % 9) - 4;
       const idx = (y * w + x) * 4;
-      const blockHash = ((row * 97 + col * 181) % 19) - 9;
-      const pixelNoise = ((x * 13 + y * 29) % 7) - 3;
-      if (isMortarY || isMortarX) {
-        data[idx] = 145; data[idx+1] = 135; data[idx+2] = 120; data[idx+3] = 255;
-      } else {
-        data[idx] = Math.max(0, Math.min(255, 204 + blockHash + pixelNoise));
-        data[idx+1] = Math.max(0, Math.min(255, 192 + blockHash + pixelNoise));
-        data[idx+2] = Math.max(0, Math.min(255, 172 + blockHash + pixelNoise));
-        data[idx+3] = 255;
-      }
+
+      const blend = Math.min(1.0, dist / 2.0);
+      const baseR = 202 + blockHash;
+      const baseG = 190 + blockHash;
+      const baseB = 172 + blockHash;
+      const mortR = 170, mortG = 160, mortB = 146;
+
+      data[idx] = Math.round(mortR + (baseR - mortR) * blend);
+      data[idx+1] = Math.round(mortG + (baseG - mortG) * blend);
+      data[idx+2] = Math.round(mortB + (baseB - mortB) * blend);
+      data[idx+3] = 255;
     }
   }
   return data;
@@ -242,46 +252,46 @@ function createDataTexture(rawUint8, width, height, repX = 1, repY = 1) {
 }
 
 console.log("Generating procedural PBR texture maps...");
-const stoneTexTower = createDataTexture(generateBasaltStonePixels(512, 512), 512, 512, 3, 2);
-const stoneTexWall = createDataTexture(generateBasaltStonePixels(512, 512), 512, 512, 4, 1.5);
-const brickTexParapet = createDataTexture(generateTerracottaBrickPixels(512, 512), 512, 512, 5, 1.5);
-const sandstoneTexPortal = createDataTexture(generateBuffSandstonePixels(256, 256), 256, 256, 2, 2);
+const stoneTexTower = createDataTexture(generateBasaltStonePixels(512, 512), 512, 512, 1.5, 1.0);
+const stoneTexWall = createDataTexture(generateBasaltStonePixels(512, 512), 512, 512, 1.5, 1.0);
+const brickTexParapet = createDataTexture(generateTerracottaBrickPixels(512, 512), 512, 512, 2.0, 1.0);
+const sandstoneTexPortal = createDataTexture(generateBuffSandstonePixels(256, 256), 256, 256, 1.0, 1.0);
 const teakTexGate = createDataTexture(generateTeakwoodPixels(256, 256), 256, 256, 2, 2);
 const lawnTexGround = createDataTexture(generateLawnPixels(256, 256), 256, 256, 8, 8);
 const pavingTexGround = createDataTexture(generatePavingPixels(256, 256), 256, 256, 4, 4);
 
 // ─── MATERIALS MATCHING 3D RENDERS ──────────────────────────────────────────
 
-// Grey basalt stone for towers and lower bastion bodies
+// Grey basalt stone for towers and lower bastion bodies - Smooth matte dressed ashlar
 const basaltTowerMat = new THREE.MeshStandardMaterial({
   name: "BasaltTowerAshlar",
   map: stoneTexTower,
-  roughness: 0.88,
-  metalness: 0.05,
+  roughness: 0.94,
+  metalness: 0.02,
 });
 
-// Grey basalt stone for rampart lower wall courses
+// Grey basalt stone for rampart lower wall courses - Smooth matte monumental blocks
 const basaltWallMat = new THREE.MeshStandardMaterial({
   name: "BasaltCurtainWall",
   map: stoneTexWall,
-  roughness: 0.88,
-  metalness: 0.05,
+  roughness: 0.94,
+  metalness: 0.02,
 });
 
-// Terracotta red/brown brick for upper rampart parapet & coping (Render Images 1, 3, 4, 5)
+// Terracotta red/brown brick for upper rampart parapet & coping - Smooth warm brickwork
 const brickParapetMat = new THREE.MeshStandardMaterial({
   name: "TerracottaBrickParapet",
   map: brickTexParapet,
-  roughness: 0.84,
-  metalness: 0.03,
+  roughness: 0.90,
+  metalness: 0.02,
 });
 
-// Distinct buff sandstone for Delhi Gate central portal (Render Image 3)
+// Distinct buff sandstone for Delhi Gate central portal
 const sandstonePortalMat = new THREE.MeshStandardMaterial({
   name: "BuffSandstoneGatewayPortal",
   map: sandstoneTexPortal,
-  roughness: 0.82,
-  metalness: 0.04,
+  roughness: 0.90,
+  metalness: 0.02,
 });
 
 // Dressed stone trim for plinths, cornices, steps, and mouldings
