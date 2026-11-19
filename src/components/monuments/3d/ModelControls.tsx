@@ -11,6 +11,7 @@ import {
   Box, 
   ShieldCheck,
   Eye,
+  EyeOff,
   Camera
 } from "lucide-react";
 import { ExperienceMode, LightingPreset } from "@/lib/3d/types";
@@ -24,6 +25,8 @@ interface ModelControlsProps {
   onLightingChange: (preset: LightingPreset) => void;
   isWireframe: boolean;
   onToggleWireframe: () => void;
+  showHotspots?: boolean;
+  onToggleHotspots?: () => void;
   onResetView: () => void;
   isFullscreen: boolean;
   onToggleFullscreen: () => void;
@@ -41,6 +44,8 @@ export function ModelControls({
   onLightingChange,
   isWireframe,
   onToggleWireframe,
+  showHotspots = true,
+  onToggleHotspots,
   onResetView,
   isFullscreen,
   onToggleFullscreen,
@@ -140,6 +145,20 @@ export function ModelControls({
         >
           <Sun className="w-4 h-4 text-[#B18A55]" />
         </button>
+
+        {/* Hotspot Annotation Toggle (in Explorer Mode) */}
+        {currentMode !== "walkthrough" && onToggleHotspots && (
+          <button
+            onClick={onToggleHotspots}
+            className={`p-2 rounded-xl transition-colors ${
+              showHotspots ? "bg-[#B18A55] text-[#181615]" : "text-[#E4DDD0] hover:bg-[#282522]"
+            }`}
+            title={showHotspots ? "Hide Architectural Hotspots" : "Show Architectural Hotspots"}
+            aria-label={showHotspots ? "Hide architectural hotspots" : "Show architectural hotspots"}
+          >
+            {showHotspots ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+          </button>
+        )}
 
         {/* Wireframe Topology Toggle (in Explorer Mode) */}
         {currentMode !== "walkthrough" && (

@@ -99,12 +99,12 @@ function generateBasaltStonePixels(w = 512, h = 512) {
       const blockHash = ((row * 137 + col * 269) % 9) - 4;
       const idx = (y * w + x) * 4;
 
-      // Soft bilinear bevel over 2 pixels: smooth and restful to the eyes
-      const blend = Math.min(1.0, dist / 2.0);
-      const baseR = 142 + blockHash;
-      const baseG = 138 + blockHash;
+      // Soft bilinear bevel over 3.2 pixels: smooth, calm, and restful to the eyes
+      const blend = Math.min(1.0, dist / 3.2);
+      const baseR = 144 + blockHash;
+      const baseG = 139 + blockHash;
       const baseB = 132 + blockHash;
-      const mortR = 120, mortG = 116, mortB = 112;
+      const mortR = 114, mortG = 110, mortB = 104;
 
       data[idx] = Math.round(mortR + (baseR - mortR) * blend);
       data[idx+1] = Math.round(mortG + (baseG - mortG) * blend);
@@ -130,11 +130,11 @@ function generateTerracottaBrickPixels(w = 512, h = 512) {
       const blockHash = ((row * 131 + col * 257) % 9) - 4;
       const idx = (y * w + x) * 4;
 
-      const blend = Math.min(1.0, dist / 2.0);
-      const baseR = 160 + blockHash;
-      const baseG = 100 + Math.floor(blockHash * 0.6);
-      const baseB = 82 + Math.floor(blockHash * 0.5);
-      const mortR = 135, mortG = 92, mortB = 78;
+      const blend = Math.min(1.0, dist / 2.8);
+      const baseR = 164 + blockHash;
+      const baseG = 104 + Math.floor(blockHash * 0.6);
+      const baseB = 84 + Math.floor(blockHash * 0.5);
+      const mortR = 128, mortG = 86, mortB = 72;
 
       data[idx] = Math.round(mortR + (baseR - mortR) * blend);
       data[idx+1] = Math.round(mortG + (baseG - mortG) * blend);
@@ -160,11 +160,11 @@ function generateBuffSandstonePixels(w = 256, h = 256) {
       const blockHash = ((row * 97 + col * 181) % 9) - 4;
       const idx = (y * w + x) * 4;
 
-      const blend = Math.min(1.0, dist / 2.0);
-      const baseR = 202 + blockHash;
-      const baseG = 190 + blockHash;
-      const baseB = 172 + blockHash;
-      const mortR = 170, mortG = 160, mortB = 146;
+      const blend = Math.min(1.0, dist / 2.5);
+      const baseR = 206 + blockHash;
+      const baseG = 192 + blockHash;
+      const baseB = 174 + blockHash;
+      const mortR = 172, mortG = 162, mortB = 148;
 
       data[idx] = Math.round(mortR + (baseR - mortR) * blend);
       data[idx+1] = Math.round(mortG + (baseG - mortG) * blend);

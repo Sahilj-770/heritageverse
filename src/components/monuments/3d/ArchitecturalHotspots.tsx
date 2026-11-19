@@ -36,16 +36,18 @@ export function ArchitecturalHotspots({
               onClick={() => onSelectHotspot(h)}
             >
               <button
-                className={`relative flex items-center justify-center rounded-full transition-transform duration-200 hover:scale-125 shadow-2xl ${
+                className={`relative flex items-center justify-center rounded-full transition-all duration-200 shadow-xl ${
                   isSelected
-                    ? "w-9 h-9 bg-[#B18A55] text-[#181615] border-2 border-white ring-4 ring-[#B18A55]/50 scale-125"
-                    : "w-7 h-7 bg-[#181615]/90 text-[#B18A55] border-2 border-[#B18A55] ring-2 ring-black/40 hover:bg-[#B18A55] hover:text-[#181615]"
+                    ? "w-8 h-8 bg-[#B18A55] text-[#181615] border-2 border-white ring-4 ring-[#B18A55]/60 scale-110"
+                    : "w-6 h-6 bg-[#181615]/90 text-[#B18A55] border border-[#B18A55]/80 ring-1 ring-black/50 hover:bg-[#B18A55] hover:text-[#181615] hover:scale-110"
                 }`}
                 title={h.name}
                 aria-label={`Hotspot: ${h.name}`}
               >
-                <Info className="w-3.5 h-3.5 font-bold" />
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                <Info className="w-3 h-3 font-bold" />
+                {isSelected && (
+                  <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+                )}
               </button>
 
               {/* Hover Tooltip */}

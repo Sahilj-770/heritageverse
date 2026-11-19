@@ -14,6 +14,7 @@ interface MonumentModelViewerProps {
   modelUrl: string;
   lightingPreset?: LightingPreset;
   isWireframe?: boolean;
+  showHotspots?: boolean;
   cameraPresetTarget?: "front" | "top" | "fountain" | null;
   onSelectHotspot?: (hotspot: ArchitecturalHotspot3D) => void;
 }
@@ -23,6 +24,7 @@ export function MonumentModelViewer({
   modelUrl,
   lightingPreset = "studio",
   isWireframe = false,
+  showHotspots = true,
   cameraPresetTarget,
   onSelectHotspot,
 }: MonumentModelViewerProps) {
@@ -32,6 +34,10 @@ export function MonumentModelViewer({
   const [projectedPositions, setProjectedPositions] = useState<
     Record<string, { x: number; y: number; visible: boolean }>
   >({});
+
+  const raycasterRef = useRef(new THREE.Raycaster());
+  const hotspotVecRef = useRef(new THREE.Vector3());
+  const camDirRef = useRef(new THREE.Vector3());
 
   const threeRef = useRef<{
     scene: THREE.Scene;
@@ -214,7 +220,7 @@ export function MonumentModelViewer({
       switch (cameraPresetTarget) {
         case "front":
           threeRef.current.target.set(0, 5.0, 14);
-          cameraController.flyTo([0, 11.5, 48], [0, 5.0, 14], 0.08);
+          cameraController.flyTo([0, 8.5, 36], [0, 5.0, 14], 0.08);
           break;
         case "top":
           threeRef.current.target.set(0, 2, -10);
@@ -229,22 +235,86 @@ export function MonumentModelViewer({
   }, [cameraPresetTarget, entry.monumentSlug]);
 
   // Per-Frame Render Tick: Updates camera transitions & projects 3D hotspot coordinates
+  // Incorporates Raycast Depth Occlusion Culling and Screen-Space Proximity De-duplication
   const handleRenderTick = useCallback(() => {
     if (!threeRef.current) return;
-    const { camera, cameraController, renderer } = threeRef.current;
+    const { camera, cameraController, modelGroup } = threeRef.current;
 
     // Smooth camera interpolation
     cameraController.update();
 
-    // Hotspot screen projection
-    if (entry.exteriorHotspots && entry.exteriorHotspots.length > 0) {
+    // Hotspot screen projection with Depth Occlusion Culling & De-duplication
+    if (showHotspots && entry.exteriorHotspots && entry.exteriorHotspots.length > 0) {
       const newPositions: Record<string, { x: number; y: number; visible: boolean }> = {};
+      const raycaster = raycasterRef.current;
+      const camPos = camera.position;
+
+      // 1. Project to screen and test line-of-sight occlusion
       entry.exteriorHotspots.forEach((hotspot) => {
-        newPositions[hotspot.id] = projectWorldToScreen(hotspot.position, camera);
+        const screen = projectWorldToScreen(hotspot.position, camera);
+        if (!screen.visible) {
+          newPositions[hotspot.id] = { ...screen, visible: false };
+          return;
+        }
+
+        // Raycast from camera to hotspot world position
+        hotspotVecRef.current.set(hotspot.position[0], hotspot.position[1], hotspot.position[2]);
+        camDirRef.current.subVectors(hotspotVecRef.current, camPos);
+        const dist = camDirRef.current.length();
+        camDirRef.current.normalize();
+
+        raycaster.set(camPos, camDirRef.current);
+        raycaster.far = dist;
+
+        // Check if blocked by any opaque mesh in the monument (walls, gates, bastions)
+        const intersects = raycaster.intersectObjects(modelGroup.children, true);
+        let isOccluded = false;
+        for (let i = 0; i < intersects.length; i++) {
+          const hit = intersects[i];
+          if (hit.distance < dist - 0.65) {
+            isOccluded = true;
+            break;
+          }
+        }
+
+        newPositions[hotspot.id] = {
+          x: screen.x,
+          y: screen.y,
+          visible: !isOccluded,
+        };
       });
+
+      // 2. Screen-Space De-duplication: Prevent any 2 visible pins from overlapping (< 4.5% screen distance)
+      const visibleIds = Object.keys(newPositions).filter((id) => newPositions[id].visible);
+      for (let i = 0; i < visibleIds.length; i++) {
+        const idA = visibleIds[i];
+        const pA = newPositions[idA];
+        if (!pA.visible) continue;
+
+        for (let j = i + 1; j < visibleIds.length; j++) {
+          const idB = visibleIds[j];
+          const pB = newPositions[idB];
+          if (!pB.visible) continue;
+
+          const dx = pA.x - pB.x;
+          const dy = pA.y - pB.y;
+          const distSq = dx * dx + dy * dy;
+
+          if (distSq < 20.25) { // 4.5% screen distance threshold
+            if (activeHotspot?.id === idB) {
+              pA.visible = false;
+            } else {
+              pB.visible = false;
+            }
+          }
+        }
+      }
+
       setProjectedPositions(newPositions);
+    } else if (!showHotspots) {
+      setProjectedPositions({});
     }
-  }, [entry.exteriorHotspots]);
+  }, [entry.exteriorHotspots, showHotspots, activeHotspot]);
 
   // Orbit Drag Controls via Mouse / Touch
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -325,7 +395,7 @@ export function MonumentModelViewer({
         <ModelLoadingState progress={loadProgress} monumentName={entry.name} />
       )}
 
-      {!isLoading && entry.exteriorHotspots && (
+      {!isLoading && showHotspots && entry.exteriorHotspots && (
         <ArchitecturalHotspots
           hotspots={entry.exteriorHotspots}
           projectedPositions={projectedPositions}

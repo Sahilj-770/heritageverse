@@ -32,6 +32,7 @@ export function MonumentExperience({
   );
   const [lightingPreset, setLightingPreset] = useState<LightingPreset>("studio");
   const [isWireframe, setIsWireframe] = useState(false);
+  const [showHotspots, setShowHotspots] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showAttributionModal, setShowAttributionModal] = useState(false);
   const [cameraPreset, setCameraPreset] = useState<"front" | "top" | "fountain" | null>(null);
@@ -103,6 +104,8 @@ export function MonumentExperience({
         onLightingChange={setLightingPreset}
         isWireframe={isWireframe}
         onToggleWireframe={() => setIsWireframe(!isWireframe)}
+        showHotspots={showHotspots}
+        onToggleHotspots={() => setShowHotspots(!showHotspots)}
         onResetView={() => setCameraPreset("front")}
         isFullscreen={isFullscreen}
         onToggleFullscreen={toggleFullscreen}
@@ -121,6 +124,7 @@ export function MonumentExperience({
           modelUrl={currentModelUrl}
           lightingPreset={lightingPreset}
           isWireframe={isWireframe}
+          showHotspots={showHotspots}
           cameraPresetTarget={cameraPreset}
         />
       )}
