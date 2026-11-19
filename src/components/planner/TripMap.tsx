@@ -258,27 +258,91 @@ export function TripMap({
     if (!mLib || !mLib.Marker) return;
 
     const el = document.createElement("div");
-    el.className = "traveler-vehicle-marker flex items-center justify-center w-11 h-11 rounded-full shadow-2xl border-2 border-white transition-transform";
-    el.style.backgroundColor = "#713C3C";
-    el.style.color = "#FAF4E5";
+    el.className = "traveler-vehicle-marker relative flex items-center justify-center w-12 h-12 rounded-full shadow-2xl transition-transform";
+    el.style.background = "radial-gradient(circle, #8A3D3D 0%, #551919 100%)";
+    el.style.border = "2.5px solid #FFFFFF";
+    el.style.boxShadow = "0 8px 24px rgba(0,0,0,0.4), 0 2px 8px rgba(113,60,60,0.5)";
 
-    // Dynamic vehicle SVG icon
+    // True Top-Down Bird's-Eye Vehicle SVGs (oriented facing North / 0° by default)
     let iconSvg = "";
     if (mode === "walking") {
-      iconSvg = `<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="5" r="2"/><path d="m9 20 3-6 3 6"/><path d="m6 8 6 2 6-2"/><path d="M12 10v4"/></svg>`;
+      iconSvg = `
+        <svg viewBox="0 0 32 32" class="w-6 h-6 drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2 L24 24 L16 19 L8 24 Z" fill="#FAF4E5" stroke="#C5A059" stroke-width="1.6" stroke-linejoin="round"/>
+          <circle cx="16" cy="14" r="2.2" fill="#713C3C"/>
+        </svg>
+      `;
     } else if (mode === "bicycle") {
-      iconSvg = `<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>`;
+      iconSvg = `
+        <svg viewBox="0 0 32 32" class="w-6 h-6 drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="14.8" y="3" width="2.4" height="6.5" rx="1.2" fill="#282522" stroke="#FAF4E5" stroke-width="0.7"/>
+          <path d="M10 9 H22" stroke="#FAF4E5" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="10" cy="9" r="1.2" fill="#C5A059"/>
+          <circle cx="22" cy="9" r="1.2" fill="#C5A059"/>
+          <line x1="16" y1="9" x2="16" y2="20" stroke="#C5A059" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12.5" y1="16.5" x2="19.5" y2="16.5" stroke="#FAF4E5" stroke-width="1.8" stroke-linecap="round"/>
+          <ellipse cx="16" cy="20.5" rx="2.5" ry="1.8" fill="#FAF4E5" stroke="#4A2525" stroke-width="0.8"/>
+          <rect x="14.8" y="22" width="2.4" height="6.5" rx="1.2" fill="#282522" stroke="#FAF4E5" stroke-width="0.7"/>
+        </svg>
+      `;
     } else if (mode === "motorcycle") {
-      iconSvg = `<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="m9 9 2 4h4l2-4"/><path d="M13 6h2"/></svg>`;
+      iconSvg = `
+        <svg viewBox="0 0 32 32" class="w-6 h-6 drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 2.5 L16 0" stroke="#FDE047" stroke-width="2" stroke-linecap="round"/>
+          <rect x="14.5" y="3" width="3" height="6.5" rx="1.5" fill="#282522" stroke="#FAF4E5" stroke-width="0.8"/>
+          <path d="M9 9.5 H23" stroke="#FAF4E5" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="9" cy="9.5" r="1.3" fill="#C5A059"/>
+          <circle cx="23" cy="9.5" r="1.3" fill="#C5A059"/>
+          <ellipse cx="16" cy="13" rx="2.8" ry="3.2" fill="#C5A059" stroke="#4A2525" stroke-width="0.8"/>
+          <circle cx="16" cy="18" r="3.4" fill="#FAF4E5" stroke="#4A2525" stroke-width="1"/>
+          <path d="M13.5 16.5 C14.5 15.5 17.5 15.5 18.5 16.5" stroke="#282522" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M14 21.5 H18 L17.5 25 H14.5 Z" fill="#713C3C"/>
+          <rect x="14.8" y="24.5" width="2.4" height="5" rx="1.2" fill="#282522"/>
+          <rect x="14.8" y="28.5" width="2.4" height="1" rx="0.5" fill="#EF4444"/>
+        </svg>
+      `;
+    } else if (mode === "transit") {
+      iconSvg = `
+        <svg viewBox="0 0 32 32" class="w-6 h-6 drop-shadow-sm" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 3 L8 0 M20 3 L24 0" stroke="#FAF4E5" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+          <rect x="10" y="3.5" width="12" height="24" rx="3" fill="#FAF4E5" stroke="#4A2525" stroke-width="1.2"/>
+          <path d="M11.5 6 H20.5 V8.5 H11.5 Z" fill="#3D2828"/>
+          <rect x="11.5" y="10.5" width="9" height="2" rx="0.5" fill="#C5A059"/>
+          <rect x="11.5" y="14" width="9" height="2" rx="0.5" fill="#C5A059"/>
+          <rect x="11.5" y="17.5" width="9" height="2" rx="0.5" fill="#C5A059"/>
+          <rect x="11.5" y="21" width="9" height="2" rx="0.5" fill="#C5A059"/>
+          <rect x="11.5" y="24" width="9" height="1.8" rx="0.5" fill="#3D2828"/>
+          <rect x="11" y="4" width="2.2" height="1" fill="#FDE047"/>
+          <rect x="18.8" y="4" width="2.2" height="1" fill="#FDE047"/>
+          <rect x="11" y="26.5" width="2.2" height="1" fill="#EF4444"/>
+          <rect x="18.8" y="26.5" width="2.2" height="1" fill="#EF4444"/>
+        </svg>
+      `;
     } else {
-      // Car / Driving / Transit
-      iconSvg = `<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11 2 11.5 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>`;
+      // Default: Car / Driving
+      iconSvg = `
+        <svg viewBox="0 0 32 32" class="w-7 h-7 drop-shadow-md" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4 L7 0 M20 4 L25 0" stroke="#FAF4E5" stroke-width="1.8" stroke-linecap="round" opacity="0.8"/>
+          <rect x="6.8" y="10" width="3.2" height="1.8" rx="0.8" fill="#FAF4E5"/>
+          <rect x="22" y="10" width="3.2" height="1.8" rx="0.8" fill="#FAF4E5"/>
+          <path d="M11 5.5 C11 4 12.2 3 13.8 3 H18.2 C19.8 3 21 4 21 5.5 L22.5 11 C22.8 12 23 13.5 23 15 L22.8 23 C22.8 25 21.5 26.5 19.8 26.5 H12.2 C10.5 26.5 9.2 25 9.2 23 L9 15 C9 13.5 9.2 12 9.5 11 Z" fill="#FAF4E5" stroke="#4A2525" stroke-width="1.2" stroke-linejoin="round"/>
+          <path d="M11.5 11.5 C12.5 10.8 14.2 10.5 16 10.5 C17.8 10.5 19.5 10.8 20.5 11.5 L19.8 14 H12.2 Z" fill="#3D2828"/>
+          <rect x="12" y="14.5" width="8" height="6.5" rx="1.5" fill="#C5A059"/>
+          <path d="M12.5 21.8 H19.5 L19 23.5 H13 Z" fill="#3D2828"/>
+          <rect x="11.8" y="3.8" width="2.4" height="1.5" rx="0.6" fill="#FDE047"/>
+          <rect x="17.8" y="3.8" width="2.4" height="1.5" rx="0.6" fill="#FDE047"/>
+          <rect x="11.2" y="25.5" width="2.8" height="1" rx="0.5" fill="#EF4444"/>
+          <rect x="18" y="25.5" width="2.8" height="1" rx="0.5" fill="#EF4444"/>
+        </svg>
+      `;
     }
 
+    // Directional Heading Indicator Triangle + Top-Down Rotating Vehicle
     el.innerHTML = `
       <div class="relative flex items-center justify-center w-full h-full">
-        <span class="absolute w-full h-full rounded-full bg-[#B18A55] opacity-40 animate-ping"></span>
-        <div id="vehicle-icon-rotator" class="transition-transform duration-75">
+        <span class="absolute -inset-1 rounded-full bg-[#C5A059] opacity-35 animate-ping"></span>
+        <div id="vehicle-icon-rotator" class="w-full h-full flex items-center justify-center transition-transform duration-100 ease-linear">
+          <div class="absolute -top-1.5 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[4px] border-l-transparent border-r-[4px] border-r-transparent border-b-[6px] border-b-[#C5A059] drop-shadow-sm"></div>
           ${iconSvg}
         </div>
       </div>
@@ -291,6 +355,15 @@ export function TripMap({
       const marker = new mLib.Marker({ element: el })
         .setLngLat(initialPoint)
         .addTo(map);
+
+      // Pre-orient the vehicle icon along the road tangent before animation starts
+      if (coords.length >= 2) {
+        const initialBearing = calculateBearing(coords[0], coords[1]);
+        const rotator = el.querySelector("#vehicle-icon-rotator") as HTMLElement;
+        if (rotator) {
+          rotator.style.transform = `rotate(${initialBearing}deg)`;
+        }
+      }
 
       travelerMarkerRef.current = marker;
     } catch (err) {
@@ -523,6 +596,11 @@ export function TripMap({
 
     if (routeGeometry.length > 0 && travelerMarkerRef.current) {
       travelerMarkerRef.current.setLngLat(routeGeometry[0]);
+      if (routeGeometry.length >= 2 && travelerElRef.current) {
+        const initialBearing = calculateBearing(routeGeometry[0], routeGeometry[1]);
+        const rotator = travelerElRef.current.querySelector("#vehicle-icon-rotator") as HTMLElement;
+        if (rotator) rotator.style.transform = `rotate(${initialBearing}deg)`;
+      }
     }
     if (mapRef.current && routeGeometry.length > 0) {
       fitRouteBounds(mapRef.current, routeGeometry);

@@ -128,141 +128,310 @@ export default function HomePage() {
 
             </div>
 
-            {/* Right: Authentic Monument Photography Marquee Mosaic */}
-            <div className="lg:col-span-6 relative h-[520px] sm:h-[600px] overflow-hidden rounded-3xl border border-[#E4DDD0] bg-[#E4DDD0]/30 shadow-xl">
+            {/* Right: Authentic Monument Photography Marquee Mosaic (Seamlessly blended into front page) */}
+            <div 
+              className="lg:col-span-6 relative h-[540px] sm:h-[640px] overflow-hidden"
+              style={{
+                maskImage: "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 12%, black 88%, transparent 100%)",
+              }}
+            >
               
-              <div className="absolute inset-0 flex justify-center gap-3 p-2 overflow-hidden pointer-events-none select-none">
+              <div className="absolute inset-0 flex justify-center gap-3.5 px-2 overflow-hidden pointer-events-none select-none">
                 
-                {/* Column 1 (colDown 14.6s) */}
+                {/* Column 1 (colDown 20s infinite) */}
                 <div 
-                  className="mosaic-col flex flex-col gap-3 w-[140px] sm:w-[170px] shrink-0"
-                  style={{ animation: "colDown 14.6s linear infinite" }}
+                  className="mosaic-col flex flex-col gap-3.5 w-[140px] sm:w-[170px] shrink-0"
+                  style={{ animation: "colDown 20s linear infinite" }}
                 >
-                  {/* Taj Mahal */}
-                  <div className="h-[210px] rounded-[20px] overflow-hidden shadow-md shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                  {/* Set 1 */}
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
                     <img
                       src="/images/monuments/taj-mahal.jpg"
                       alt="Taj Mahal Agra"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute bottom-2 left-2 right-2 bg-[#282522]/85 text-[10px] text-white font-semibold p-1 rounded text-center">
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
                       Taj Mahal · Agra
                     </div>
                   </div>
 
-                  <div className="h-[210px] rounded-[20px] bg-[#713C3C] shadow-md shrink-0 flex items-center justify-center p-3 text-center text-xs font-bold text-[#F5F1E8] uppercase tracking-wider">
-                    Mughal & Maratha Empires
-                  </div>
-
-                  {/* Ellora Caves */}
-                  <div className="h-[210px] rounded-[20px] overflow-hidden shadow-md shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
                     <img
                       src="/images/monuments/ellora-caves.jpg"
                       alt="Kailasa Temple Ellora Caves"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute bottom-2 left-2 right-2 bg-[#282522]/85 text-[10px] text-white font-semibold p-1 rounded text-center">
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
                       Ellora · Kailasa
                     </div>
                   </div>
 
-                  <div className="h-[210px] rounded-[20px] bg-[#88A9B8] shadow-md shrink-0" />
-
-                  {/* Hampi Virupaksha */}
-                  <div className="h-[210px] rounded-[20px] overflow-hidden shadow-md shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
                     <img
                       src="/images/monuments/hampi-virupaksha.jpg"
                       alt="Hampi Virupaksha Temple Karnataka"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute bottom-2 left-2 right-2 bg-[#282522]/85 text-[10px] text-white font-semibold p-1 rounded text-center">
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
                       Hampi · Karnataka
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/qutub-minar.jpg"
+                      alt="Qutub Minar Delhi"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Qutub Minar · Delhi
+                    </div>
+                  </div>
+
+                  {/* Set 2 (Seamless loop duplicate) */}
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/taj-mahal.jpg"
+                      alt="Taj Mahal Agra"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Taj Mahal · Agra
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/ellora-caves.jpg"
+                      alt="Kailasa Temple Ellora Caves"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Ellora · Kailasa
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/hampi-virupaksha.jpg"
+                      alt="Hampi Virupaksha Temple Karnataka"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Hampi · Karnataka
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/qutub-minar.jpg"
+                      alt="Qutub Minar Delhi"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Qutub Minar · Delhi
                     </div>
                   </div>
                 </div>
 
-                {/* Column 2 (colUp 14.6s) */}
+                {/* Column 2 (colUp 20s infinite) */}
                 <div 
-                  className="mosaic-col flex flex-col gap-3 w-[140px] sm:w-[170px] shrink-0"
-                  style={{ animation: "colUp 14.6s linear infinite" }}
+                  className="mosaic-col flex flex-col gap-3.5 w-[140px] sm:w-[170px] shrink-0"
+                  style={{ animation: "colUp 20s linear infinite" }}
                 >
-                  <div className="h-[210px] rounded-[20px] bg-[#B18A55] shadow-md shrink-0 flex items-center justify-center p-3 text-center text-xs font-bold text-[#282522] uppercase tracking-wider">
-                    Sacred Temples & Shrines
-                  </div>
-
-                  {/* Konark Sun Temple */}
-                  <div className="h-[210px] rounded-[20px] overflow-hidden shadow-md shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                  {/* Set 1 */}
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
                     <img
                       src="/images/monuments/konark-sun-temple.jpg"
                       alt="Sun Temple Konark Odisha"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute bottom-2 left-2 right-2 bg-[#282522]/85 text-[10px] text-white font-semibold p-1 rounded text-center">
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
                       Konark · Odisha
                     </div>
                   </div>
 
-                  <div className="h-[210px] rounded-[20px] bg-[#282522] shadow-md shrink-0 flex items-center justify-center p-3 text-center text-xs font-bold text-[#F5F1E8] uppercase tracking-wider">
-                    360° Spherical Spatial Tours
-                  </div>
-
-                  {/* Amer Fort */}
-                  <div className="h-[210px] rounded-[20px] overflow-hidden shadow-md shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
                     <img
                       src="/images/monuments/amer-fort.jpg"
                       alt="Amer Fort Jaipur Rajasthan"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute bottom-2 left-2 right-2 bg-[#282522]/85 text-[10px] text-white font-semibold p-1 rounded text-center">
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
                       Amer Fort · Jaipur
                     </div>
                   </div>
 
-                  <div className="h-[210px] rounded-[20px] bg-[#713C3C] shadow-md shrink-0" />
-                </div>
-
-                {/* Column 3 (colDown 14.6s) */}
-                <div 
-                  className="mosaic-col flex flex-col gap-3 w-[140px] sm:w-[170px] shrink-0"
-                  style={{ animation: "colDown 14.6s linear infinite" }}
-                >
-                  <div className="h-[210px] rounded-[20px] bg-[#88A9B8] shadow-md shrink-0" />
-                  <div className="h-[210px] rounded-[20px] bg-[#E4DDD0] shadow-md shrink-0 border border-[#d6cec0] flex items-center justify-center p-3 text-center text-xs font-bold text-[#282522] uppercase tracking-wider">
-                    National Heritage Archive
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/meenakshi-temple.jpg"
+                      alt="Meenakshi Amman Temple Madurai"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Meenakshi · Madurai
+                    </div>
                   </div>
 
-                  {/* Red Fort */}
-                  <div className="h-[210px] rounded-[20px] overflow-hidden shadow-md shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/shaniwar-wada.jpg"
+                      alt="Shaniwar Wada Pune"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Shaniwar Wada · Pune
+                    </div>
+                  </div>
+
+                  {/* Set 2 (Seamless loop duplicate) */}
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/konark-sun-temple.jpg"
+                      alt="Sun Temple Konark Odisha"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Konark · Odisha
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/amer-fort.jpg"
+                      alt="Amer Fort Jaipur Rajasthan"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Amer Fort · Jaipur
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/meenakshi-temple.jpg"
+                      alt="Meenakshi Amman Temple Madurai"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Meenakshi · Madurai
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/shaniwar-wada.jpg"
+                      alt="Shaniwar Wada Pune"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Shaniwar Wada · Pune
+                    </div>
+                  </div>
+                </div>
+
+                {/* Column 3 (colDown 20s infinite) */}
+                <div 
+                  className="mosaic-col flex flex-col gap-3.5 w-[140px] sm:w-[170px] shrink-0"
+                  style={{ animation: "colDown 20s linear infinite" }}
+                >
+                  {/* Set 1 */}
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
                     <img
                       src="/images/monuments/red-fort.jpg"
                       alt="Red Fort Lal Qila Delhi"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute bottom-2 left-2 right-2 bg-[#282522]/85 text-[10px] text-white font-semibold p-1 rounded text-center">
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
                       Red Fort · Delhi
                     </div>
                   </div>
 
-                  <div className="h-[210px] rounded-[20px] bg-[#B18A55] shadow-md shrink-0" />
-
-                  {/* Victoria Memorial */}
-                  <div className="h-[210px] rounded-[20px] overflow-hidden shadow-md shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
                     <img
                       src="/images/monuments/victoria-memorial.jpg"
                       alt="Victoria Memorial Kolkata West Bengal"
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute bottom-2 left-2 right-2 bg-[#282522]/85 text-[10px] text-white font-semibold p-1 rounded text-center">
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
                       Victoria Memorial · Kolkata
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/brihadisvara-temple.jpg"
+                      alt="Brihadisvara Temple Thanjavur"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Brihadisvara · Tamil Nadu
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/hawa-mahal.jpg"
+                      alt="Hawa Mahal Jaipur Rajasthan"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Hawa Mahal · Jaipur
+                    </div>
+                  </div>
+
+                  {/* Set 2 (Seamless loop duplicate) */}
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/red-fort.jpg"
+                      alt="Red Fort Lal Qila Delhi"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Red Fort · Delhi
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/victoria-memorial.jpg"
+                      alt="Victoria Memorial Kolkata West Bengal"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Victoria Memorial · Kolkata
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/brihadisvara-temple.jpg"
+                      alt="Brihadisvara Temple Thanjavur"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Brihadisvara · Tamil Nadu
+                    </div>
+                  </div>
+
+                  <div className="h-[210px] sm:h-[225px] rounded-[22px] overflow-hidden shadow-lg shrink-0 border border-[#282522]/10 relative bg-[#282522]">
+                    <img
+                      src="/images/monuments/hawa-mahal.jpg"
+                      alt="Hawa Mahal Jaipur Rajasthan"
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-2.5 left-2.5 right-2.5 bg-[#282522]/85 backdrop-blur-sm text-[10px] text-[#FAF4E5] font-semibold py-1 px-2 rounded-lg text-center shadow-sm">
+                      Hawa Mahal · Jaipur
                     </div>
                   </div>
                 </div>
 
               </div>
 
-              {/* Soft Gradient Edges */}
-              <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#F5F1E8]/80 to-transparent pointer-events-none" />
-              <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-[#F5F1E8]/80 to-transparent pointer-events-none" />
+              {/* Seamless Vignette Fades into Page Canvas */}
+              <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#F5F1E8] via-[#F5F1E8]/80 to-transparent pointer-events-none z-10" />
+              <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#F5F1E8] via-[#F5F1E8]/80 to-transparent pointer-events-none z-10" />
 
             </div>
 
