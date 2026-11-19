@@ -12,10 +12,6 @@ import {
   Bike, 
   Footprints, 
   Compass, 
-  Layers, 
-  Sparkles,
-  MapPin,
-  Clock,
   Navigation
 } from "lucide-react";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -53,6 +49,14 @@ export function TripMap({
 }: TripMapProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<any>(null);
+  const maplibreRef = useRef<any>(null);
+  const isMapLoadedRef = useRef<boolean>(false);
+
+  // Live state refs to prevent stale closure race conditions
+  const routeGeometryRef = useRef<[number, number][]>(routeGeometry);
+  const stopsRef = useRef<TripStop[]>(stops);
+  const transportModeRef = useRef<TransportMode>(transportMode);
+
   const stopMarkersRef = useRef<any[]>([]);
   const travelerMarkerRef = useRef<any>(null);
   const travelerElRef = useRef<HTMLDivElement | null>(null);
@@ -68,6 +72,21 @@ export function TripMap({
   const animFrameRef = useRef<number | null>(null);
   const progressRef = useRef(0);
   const isPlayingRef = useRef(false);
+  const activeSpeedRef = useRef(1);
+  const followTravelerRef = useRef(true);
+
+  // Synchronize refs with state & props
+  useEffect(() => {
+    routeGeometryRef.current = routeGeometry;
+  }, [routeGeometry]);
+
+  useEffect(() => {
+    stopsRef.current = stops;
+  }, [stops]);
+
+  useEffect(() => {
+    transportModeRef.current = transportMode;
+  }, [transportMode]);
 
   useEffect(() => {
     progressRef.current = progress;
@@ -77,78 +96,39 @@ export function TripMap({
     isPlayingRef.current = isPlaying;
   }, [isPlaying]);
 
-  // 1. Initialize MapLibre Map
   useEffect(() => {
-    let isMounted = true;
+    activeSpeedRef.current = activeSpeed;
+  }, [activeSpeed]);
 
-    async function initMap() {
-      if (!mapContainerRef.current) return;
-      const maplibregl = await import("maplibre-gl");
-      maplibregl.setWorkerUrl("/maplibre-gl-worker.js");
+  useEffect(() => {
+    followTravelerRef.current = followTraveler;
+  }, [followTraveler]);
 
-      if (!isMounted || !mapContainerRef.current) return;
+  // Fit bounds around complete route with generous padding
+  const fitRouteBounds = useCallback((map: any, coords: [number, number][]) => {
+    if (!coords || coords.length === 0) return;
+    const mLib = maplibreRef.current || (typeof window !== "undefined" && (window as any).maplibregl);
+    if (!mLib || !mLib.LngLatBounds) return;
 
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
-      }
-
-      // Initial center fallback: Central India
-      const map = new maplibregl.Map({
-        container: mapContainerRef.current,
-        style: "https://tiles.openfreemap.org/styles/bright",
-        center: [79.5, 22.5],
-        zoom: 4.8,
-        pitch: 20,
-        attributionControl: false,
+    try {
+      const bounds = coords.reduce(
+        (b: any, c: [number, number]) => b.extend(c),
+        new mLib.LngLatBounds(coords[0], coords[0])
+      );
+      map.fitBounds(bounds, {
+        padding: { top: 70, bottom: 90, left: 60, right: 60 },
+        maxZoom: 14,
+        duration: 1200,
       });
-
-      map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "top-right");
-
-      map.on("load", () => {
-        if (!isMounted) return;
-        mapRef.current = map;
-
-        // Add Route Polyline Source and Layers
-        if (routeGeometry.length > 0) {
-          addRouteLayer(map, routeGeometry);
-          fitRouteBounds(map, routeGeometry);
-        }
-
-        renderStopMarkers(map, stops);
-        createTravelerMarker(map, routeGeometry, transportMode);
-      });
+    } catch (err) {
+      console.warn("fitRouteBounds failed gracefully:", err);
     }
-
-    initMap();
-
-    return () => {
-      isMounted = false;
-      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
-      if (mapRef.current) {
-        mapRef.current.remove();
-        mapRef.current = null;
-      }
-    };
   }, []);
 
-  // 2. Update Route Geometry & Markers when data changes
-  useEffect(() => {
-    const map = mapRef.current;
-    if (!map || !map.isStyleLoaded()) return;
-
-    if (routeGeometry.length > 0) {
-      addRouteLayer(map, routeGeometry);
-      fitRouteBounds(map, routeGeometry);
-    }
-    renderStopMarkers(map, stops);
-    createTravelerMarker(map, routeGeometry, transportMode);
-    setProgress(0);
-    setIsPlaying(false);
-  }, [routeGeometry, stops, transportMode]);
-
   // Add / Update GeoJSON Route Line
-  function addRouteLayer(map: any, coords: [number, number][]) {
+  const addRouteLayer = useCallback((map: any, coords: [number, number][]) => {
+    if (!coords || coords.length < 2) return;
+
     const geojsonData: any = {
       type: "Feature",
       properties: {},
@@ -158,72 +138,74 @@ export function TripMap({
       },
     };
 
-    if (map.getSource("trip-route")) {
-      map.getSource("trip-route").setData(geojsonData);
-    } else {
-      map.addSource("trip-route", {
-        type: "geojson",
-        data: geojsonData,
-      });
+    try {
+      if (map.getSource("trip-route")) {
+        map.getSource("trip-route").setData(geojsonData);
+      } else {
+        map.addSource("trip-route", {
+          type: "geojson",
+          data: geojsonData,
+        });
 
-      // Route Casing (Deep Burgundy shadow)
-      map.addLayer({
-        id: "trip-route-casing",
-        type: "line",
-        source: "trip-route",
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
-        paint: {
-          "line-color": "#4A2525",
-          "line-width": 8,
-          "line-opacity": 0.8,
-        },
-      });
+        // Route Casing (Deep Burgundy shadow)
+        if (!map.getLayer("trip-route-casing")) {
+          map.addLayer({
+            id: "trip-route-casing",
+            type: "line",
+            source: "trip-route",
+            layout: {
+              "line-join": "round",
+              "line-cap": "round",
+            },
+            paint: {
+              "line-color": "#4A2525",
+              "line-width": 8,
+              "line-opacity": 0.85,
+            },
+          });
+        }
 
-      // Route Core (Antique Gold stroke)
-      map.addLayer({
-        id: "trip-route-core",
-        type: "line",
-        source: "trip-route",
-        layout: {
-          "line-join": "round",
-          "line-cap": "round",
-        },
-        paint: {
-          "line-color": "#C5A059",
-          "line-width": 4.5,
-          "line-dasharray": [1, 0],
-        },
-      });
+        // Route Core (Antique Gold stroke)
+        if (!map.getLayer("trip-route-core")) {
+          map.addLayer({
+            id: "trip-route-core",
+            type: "line",
+            source: "trip-route",
+            layout: {
+              "line-join": "round",
+              "line-cap": "round",
+            },
+            paint: {
+              "line-color": "#C5A059",
+              "line-width": 4.5,
+              "line-dasharray": [1, 0],
+            },
+          });
+        }
+      }
+    } catch (err) {
+      console.warn("addRouteLayer failed gracefully:", err);
     }
-  };
-
-  // Fit bounds around complete route with generous padding
-  function fitRouteBounds(map: any, coords: [number, number][]) {
-    if (!coords || coords.length === 0) return;
-    const bounds = coords.reduce(
-      (b: any, c: [number, number]) => b.extend(c),
-      new (window as any).maplibregl.LngLatBounds(coords[0], coords[0])
-    );
-    map.fitBounds(bounds, {
-      padding: { top: 70, bottom: 90, left: 60, right: 60 },
-      maxZoom: 14,
-      duration: 1200,
-    });
-  };
+  }, []);
 
   // Render Numbered Stop Markers on Map
-  function renderStopMarkers(map: any, tripStops: TripStop[]) {
+  const renderStopMarkers = useCallback((map: any, tripStops: TripStop[]) => {
     // Clear old markers
-    stopMarkersRef.current.forEach((m) => m.remove());
+    stopMarkersRef.current.forEach((m) => {
+      try {
+        m.remove();
+      } catch {}
+    });
     stopMarkersRef.current = [];
 
-    const maplibregl = (window as any).maplibregl;
-    if (!maplibregl) return;
+    const mLib = maplibreRef.current || (typeof window !== "undefined" && (window as any).maplibregl);
+    if (!mLib || !mLib.Marker) return;
 
     tripStops.forEach((stop, index) => {
+      if (!stop.coordinates || typeof stop.coordinates.lat !== "number" || typeof stop.coordinates.lng !== "number") {
+        return;
+      }
+
       const el = document.createElement("div");
       el.className = "group relative cursor-pointer";
 
@@ -240,34 +222,40 @@ export function TripMap({
         <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 rotate-45" style="background-color: ${bgColor}"></div>
       `;
 
-      const popup = new maplibregl.Popup({ offset: 18, closeButton: false }).setHTML(`
-        <div class="p-2.5 font-sans text-xs space-y-1">
-          <div class="font-bold text-[#282522]">${stop.name}</div>
-          <div class="text-[11px] text-[#6B635D]">${stop.locationName}</div>
-          <div class="text-[10px] text-[#713C3C] font-semibold">Stop ${index + 1} of ${tripStops.length}</div>
-        </div>
-      `);
+      try {
+        const popup = new mLib.Popup({ offset: 18, closeButton: false }).setHTML(`
+          <div class="p-2.5 font-sans text-xs space-y-1">
+            <div class="font-bold text-[#282522]">${stop.name}</div>
+            <div class="text-[11px] text-[#6B635D]">${stop.locationName}</div>
+            <div class="text-[10px] text-[#713C3C] font-semibold">Stop ${index + 1} of ${tripStops.length}</div>
+          </div>
+        `);
 
-      const marker = new maplibregl.Marker({ element: el })
-        .setLngLat([stop.coordinates.lng, stop.coordinates.lat])
-        .setPopup(popup)
-        .addTo(map);
+        const marker = new mLib.Marker({ element: el })
+          .setLngLat([stop.coordinates.lng, stop.coordinates.lat])
+          .setPopup(popup)
+          .addTo(map);
 
-      stopMarkersRef.current.push(marker);
+        stopMarkersRef.current.push(marker);
+      } catch (err) {
+        console.warn("Failed to attach stop marker:", err);
+      }
     });
-  };
+  }, []);
 
   // Create or Update Traveler Marker (Car, Bike, etc.)
-  function createTravelerMarker(map: any, coords: [number, number][], mode: TransportMode) {
+  const createTravelerMarker = useCallback((map: any, coords: [number, number][], mode: TransportMode) => {
     if (travelerMarkerRef.current) {
-      travelerMarkerRef.current.remove();
+      try {
+        travelerMarkerRef.current.remove();
+      } catch {}
       travelerMarkerRef.current = null;
     }
 
     if (!coords || coords.length === 0) return;
 
-    const maplibregl = (window as any).maplibregl;
-    if (!maplibregl) return;
+    const mLib = maplibreRef.current || (typeof window !== "undefined" && (window as any).maplibregl);
+    if (!mLib || !mLib.Marker) return;
 
     const el = document.createElement("div");
     el.className = "traveler-vehicle-marker flex items-center justify-center w-11 h-11 rounded-full shadow-2xl border-2 border-white transition-transform";
@@ -283,7 +271,7 @@ export function TripMap({
     } else if (mode === "motorcycle") {
       iconSvg = `<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="m9 9 2 4h4l2-4"/><path d="M13 6h2"/></svg>`;
     } else {
-      // Car / Driving
+      // Car / Driving / Transit
       iconSvg = `<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11 2 11.5 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>`;
     }
 
@@ -298,35 +286,164 @@ export function TripMap({
 
     travelerElRef.current = el;
 
-    const initialPoint = coords[0];
-    const marker = new maplibregl.Marker({ element: el })
-      .setLngLat(initialPoint)
-      .addTo(map);
+    try {
+      const initialPoint = coords[0];
+      const marker = new mLib.Marker({ element: el })
+        .setLngLat(initialPoint)
+        .addTo(map);
 
-    travelerMarkerRef.current = marker;
-  };
+      travelerMarkerRef.current = marker;
+    } catch (err) {
+      console.warn("Failed to create traveler marker:", err);
+    }
+  }, []);
+
+  // Unified function to refresh route line, bounds, pins, and traveler vehicle
+  const refreshMapLayers = useCallback(() => {
+    const map = mapRef.current;
+    if (!map || !isMapLoadedRef.current || !map.isStyleLoaded()) return;
+
+    const currentCoords = routeGeometryRef.current;
+    const currentStops = stopsRef.current;
+    const currentMode = transportModeRef.current;
+
+    if (currentCoords.length >= 2) {
+      addRouteLayer(map, currentCoords);
+      fitRouteBounds(map, currentCoords);
+    }
+
+    renderStopMarkers(map, currentStops);
+    createTravelerMarker(map, currentCoords, currentMode);
+  }, [addRouteLayer, fitRouteBounds, renderStopMarkers, createTravelerMarker]);
+
+  // 1. Initialize MapLibre Map
+  useEffect(() => {
+    let isMounted = true;
+
+    async function initMap() {
+      if (!mapContainerRef.current) return;
+      
+      try {
+        const maplibregl = await import("maplibre-gl");
+        if (typeof window !== "undefined") {
+          (window as any).maplibregl = maplibregl;
+        }
+        maplibreRef.current = maplibregl;
+
+        if (maplibregl.setWorkerUrl) {
+          maplibregl.setWorkerUrl("/maplibre-gl-worker.js");
+        }
+
+        if (!isMounted || !mapContainerRef.current) return;
+
+        if (mapRef.current) {
+          mapRef.current.remove();
+          mapRef.current = null;
+        }
+
+        // Initial center: Geographic center of India
+        const map = new maplibregl.Map({
+          container: mapContainerRef.current,
+          style: "https://tiles.openfreemap.org/styles/bright",
+          center: [78.9629, 20.5937],
+          zoom: 4.8,
+          pitch: 20,
+          attributionControl: false,
+        });
+
+        map.addControl(new maplibregl.NavigationControl({ showCompass: true }), "top-right");
+
+        map.on("error", (e) => {
+          console.warn("MapLibre tile/style error notice:", e);
+        });
+
+        map.on("load", () => {
+          if (!isMounted) return;
+          mapRef.current = map;
+          isMapLoadedRef.current = true;
+          map.resize();
+          refreshMapLayers();
+        });
+
+        map.on("styledata", () => {
+          if (!isMounted || !isMapLoadedRef.current) return;
+          refreshMapLayers();
+        });
+      } catch (err) {
+        console.error("Failed to initialize MapLibre GL in TripMap:", err);
+      }
+    }
+
+    initMap();
+
+    return () => {
+      isMounted = false;
+      isMapLoadedRef.current = false;
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      if (mapRef.current) {
+        try {
+          mapRef.current.remove();
+        } catch {}
+        mapRef.current = null;
+      }
+    };
+  }, [refreshMapLayers]);
+
+  // 2. Update Route Geometry & Markers whenever props change
+  useEffect(() => {
+    refreshMapLayers();
+    setProgress(0);
+    setIsPlaying(false);
+  }, [routeGeometry, stops, transportMode, refreshMapLayers]);
+
+  // 3. Keep Map Canvas Perfectly Sized on container layout changes
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    const ro = new ResizeObserver(() => {
+      if (mapRef.current) {
+        try {
+          mapRef.current.resize();
+        } catch {}
+      }
+    });
+    ro.observe(mapContainerRef.current);
+    return () => ro.disconnect();
+  }, []);
+
+  // Re-size when toggling fullscreen
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (mapRef.current) {
+        try {
+          mapRef.current.resize();
+        } catch {}
+      }
+    }, 120);
+    return () => clearTimeout(timer);
+  }, [isFullscreen]);
 
   const animateStepRef = useRef<() => void>(() => {});
 
-  // 3. Animation Loop: Glides along polyline using sub-pixel interpolation
+  // 4. Animation Loop: Glides along polyline using sub-pixel interpolation
   const animateStep = useCallback(() => {
-    if (!isPlayingRef.current || routeGeometry.length < 2) return;
+    const currentRoute = routeGeometryRef.current;
+    if (!isPlayingRef.current || currentRoute.length < 2) return;
 
-    // Advance progress based on speed
-    const stepIncrement = 0.0008 * activeSpeed;
+    // Advance progress based on active speed multiplier
+    const stepIncrement = 0.0008 * activeSpeedRef.current;
     const newProgress = Math.min(1, progressRef.current + stepIncrement);
     progressRef.current = newProgress;
     setProgress(newProgress);
 
     // Compute coordinate and bearing on polyline
-    const totalPoints = routeGeometry.length;
+    const totalPoints = currentRoute.length;
     const floatIndex = newProgress * (totalPoints - 1);
     const indexLow = Math.floor(floatIndex);
     const indexHigh = Math.min(totalPoints - 1, indexLow + 1);
     const fraction = floatIndex - indexLow;
 
-    const pLow = routeGeometry[indexLow];
-    const pHigh = routeGeometry[indexHigh];
+    const pLow = currentRoute[indexLow];
+    const pHigh = currentRoute[indexHigh];
 
     const currentLng = pLow[0] + (pHigh[0] - pLow[0]) * fraction;
     const currentLat = pLow[1] + (pHigh[1] - pLow[1]) * fraction;
@@ -347,7 +464,7 @@ export function TripMap({
     }
 
     // Camera follow if enabled
-    if (followTraveler && mapRef.current) {
+    if (followTravelerRef.current && mapRef.current) {
       mapRef.current.easeTo({
         center: [currentLng, currentLat],
         duration: 100,
@@ -370,7 +487,7 @@ export function TripMap({
     animFrameRef.current = requestAnimationFrame(() => {
       animateStepRef.current();
     });
-  }, [routeGeometry, activeSpeed, followTraveler, legs.length]);
+  }, [legs.length]);
 
   useEffect(() => {
     animateStepRef.current = animateStep;
@@ -448,12 +565,12 @@ export function TripMap({
     <div className={`relative rounded-3xl overflow-hidden border border-[#E4DDD0] shadow-sm bg-[#FAF8F5] ${isFullscreen ? "fixed inset-0 z-50 rounded-none" : "h-[620px]"}`}>
       
       {/* Map Canvas Container */}
-      <div ref={mapContainerRef} className="w-full h-full" />
+      <div ref={mapContainerRef} className="w-full h-full min-h-[400px]" />
 
       {/* Top Floating Route Badge */}
       <div className="absolute top-4 left-4 z-10 bg-[#FAF4E5]/95 backdrop-blur-md border border-[#E4DDD0] rounded-2xl p-3 shadow-md flex items-center gap-4 text-xs">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-[#713C3C] text-[#FAF4E5] flex items-center justify-center">
+          <div className="w-7 h-7 rounded-lg bg-[#713C3C] text-[#FAF4E5] flex items-center justify-center shadow-sm">
             {transportMode === "walking" && <Footprints className="w-4 h-4" />}
             {transportMode === "bicycle" && <Bike className="w-4 h-4" />}
             {transportMode === "motorcycle" && <Navigation className="w-4 h-4" />}
@@ -495,6 +612,7 @@ export function TripMap({
         <button
           onClick={() => setIsFullscreen(!isFullscreen)}
           className="p-2 rounded-xl bg-[#FAF4E5]/90 text-[#6B635D] hover:text-[#282522] border border-[#E4DDD0] backdrop-blur-md shadow-md transition-all"
+          title={isFullscreen ? "Exit Fullscreen" : "Fullscreen Map"}
         >
           {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
         </button>
