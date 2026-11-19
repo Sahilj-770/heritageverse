@@ -29,6 +29,7 @@ interface ModelControlsProps {
   onToggleFullscreen: () => void;
   onOpenAttribution: () => void;
   onCameraPreset?: (preset: "front" | "top" | "fountain") => void;
+  monumentSlug?: string;
 }
 
 export function ModelControls({
@@ -45,6 +46,7 @@ export function ModelControls({
   onToggleFullscreen,
   onOpenAttribution,
   onCameraPreset,
+  monumentSlug,
 }: ModelControlsProps) {
   return (
     <div className="absolute top-4 left-4 right-4 flex flex-wrap items-center justify-between gap-3 pointer-events-none z-30">
@@ -104,23 +106,23 @@ export function ModelControls({
             <button
               onClick={() => onCameraPreset("front")}
               className="px-2.5 py-1.5 rounded-lg text-[11px] text-[#E4DDD0] hover:bg-[#282522] font-medium"
-              title="Dilli Darwaza Frontal View"
+              title={monumentSlug === "qutub-minar" ? "Plinth & Iron Pillar Base View" : "Dilli Darwaza Frontal View"}
             >
-              Gate
+              {monumentSlug === "qutub-minar" ? "Base" : "Gate"}
             </button>
             <button
               onClick={() => onCameraPreset("top")}
               className="px-2.5 py-1.5 rounded-lg text-[11px] text-[#E4DDD0] hover:bg-[#282522] font-medium"
-              title="Aerial Fortification View"
+              title={monumentSlug === "qutub-minar" ? "Fluted Sandstone Central Storeys" : "Aerial Fortification View"}
             >
-              Citadel
+              {monumentSlug === "qutub-minar" ? "Shaft" : "Citadel"}
             </button>
             <button
               onClick={() => onCameraPreset("fountain")}
               className="px-2.5 py-1.5 rounded-lg text-[11px] text-[#E4DDD0] hover:bg-[#282522] font-medium"
-              title="Hazari Karanje Courtyard View"
+              title={monumentSlug === "qutub-minar" ? "White Marble Summit & Railing" : "Hazari Karanje Courtyard View"}
             >
-              Fountain
+              {monumentSlug === "qutub-minar" ? "Summit" : "Fountain"}
             </button>
           </div>
         )}

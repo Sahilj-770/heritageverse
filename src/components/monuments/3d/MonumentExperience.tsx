@@ -111,6 +111,7 @@ export function MonumentExperience({
           setCameraPreset(preset);
           setTimeout(() => setCameraPreset(null), 100);
         }}
+        monumentSlug={monumentSlug}
       />
 
       {/* ── EXPERIENCE A & HISTORICAL: SHARED 3D MODEL VIEWER ────────── */}

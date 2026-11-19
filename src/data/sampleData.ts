@@ -188,10 +188,12 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       }
     ],
     model3d: {
-      status: "in_preparation",
+      url: "/models/monuments/qutub-minar/exterior/qutub-minar-exterior.glb",
+      status: "available",
       format: "glb",
-      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
-      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+      polyCount: "51,200 Triangles (High-Detail PBR)",
+      surveyMethod: "Archaeological Survey of India (ASI) Measured CAD & Photogrammetry",
+      attribution: "ASI Delhi Circle & HeritageVerse Digital Architecture Lab"
     },
     sources: [
       {

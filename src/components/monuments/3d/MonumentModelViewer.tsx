@@ -88,6 +88,32 @@ export function MonumentModelViewer({
           modelGroup.add(gltfScene);
           applyWireframe(modelGroup, isWireframe);
           loadedUrlRef.current = url;
+
+          // Automatically frame the monument based on its measured 3D bounding geometry
+          const box = new THREE.Box3().setFromObject(gltfScene);
+          const center = new THREE.Vector3();
+          const size = new THREE.Vector3();
+          box.getCenter(center);
+          box.getSize(size);
+
+          const maxDim = Math.max(size.x, size.y, size.z);
+          const initialRadius = Math.max(30, maxDim * 1.15);
+          const initialTarget = new THREE.Vector3(
+            center.x,
+            Math.max(3, size.y > size.x ? center.y * 0.9 : center.y),
+            center.z
+          );
+
+          threeRef.current.target.copy(initialTarget);
+          threeRef.current.radius = initialRadius;
+          threeRef.current.theta = 0;
+          threeRef.current.phi = size.y > size.x ? 0.16 : 0.26;
+
+          const { camera, theta, phi } = threeRef.current;
+          camera.position.x = initialTarget.x + initialRadius * Math.sin(theta) * Math.cos(phi);
+          camera.position.y = initialTarget.y + initialRadius * Math.sin(phi);
+          camera.position.z = initialTarget.z + initialRadius * Math.cos(theta) * Math.cos(phi);
+          camera.lookAt(initialTarget);
         }
       } catch (err) {
         console.error("Failed to load model:", err);
@@ -147,10 +173,10 @@ export function MonumentModelViewer({
     const onWheelNative = (e: WheelEvent) => {
       e.preventDefault();
       if (!threeRef.current) return;
-      const zoomSpeed = 0.03;
+      const zoomSpeed = 0.035;
       threeRef.current.radius = Math.max(
-        8,
-        Math.min(95, threeRef.current.radius + e.deltaY * zoomSpeed)
+        6,
+        Math.min(180, threeRef.current.radius + e.deltaY * zoomSpeed)
       );
 
       const { camera, theta, phi, radius, target } = threeRef.current;
@@ -169,21 +195,38 @@ export function MonumentModelViewer({
     if (!threeRef.current || !cameraPresetTarget) return;
     const { cameraController } = threeRef.current;
 
-    switch (cameraPresetTarget) {
-      case "front":
-        threeRef.current.target.set(0, 5.0, 14);
-        cameraController.flyTo([0, 11.5, 48], [0, 5.0, 14], 0.08);
-        break;
-      case "top":
-        threeRef.current.target.set(0, 2, -10);
-        cameraController.flyTo([0, 55, 30], [0, 2, -10], 0.08);
-        break;
-      case "fountain":
-        threeRef.current.target.set(0, 1.2, -5);
-        cameraController.flyTo([0, 7, 7], [0, 1.2, -5], 0.08);
-        break;
+    if (entry.monumentSlug === "qutub-minar") {
+      switch (cameraPresetTarget) {
+        case "front":
+          threeRef.current.target.set(0, 6.0, 4);
+          cameraController.flyTo([0, 10, 32], [0, 6.0, 4], 0.08);
+          break;
+        case "top":
+          threeRef.current.target.set(0, 36, 0);
+          cameraController.flyTo([25, 42, 45], [0, 36, 0], 0.08);
+          break;
+        case "fountain":
+          threeRef.current.target.set(0, 62, 0);
+          cameraController.flyTo([0, 66, 26], [0, 62, 0], 0.08);
+          break;
+      }
+    } else {
+      switch (cameraPresetTarget) {
+        case "front":
+          threeRef.current.target.set(0, 5.0, 14);
+          cameraController.flyTo([0, 11.5, 48], [0, 5.0, 14], 0.08);
+          break;
+        case "top":
+          threeRef.current.target.set(0, 2, -10);
+          cameraController.flyTo([0, 55, 30], [0, 2, -10], 0.08);
+          break;
+        case "fountain":
+          threeRef.current.target.set(0, 1.2, -5);
+          cameraController.flyTo([0, 7, 7], [0, 1.2, -5], 0.08);
+          break;
+      }
     }
-  }, [cameraPresetTarget]);
+  }, [cameraPresetTarget, entry.monumentSlug]);
 
   // Per-Frame Render Tick: Updates camera transitions & projects 3D hotspot coordinates
   const handleRenderTick = useCallback(() => {
