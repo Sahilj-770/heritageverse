@@ -102,24 +102,40 @@ export function MonumentModelViewer({
           box.getCenter(center);
           box.getSize(size);
 
-          const maxDim = Math.max(size.x, size.y, size.z);
-          const initialRadius = Math.max(30, maxDim * 1.15);
-          const initialTarget = new THREE.Vector3(
-            center.x,
-            Math.max(3, size.y > size.x ? center.y * 0.9 : center.y),
-            center.z
-          );
+          if (entry.monumentSlug === "taj-mahal") {
+            // Frame directly on the main marble mausoleum across the reflecting pool
+            const initialTarget = new THREE.Vector3(0, 32, 0);
+            const initialRadius = 150;
+            threeRef.current.target.copy(initialTarget);
+            threeRef.current.radius = initialRadius;
+            threeRef.current.theta = 0;
+            threeRef.current.phi = 0.14;
 
-          threeRef.current.target.copy(initialTarget);
-          threeRef.current.radius = initialRadius;
-          threeRef.current.theta = 0;
-          threeRef.current.phi = size.y > size.x ? 0.16 : 0.26;
+            const { camera } = threeRef.current;
+            camera.position.x = initialTarget.x + initialRadius * Math.sin(0) * Math.cos(0.14);
+            camera.position.y = initialTarget.y + initialRadius * Math.sin(0.14);
+            camera.position.z = initialTarget.z + initialRadius * Math.cos(0) * Math.cos(0.14);
+            camera.lookAt(initialTarget);
+          } else {
+            const maxDim = Math.max(size.x, size.y, size.z);
+            const initialRadius = Math.max(30, maxDim * 1.15);
+            const initialTarget = new THREE.Vector3(
+              center.x,
+              Math.max(3, size.y > size.x ? center.y * 0.9 : center.y),
+              center.z
+            );
 
-          const { camera, theta, phi } = threeRef.current;
-          camera.position.x = initialTarget.x + initialRadius * Math.sin(theta) * Math.cos(phi);
-          camera.position.y = initialTarget.y + initialRadius * Math.sin(phi);
-          camera.position.z = initialTarget.z + initialRadius * Math.cos(theta) * Math.cos(phi);
-          camera.lookAt(initialTarget);
+            threeRef.current.target.copy(initialTarget);
+            threeRef.current.radius = initialRadius;
+            threeRef.current.theta = 0;
+            threeRef.current.phi = size.y > size.x ? 0.16 : 0.26;
+
+            const { camera, theta, phi } = threeRef.current;
+            camera.position.x = initialTarget.x + initialRadius * Math.sin(theta) * Math.cos(phi);
+            camera.position.y = initialTarget.y + initialRadius * Math.sin(phi);
+            camera.position.z = initialTarget.z + initialRadius * Math.cos(theta) * Math.cos(phi);
+            camera.lookAt(initialTarget);
+          }
         }
       } catch (err) {
         console.error("Failed to load model:", err);
@@ -180,9 +196,10 @@ export function MonumentModelViewer({
       e.preventDefault();
       if (!threeRef.current) return;
       const zoomSpeed = 0.035;
+      const maxZoom = entry.monumentSlug === "taj-mahal" ? 480 : 180;
       threeRef.current.radius = Math.max(
-        6,
-        Math.min(180, threeRef.current.radius + e.deltaY * zoomSpeed)
+        entry.monumentSlug === "qutub-minar" ? 8 : 12,
+        Math.min(maxZoom, threeRef.current.radius + e.deltaY * zoomSpeed)
       );
 
       const { camera, theta, phi, radius, target } = threeRef.current;
@@ -194,7 +211,7 @@ export function MonumentModelViewer({
 
     el.addEventListener("wheel", onWheelNative, { passive: false });
     return () => el.removeEventListener("wheel", onWheelNative);
-  }, []);
+  }, [entry.monumentSlug]);
 
   // Camera Presets
   useEffect(() => {
@@ -214,6 +231,21 @@ export function MonumentModelViewer({
         case "fountain":
           threeRef.current.target.set(0, 62, 0);
           cameraController.flyTo([0, 66, 26], [0, 62, 0], 0.08);
+          break;
+      }
+    } else if (entry.monumentSlug === "taj-mahal") {
+      switch (cameraPresetTarget) {
+        case "front":
+          threeRef.current.target.set(0, 32, 0);
+          cameraController.flyTo([0, 22, 140], [0, 32, 0], 0.08);
+          break;
+        case "top":
+          threeRef.current.target.set(0, 15, 60);
+          cameraController.flyTo([0, 260, 320], [0, 15, 60], 0.08);
+          break;
+        case "fountain":
+          threeRef.current.target.set(0, 58, 0);
+          cameraController.flyTo([0, 68, 55], [0, 58, 0], 0.08);
           break;
       }
     } else {

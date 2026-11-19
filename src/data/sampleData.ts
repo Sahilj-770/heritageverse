@@ -88,10 +88,10 @@ export const SAMPLE_MONUMENTS: Monument[] = [
       }
     ],
     model3d: {
-      status: "in_preparation",
+      status: "available",
       format: "glb",
-      surveyMethod: "Terrestrial LiDAR & High-Density Drone Photogrammetry",
-      attribution: "Archaeological Survey of India (ASI) Western Circle & Pune Municipal Heritage Cell"
+      surveyMethod: "High-Fidelity Architectural 3D Reconstruction & ASI Survey CAD",
+      attribution: "HeritageVerse Digital Architecture Lab & UNESCO World Heritage Documentation"
     },
     sources: [
       {

@@ -154,11 +154,11 @@ export function ModelCanvas({
       key.shadow.mapSize.width = dev.shadowMapSize;
       key.shadow.mapSize.height = dev.shadowMapSize;
       key.shadow.camera.near = 0.5;
-      key.shadow.camera.far = 120;
-      key.shadow.camera.left = -35;
-      key.shadow.camera.right = 35;
-      key.shadow.camera.top = 35;
-      key.shadow.camera.bottom = -35;
+      key.shadow.camera.far = 350;
+      key.shadow.camera.left = -110;
+      key.shadow.camera.right = 110;
+      key.shadow.camera.top = 110;
+      key.shadow.camera.bottom = -110;
       key.shadow.bias = -0.0003;
       scene.add(key);
 

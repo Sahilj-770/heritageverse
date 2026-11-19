@@ -111,23 +111,41 @@ export function ModelControls({
             <button
               onClick={() => onCameraPreset("front")}
               className="px-2.5 py-1.5 rounded-lg text-[11px] text-[#E4DDD0] hover:bg-[#282522] font-medium"
-              title={monumentSlug === "qutub-minar" ? "Plinth & Iron Pillar Base View" : "Dilli Darwaza Frontal View"}
+              title={
+                monumentSlug === "qutub-minar"
+                  ? "Plinth & Iron Pillar Base View"
+                  : monumentSlug === "taj-mahal"
+                  ? "Reflecting Pool & Mausoleum Vista"
+                  : "Dilli Darwaza Frontal View"
+              }
             >
-              {monumentSlug === "qutub-minar" ? "Base" : "Gate"}
+              {monumentSlug === "qutub-minar" ? "Base" : monumentSlug === "taj-mahal" ? "Tomb" : "Gate"}
             </button>
             <button
               onClick={() => onCameraPreset("top")}
               className="px-2.5 py-1.5 rounded-lg text-[11px] text-[#E4DDD0] hover:bg-[#282522] font-medium"
-              title={monumentSlug === "qutub-minar" ? "Fluted Sandstone Central Storeys" : "Aerial Fortification View"}
+              title={
+                monumentSlug === "qutub-minar"
+                  ? "Fluted Sandstone Central Storeys"
+                  : monumentSlug === "taj-mahal"
+                  ? "Charbagh Garden & Yamuna Aerial View"
+                  : "Aerial Fortification View"
+              }
             >
-              {monumentSlug === "qutub-minar" ? "Shaft" : "Citadel"}
+              {monumentSlug === "qutub-minar" ? "Shaft" : monumentSlug === "taj-mahal" ? "Aerial" : "Citadel"}
             </button>
             <button
               onClick={() => onCameraPreset("fountain")}
               className="px-2.5 py-1.5 rounded-lg text-[11px] text-[#E4DDD0] hover:bg-[#282522] font-medium"
-              title={monumentSlug === "qutub-minar" ? "White Marble Summit & Railing" : "Hazari Karanje Courtyard View"}
+              title={
+                monumentSlug === "qutub-minar"
+                  ? "White Marble Summit & Railing"
+                  : monumentSlug === "taj-mahal"
+                  ? "Bulbous Marble Dome & Gilded Finial"
+                  : "Hazari Karanje Courtyard View"
+              }
             >
-              {monumentSlug === "qutub-minar" ? "Summit" : "Fountain"}
+              {monumentSlug === "qutub-minar" ? "Summit" : monumentSlug === "taj-mahal" ? "Dome" : "Fountain"}
             </button>
           </div>
         )}
